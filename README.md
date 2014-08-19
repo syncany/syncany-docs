@@ -18,5 +18,5 @@ The documentation uses the [Sphinx Read The Docs Theme](https://github.com/snide
 ```
 $ git remote add readthedocs git@github.com:snide/sphinx_rtd_theme.git
 $ git fetch readthedocs
-$ git subtree add --prefix=source/_themes/sphinx_rtd_theme readthedocs/master
+$ git subtree add --prefix=source/_themes/sphinx_rtd_theme/sphinx_rtd_theme readthedocs/master
 ```
