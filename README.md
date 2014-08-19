@@ -19,4 +19,7 @@ The documentation uses the [Sphinx Read The Docs Theme](https://github.com/snide
 $ git remote add readthedocs git@github.com:snide/sphinx_rtd_theme.git
 $ git fetch readthedocs
 $ git subtree add --prefix=source/_themes readthedocs/master
+$ rm -rf (everything in source/_themes, but sphinx_rtd_theme)
 ```
+
+The last `rm` is a workaround to prevent the inclusion of other rst files. 
