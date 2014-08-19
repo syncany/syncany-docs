@@ -1,94 +1,13 @@
-Commands
-========
+Command Line Client
+===================
+The Syncany command line client (CLI) comes with two main commands: ``sy`` (or: ``syncany``) and ``syd`` (or ``syncanyd``). The ``sy`` command is the central tool to perform all of the Syncany actions, e.g. creating a new managed folder, syncing files, or restoring them. The ``syd`` tool offers a way start and stop the Syncany user daemon, which will then run Syncany in the background. 
 
-The ``sy`` command
-------------------
-
-The ``syd`` command
--------------------
-See daemon
-
-::
-  
-   $ syncanyd
-   Usage:  (start|stop|reload|restart|status|force-stop)
-
-
+.. include:: commands_sy.rst
+.. include:: commands_syd.rst
 .. include:: commands_init.rst
 .. include:: commands_connect.rst
 .. include:: commands_up.rst
 .. include:: commands_down.rst
 .. include:: commands_plugin.rst
+.. include:: commands_genlink.rst
 
-``sy --help``
--------------
-::
-
-   $ sy --help
-   NAME
-     sy - secure file sync software for arbitrary storage backends
-    
-   SYNOPSIS
-     sy [-l|--localdir=<path>] [--log=<path>] [-v]
-        [-vv] [--loglevel=<level>] [--print]
-        [-d|--debug] [-h|--help] <command> [<args>]
-    
-   DESCRIPTION
-     Syncany is an open-source cloud storage and filesharing application. It
-     allows users to backup and share certain folders of their workstations
-     using any kind of storage.
-    
-     Command overview:
-       init       Initialize the current folder as a Syncany folder.
-       connect    Connect the current folder to an existing Syncany repository.
-       status     Detect local changes and print to STDOUT.
-       up         Detect local changes and upload to repository.
-       ls-remote  Detect remote changes and print to STDOUT.
-       down       Detect remote changes and apply locally.
-       watch      Automatically synchronizes the local folder with the repo.
-       cleanup    Remove old versions from the local database and the repo.
-       restore    Restore the given file paths from the remote repository.
-       genlink    Create a syncany:// link from an existing local folder.
-       log        Print parts of the local database to STDOUT.
-       plugin     List, install and remove storage backend plugins.
-   
-     Short command descriptions and options can be found below. Detailed
-     explanations can be queried with `sy <command> --help`.
-   
-   GLOBAL OPTIONS
-     -l, --localdir=<path>
-         Use <path> instead of the current directory as local sync folder.
-         Syncany searches for a '.syncany' folder in the given and all parent
-         directories.
-   
-     -d, --debug
-         Sets the log level to ALL, and print the log to the console.
-         Alias to: --loglevel=ALL --print
-   
-     -h, --help
-         Print this help screen and exit.
-   
-     -v, -vv
-         Print application version exit.
-   
-     --log=<path>
-         Log output to the file given by <path>. If - is given, the
-         output will be logged to STDOUT (default).
-   
-     --loglevel=<level>
-         Change log level to <level>. Level can be either of the
-         following: OFF, SEVERE, WARNING, INFO, FINE, FINER, FINEST, ALL
-   
-     --print
-         Print the log to the console (in addition to the log file).
-   
-   AUTHORS
-     Written by Philipp C. Heckel and many others
-   
-   REPORTING BUGS
-     Please report bugs to the GitHub issues page at
-        https://www.github.com/syncany/syncany/issues
-   
-   COPYRIGHT
-     Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
-     Copyright (c) 2011-2014 Philipp C. Heckel
