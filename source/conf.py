@@ -197,7 +197,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'Syncany.tex', u'Syncany Documentation',
+  ('index', 'Syncany.tex', u'Syncany User Guide',
    u'Philipp Heckel', 'manual'),
 ]
 
@@ -227,7 +227,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'syncany', u'Syncany Documentation',
+    ('index', 'syncany', u'Syncany User Guide',
      [u'Philipp Heckel'], 1)
 ]
 
@@ -241,7 +241,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Syncany', u'Syncany Documentation',
+  ('index', 'Syncany', u'Syncany User Guide',
    u'Philipp Heckel', 'Syncany', 'One line description of project.',
    'Miscellaneous'),
 ]
