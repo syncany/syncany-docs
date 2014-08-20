@@ -16,7 +16,7 @@ terms of storage type and provider:
 - **Any storage**: Syncany uses a plug-in based storage system. It can
   be used with any type of remote storage.
 
-Contents:
+**Contents**
 
 .. toctree::
    :maxdepth: 2
@@ -31,11 +31,4 @@ Contents:
    security
    configuration  
    appendix_man_pages 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 

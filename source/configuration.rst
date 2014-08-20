@@ -8,7 +8,7 @@ Syncany differentiates between three types of configuration:
 
 Syncany stores the managed folder configuration options in `.syncany` of the synchronized folder, and other general user-specific configurations (such as the user and daemon config) in ``%AppData%\Syncany\`` or ``~/.config/syncany/``. 
 
-.. toc-tree::
+.. contents::
 
 Managed Folder Configuration (``config.xml``)
 ---------------------------------------------

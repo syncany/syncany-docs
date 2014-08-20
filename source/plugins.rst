@@ -15,7 +15,7 @@ Plugin installation
 Plugin Configuration
 --------------------
 
-Available plugins
+Available Plugins
 -----------------
 
 Local Plugin

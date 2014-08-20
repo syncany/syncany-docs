@@ -87,10 +87,12 @@ Again, for the command line lovers:
 
 Arch Linux
 ^^^^^^^^^^
+AUR: https://aur.archlinux.org/packages/syncany/
+
 
 
 Manual Installation (for other operating systems)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Mac OSX
 zip 
 tar gz
@@ -105,7 +107,8 @@ If you're sure you want to install a snapshot, the process is very similar to th
 * For Windows, download the latest snapshot installer `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
 * For Debian, download the latest snapshot package `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
 * For Ubuntu, use the `snapshots PPA on Launchpad <https://launchpad.net/~syncany/+archive/ubuntu/snapshot>`_ (``ppa:syncany/snapshot``).
-* xxxxxxxxxxxxxx
+* For Arch Linux, use the `Git package on AUR <https://aur.archlinux.org/packages/syncany-git/>`_.
+* And for other operating systems, download the latest snapshot .tar.gz/.zip `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
 
 
 Installing from source
