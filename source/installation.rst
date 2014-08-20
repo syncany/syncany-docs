@@ -10,7 +10,10 @@ As of today, we provide the following download possibilities:
 * Debian package (.deb)
 * Ubuntu/Launchpad personal package archive (PPA)
 * Arch Linux AUR 
-* Manual installation (via .tar.gz/.zip)
+* Docker Application
+* Manual Installation (via .tar.gz/.zip)
+
+.. contents::
 
 Installation requirements
 -------------------------
@@ -89,6 +92,16 @@ Arch Linux
 ^^^^^^^^^^
 AUR: https://aur.archlinux.org/packages/syncany/
 
+Docker
+^^^^^^
+If you just want to try Syncany for a few minutes, we provide it as a containerized `Docker <https://www.docker.com/>`_ application for Syncany. If you've installed Docker already, you can use the `syncany/release <https://registry.hub.docker.com/u/syncany/release/>`_ repository. 
+
+::
+
+	docker pull syncany/release
+	docker run -ti syncany/release
+	syncany@e52be0b2522b:~$ sy -v
+	0.1.8-alpha
 
 
 Manual Installation (for other operating systems)
@@ -108,10 +121,21 @@ If you're sure you want to install a snapshot, the process is very similar to th
 * For Debian, download the latest snapshot package `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
 * For Ubuntu, use the `snapshots PPA on Launchpad <https://launchpad.net/~syncany/+archive/ubuntu/snapshot>`_ (``ppa:syncany/snapshot``).
 * For Arch Linux, use the `Git package on AUR <https://aur.archlinux.org/packages/syncany-git/>`_.
+* For Docker, use the `Docker snapshot repository <https://registry.hub.docker.com/u/syncany/snapshot/>`_ (``syncany/snapshot``).
 * And for other operating systems, download the latest snapshot .tar.gz/.zip `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
-
 
 Installing from source
 ----------------------
+Syncany hosts its `code on GitHub <https://github.com/syncany/syncany>`_, so if you want to compile Syncany from source, you definitely can -- and we encourage you to do so. Since this is a user manual, however, we don't want to go into too much detail about the build process. There are details about building available `on the Wiki page <https://github.com/syncany/syncany/wiki/Building>`_.
 
+In short, run this:
+
+::
+
+	git clone http://github.com/syncany/syncany
+	cd syncany        
+	./gradlew installApp         (on Linux / Mac OS)
+	gradlew installApp           (on Windows)
+	
+This compiles and installs the Syncany command line client to ``syncany-cli/build/install/syncany/bin/syncany``. You can run it from there.
 

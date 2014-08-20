@@ -22,7 +22,7 @@ terms of storage type and provider:
    :maxdepth: 2
    :numbered:
    
-   what_is
+   what_is_syncany
    installation
    getting_started
    overview
