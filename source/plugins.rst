@@ -8,6 +8,7 @@ Plugins extend the Syncany functionality is different ways. As of today, there a
 By default, only the *local* plugin is installed. 
 
 .. contents::
+   :depth: 3
 
 .. _plugins_manage:
 
@@ -65,16 +66,17 @@ The local plugin (plugin identifier ``local``) is the only built-in storage plug
 * **Virtual file systems**: Many storage systems can already be mounted as virtual file systems. NFS, Samba, Google Drive are just a few examples. If you used a mounted folder as target, you won't even need a special Samba or NFS plugin for Syncany, because the local plugin can be used.
 * **Testing**: If you want to try out Syncany or test something, the local plugin is a very simple way to do that.
 
-**Configuration options**
-The following configuration options are available for this plugin (see ``config.xml``):
+Options for ``config.xml``
+""""""""""""""""""""""""""
 
-+----------------+------------+---------------+
-| Plugin Option  | Mandatory  | Default Value |
-+================+============+===============+
-| **path**       | yes        | *none*        |
-+----------------+------------+---------------+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **path**             | yes        | *none*        | Local folder used to store repository files to.           |
++----------------------+------------+---------------+-----------------------------------------------------------+
 
-**Sample configuration:**
+Example ``config.xml``
+""""""""""""""""""""""
 
 .. code-block:: xml
 
@@ -89,15 +91,35 @@ The following configuration options are available for this plugin (see ``config.
 Amazon S3 Plugin
 ^^^^^^^^^^^^^^^^
 
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **accessKey**        | yes        | *none*        | Amazon AWS access key                                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **secretKey**        | yes        | *none*        | Amazon AWS secret key                                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **bucket**           | yes        | *none*        | Name of the bucket to use as repository                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **location**         | no         | us-west-1     | Location of the bucket, see AWS docs                      |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+The location of the bucket is any valid `Amazon AWS location <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETlocation.html>`_. As of today, valid values are: EU | eu-west-1 | us-west-1 | us-west-2 | ap-southeast-1 | ap-southeast-2 | ap-northeast-1 | sa-east-1 | empty string (for the US Classic Region).
+
+Example ``config.xml``
+""""""""""""""""""""""
+
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="s3">
-			<property name="accessKey">/tmp/tx/c</property>
-			<property name="secretKey">/tmp/tx/c</property>
-			<property name="bucket">/tmp/tx/c</property>
-			<property name="location">EU</property>
+			<property name="accessKey">AKIAIHIALEXANDREUIIE</property>
+			<property name="secretKey">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</property>
+			<property name="bucket">syncany-demo</property>
+			<property name="location">us-west-1</property>
 		</connection>
 	</config>
 
