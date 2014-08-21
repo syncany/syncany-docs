@@ -2,12 +2,14 @@ Plugins
 =======
 Plugins extend the Syncany functionality is different ways. As of today, there are two types of plugins:
 
-- **Transfer plugins** (also: connection / storage plugins) give Syncany the ability to use a certain storage protocol or storage provider to store its repository files. Already implemented examples include FTP, SFTP, Samba or Amazon S3. 
+- **Storage plugins** (also: connection / transfer plugins) give Syncany the ability to use a certain storage protocol or storage provider to store its repository files. Already implemented examples include FTP, SFTP, Samba or Amazon S3. 
 - **Web interface plugins** implement a web frontend for Syncany. 
 
 By default, only the *local* plugin is installed. 
 
 .. contents::
+
+.. _plugins_manage:
 
 Managing Plugins
 ----------------
@@ -37,20 +39,43 @@ Installing the plugin with ``sy plugin install sftp`` retrieves the download lin
 	Install location: /home/pheckel/.config/syncany/plugins/lib/syncany-plugin-sftp-0.1.0-alpha.jar
 	...
 
-Plugins are generally installed to the user specific Syncany plugin folder. On Windows, this folder can be found at ``%AppData%%\Syncany\plugins\lib``, on Linux it can be found at ``~/.config/syncany/plugins/lib``. Installing a plugin is nothing more than placing the plugin JAR file in that folder. If you have trouble removing a plugin, simply delete it manually from that folder.
+Plugins are generally installed to the user specific Syncany plugin folder. On Windows, this folder can be found at ``%AppData%\Syncany\plugins\lib``, on Linux it can be found at ``~/.config/syncany/plugins/lib``. Installing a plugin is nothing more than placing the plugin JAR file in that folder. If you have trouble removing a plugin, simply delete it manually from that folder.
 		
 Plugin Configuration
 --------------------
-Some plugins may want to store per-user config settings or persist some user specific state. The SFTP plugin, for instance, stores the known hosts file for all the known and trusted hosts. Other plugins might want to store other information.
+Some plugins store per-user config or persist some user-specific state. The SFTP plugin, for instance, stores the known hosts file for all the known and trusted hosts. Other plugins might want to store other information.
 
-This per-user plugin configuration can be found at ~/.config/syncany/plugins/lib and ~/.config/syncany/plugins/<plugin-id>/.
+On Windows, this per-user plugin configuration can be found at ``%AppData%\Syncany\plugins\<plugin-id>\``, or at ``~/.config/syncany/plugins/<plugin-id>/`` on Linux. Depending on the plugin, the files in this folder may differ. 
 
-Transfer Plugins
-----------------
-- Transfer settings in config.xml
+Storage Plugins
+---------------
+Storage plugins are part of the core idea of Syncany: provide a simple interface to make any type of storage usable. This is done by keeping all of the synchronization logic, file size issues and even encryption out of the plugins. Storage plugins only take care of uploading different types of files -- database files, multichunk files, and so on. 
+
+Once a storage plugin is installed (see :ref:`plugins_manage`), it can be used to create a new remote repository (``sy init``) or connect to an existing repository (``sy connect``). After you've successfully connected a local folder to a remote repository, you can synchronize files manually with ``sy up`` or ``sy down``, or configure the daemon to automatically sync the folder in the background.
+
+Storage plugins typically need some connection information to connect to a remote server. The FTP plugin, for instance, needs to know the hostname of the server, its port, the username/password as well as a path/folder where to store the repository. This information, the **connection settings** is stored within the managed Syncany folder in ``.syncany/config.xml``. 
+
+So if your Syncany folder is at ``C:\Users\Fabrice\Syncany``, you'll find the connection settings at ``C:\Users\Fabrice\Syncany\.syncany\config.xml``. Depending on the type of storage plugin, the contents of this file might be different. See below for examples of the ``config.xml`` file.
 
 Local Plugin
 ^^^^^^^^^^^^
+The local plugin (plugin identifier ``local``) is the only built-in storage plugin. It provides a way to use a local folder as repository for Syncany. That means that instead of connecting to a remote storage and storing the repository files remotely, Syncany will use the predefined folder to store them. While that sounds quite odd at first (*why would I want to sync to a local folder?*), it actually makes quite a lot of sense for a few cases:
+
+* **Removable devices**: If you sync or backup to a removable device, you can use the local plugin to address the target folder on that device. For instance, you'd be specifying ``/mnt/backupdisk/office`` or ``E:\office`` as a target folder.
+* **Virtual file systems**: Many storage systems can already be mounted as virtual file systems. NFS, Samba, Google Drive are just a few examples. If you used a mounted folder as target, you won't even need a special Samba or NFS plugin for Syncany, because the local plugin can be used.
+* **Testing**: If you want to try out Syncany or test something, the local plugin is a very simple way to do that.
+
+**Configuration options**
+The following configuration options are available for this plugin (see ``config.xml``):
+
++----------------+------------+---------------+
+| Plugin Option  | Mandatory  | Default Value |
++================+============+===============+
+| **path**       | yes        | *none*        |
++----------------+------------+---------------+
+
+**Sample configuration:**
+
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
@@ -63,6 +88,18 @@ Local Plugin
 
 Amazon S3 Plugin
 ^^^^^^^^^^^^^^^^
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="s3">
+			<property name="accessKey">/tmp/tx/c</property>
+			<property name="secretKey">/tmp/tx/c</property>
+			<property name="bucket">/tmp/tx/c</property>
+			<property name="location">EU</property>
+		</connection>
+	</config>
 
 FTP Plugin
 ^^^^^^^^^^

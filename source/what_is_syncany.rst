@@ -25,6 +25,13 @@ The target audience for Syncany is not the usual *cloud user*, but rather at the
 
 Syncany is is for those out there that don't trust the providers of online storage with their data. For people that are afraid of what sysadmins and other interested parties might do with their data. And it's for people who would love to use all the free storage that the Internet provides without having to give up to any privacy. 
 
+Use cases:
+
+* Continuous file synchronization
+* Interval-based or on-demand backups 
+* Simple binary-compatible file versioning
+
+
 
 What Syncany is **not**
 ^^^^^^^^^^^^^^^^^^^^^^^
