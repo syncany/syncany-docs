@@ -57,7 +57,7 @@ On Debian-based systems, the prebuilt *.deb*-packages can be installed via the r
 
 As stated above, the only requirements to install Syncany are Java and bash-completion. If they are not installed, simply get them from the default archives: ``sudo apt-get install default-jre bash-completion``. After that, the packages should work properly.
 
-Installing via **.deb-package package**:
+Installing via a **.deb-package**:
 
 1. Download the latest release Debian package from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*).
 2. Double-click the *.deb*-package and click "Install", or type ``sudo dpkg -i syncany_<version>.deb`` from the command line.
@@ -90,7 +90,13 @@ Again, for the command line lovers:
 
 Arch Linux
 ^^^^^^^^^^
-AUR: https://aur.archlinux.org/packages/syncany/
+Arch Linux users can use the `Syncany package on AUR <https://aur.archlinux.org/packages/syncany/>`_ to install Syncany. Simply download the `PKGBUILD file <https://aur.archlinux.org/packages/sy/syncany/PKGBUILD>`_ and run ``makepkg -s`` to build the package. Then use pacman to install the package:
+
+::
+
+	wget https://aur.archlinux.org/packages/sy/syncany/PKGBUILD
+	makepkg -s
+	pacman -U syncany_0.1.8_alpha.tar.gz
 
 Docker
 ^^^^^^
@@ -106,10 +112,16 @@ If you just want to try Syncany for a few minutes, we provide it as a containeri
 
 Manual Installation (for other operating systems)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Mac OSX
-zip 
-tar gz
-PATH variable
+If your operating system isn't listed above, or if you just want to install Syncany manually for some other reason, simply download either the .zip or the .tar.gz archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*). Then extract the archive and run Syncany and/or the daemon from the ``bin/`` folder. This is the exact same process on every major operating system:
+
+1. Download the latest archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*)
+2. Extract the archive and run ``bin/sy`` to run the Syncany command line tool or ``bin/syd`` to run the daemon
+
+If you'd like to use Syncany from there, but without having to always type the entire path to run it, you may want to place the Syncany ``bin/`` folder in the system's ``PATH`` environment variable. This will let your system know where to look for the ``sy`` and ``syd`` commands. It's easy to find out how to do that, but just in case:
+
+- `How to set the PATH variable on Windows <http://www.computerhope.com/issues/ch000549.htm>`_
+- `How to set the PATH variable on Mac OSX <architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/>`_
+- `How to set the PATH variable on Linux <http://www.troubleshooters.com/linux/prepostpath.htm>`_
 
 Installing the latest snapshot
 ------------------------------

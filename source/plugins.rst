@@ -34,13 +34,16 @@ Installing the plugin with ``sy plugin install sftp`` retrieves the download lin
 
 	$ sy plugin install sftp
 	Plugin successfully installed from https://www.syncany.org/dist/plugins/releases/webdav/syncany-plugin-sftp-0.1.0-alpha.jar
-	Install location: /home/pheckel/.config/syncany/plugins/syncany-plugin-sftp-0.1.0-alpha.jar
+	Install location: /home/pheckel/.config/syncany/plugins/lib/syncany-plugin-sftp-0.1.0-alpha.jar
 	...
+
+Plugins are generally installed to the user specific Syncany plugin folder. On Windows, this folder can be found at ``%AppData%%\Syncany\plugins\lib``, on Linux it can be found at ``~/.config/syncany/plugins/lib``. Installing a plugin is nothing more than placing the plugin JAR file in that folder. If you have trouble removing a plugin, simply delete it manually from that folder.
 		
 Plugin Configuration
 --------------------
-- Per-plugin user configuration in ~/.config/syncany/plugins/lib and ~/.config/syncany/plugins/<plugin-id>/
+Some plugins may want to store per-user config settings or persist some user specific state. The SFTP plugin, for instance, stores the known hosts file for all the known and trusted hosts. Other plugins might want to store other information.
 
+This per-user plugin configuration can be found at ~/.config/syncany/plugins/lib and ~/.config/syncany/plugins/<plugin-id>/.
 
 Transfer Plugins
 ----------------
