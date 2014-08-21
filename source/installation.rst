@@ -96,7 +96,7 @@ Arch Linux users can use the `Syncany package on AUR <https://aur.archlinux.org/
 
 	wget https://aur.archlinux.org/packages/sy/syncany/PKGBUILD
 	makepkg -s
-	pacman -U syncany_0.1.8_alpha.tar.gz
+	pacman -U syncany-0.1.8_alpha-1-any.pkg.tar.xz
 
 Docker
 ^^^^^^

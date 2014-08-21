@@ -171,8 +171,71 @@ SFTP Plugin
 WebDAV Plugin
 ^^^^^^^^^^^^^
 
+- HTTP or HTTPS
+
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **url**              | yes        | *none*        | Hostname or IP address of the WebDAV server               |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Username of the WebDAV user (basic auth)                  |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Password of the WebDAV user (basic auth)                  |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="ftp">
+			<property name="url">https://dav.example.com:8080/dav/repo1</property>
+			<property name="username">christof</property>
+			<property name="password">ZAzZZzFL0R1An</property>
+		</connection>
+	</config>
+
 Samba Plugin
 ^^^^^^^^^^^^
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **hostname**         | yes        | *none*        | Hostname or IP address of the Samba server                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Username of the Samba user                                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Password of the samba user                                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **share**            | yes        | *none*        | Name of the Samba share                                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | no         | /             | Sub path of the Samba share                               |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="samba">
+			<property name="hostname">ftp.example.com</property>
+			<property name="username">Vincent</property>
+			<property name="password">ZuUaI/kt3k!</property>
+			<property name="share">Pictures</property>
+			<property name="path">2014\Germany</property>
+		</connection>
+	</config>
 
 
 Web Interface Plugins
