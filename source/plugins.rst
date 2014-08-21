@@ -5,9 +5,8 @@ Plugins extend the Syncany functionality is different ways. As of today, there a
 - **Storage plugins** (also: connection / transfer plugins) give Syncany the ability to use a certain storage protocol or storage provider to store its repository files. Already implemented examples include FTP, SFTP, Samba or Amazon S3. 
 - **Web interface plugins** implement a web frontend for Syncany. 
 
-By default, only the *local* plugin is installed. 
-
 .. contents::
+   :depth: 3
 
 .. _plugins_manage:
 
@@ -65,16 +64,17 @@ The local plugin (plugin identifier ``local``) is the only built-in storage plug
 * **Virtual file systems**: Many storage systems can already be mounted as virtual file systems. NFS, Samba, Google Drive are just a few examples. If you used a mounted folder as target, you won't even need a special Samba or NFS plugin for Syncany, because the local plugin can be used.
 * **Testing**: If you want to try out Syncany or test something, the local plugin is a very simple way to do that.
 
-**Configuration options**
-The following configuration options are available for this plugin (see ``config.xml``):
+Options for ``config.xml``
+""""""""""""""""""""""""""
 
-+----------------+------------+---------------+
-| Plugin Option  | Mandatory  | Default Value |
-+================+============+===============+
-| **path**       | yes        | *none*        |
-+----------------+------------+---------------+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **path**             | yes        | *none*        | Local folder used to store repository files to.           |
++----------------------+------------+---------------+-----------------------------------------------------------+
 
-**Sample configuration:**
+Example ``config.xml``
+""""""""""""""""""""""
 
 .. code-block:: xml
 
@@ -88,21 +88,82 @@ The following configuration options are available for this plugin (see ``config.
 
 Amazon S3 Plugin
 ^^^^^^^^^^^^^^^^
+The Amazon S3 plugin (plugin identifier ``s3``) uses an Amazon S3 bucket to store the Syncany repository. `Amazon S3 (Simple Storage Service) <http://aws.amazon.com/s3/>`_ is an online file storage web service offered by Amazon Web Services. It's a pretty neat pay-as-you-go service and works very well with Syncany. If you've never tried it, you can get a `free account with 5 GB of storage <http://aws.amazon.com/free/>`_.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **accessKey**        | yes        | *none*        | Amazon AWS access key                                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **secretKey**        | yes        | *none*        | Amazon AWS secret key                                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **bucket**           | yes        | *none*        | Name of the bucket to use as repository                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **location**         | no         | us-west-1     | Location of the bucket (details see below)                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+The location of the bucket is any valid `Amazon AWS location <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETlocation.html>`_. As of today, valid Amazon region values are: 
+
+* Europe: ``EU``, ``eu-west-1``
+* United States: ``us-west-1``, ``us-west-2``, empty string (for the US Classic Region)
+* Asia/Pacific: ``ap-southeast-1``, ``ap-southeast-2``, ``ap-northeast-1``
+* Africa: ``sa-east-1``
+ 
+
+Example ``config.xml``
+""""""""""""""""""""""
 
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="s3">
-			<property name="accessKey">/tmp/tx/c</property>
-			<property name="secretKey">/tmp/tx/c</property>
-			<property name="bucket">/tmp/tx/c</property>
-			<property name="location">EU</property>
+			<property name="accessKey">AKIAIHIALEXANDREUIIE</property>
+			<property name="secretKey">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</property>
+			<property name="bucket">syncany-demo</property>
+			<property name="location">us-west-1</property>
 		</connection>
 	</config>
 
 FTP Plugin
 ^^^^^^^^^^
+
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **hostname**         | yes        | *none*        | Hostname or IP address of the FTP server                  |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Username of the FTP user to use                           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Password of the FTP user to use                           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | yes        | *none*        | Path at which to store the repository                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **port**             | no         | 21            | Port of the FTP server                                    |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="ftp">
+			<property name="hostname">ftp.example.com</property>
+			<property name="username">armin</property>
+			<property name="password">cr0/ChRisTiAn</property>
+			<property name="path">/syncany/repo2</property>
+			<property name="port">21</property>
+		</connection>
+	</config>
 
 SFTP Plugin
 ^^^^^^^^^^^
