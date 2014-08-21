@@ -112,7 +112,6 @@ The location of the bucket is any valid `Amazon AWS location <http://docs.aws.am
 * Asia/Pacific: ``ap-southeast-1``, ``ap-southeast-2``, ``ap-northeast-1``
 * Africa: ``sa-east-1``
  
-
 Example ``config.xml``
 """"""""""""""""""""""
 
@@ -140,9 +139,9 @@ Options for ``config.xml``
 +======================+============+===============+===========================================================+
 | **hostname**         | yes        | *none*        | Hostname or IP address of the FTP server                  |
 +----------------------+------------+---------------+-----------------------------------------------------------+
-| **username**         | yes        | *none*        | Username of the FTP user to use                           |
+| **username**         | yes        | *none*        | Username of the FTP user                                  |
 +----------------------+------------+---------------+-----------------------------------------------------------+
-| **password**         | yes        | *none*        | Password of the FTP user to use                           |
+| **password**         | yes        | *none*        | Password of the FTP user                                  |
 +----------------------+------------+---------------+-----------------------------------------------------------+
 | **path**             | yes        | *none*        | Path at which to store the repository                     |
 +----------------------+------------+---------------+-----------------------------------------------------------+
@@ -167,6 +166,61 @@ Example ``config.xml``
 
 SFTP Plugin
 ^^^^^^^^^^^
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **hostname**         | yes        | *none*        | Hostname or IP address of the SFTP server                 |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Username of the SFTP user                                 |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **privatekey**       | yes        | "none"        | Private key path (if public key auth is used)             |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Password of the SFTP user or priv. key password           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | yes        | *none*        | Path at which to store the repository                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **port**             | no         | 22            | Port of the FTP server                                    |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+**With username/password**
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="sftp">
+			<property name="hostname">example.com</property>
+			<property name="username">spikeh</property>
+			<property name="privatekey">none</property>
+			<property name="password">spikehPassword</property>
+			<property name="path">/home/spikeh/SyncanyRepo</property>
+			<property name="port">22</property>
+		</connection>
+	</config>
+
+**With private key authentication**
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="sftp">
+			<property name="hostname">ftp.example.com</property>
+			<property name="username">armin</property>
+			<property name="privatekey">/home/localuser/.ssh/id_rsa</property>
+			<property name="password">PrivateKeyPassword</property>
+			<property name="path">/home/spikeh/SyncanyRepo</property>
+			<property name="port">22</property>
+		</connection>
+	</config>
+
 
 WebDAV Plugin
 ^^^^^^^^^^^^^
@@ -194,7 +248,7 @@ Example ``config.xml``
 
 	<config xmlns="http://syncany.org/config/1">
 		...
-		<connection type="ftp">
+		<connection type="webdav">
 			<property name="url">https://dav.example.com:8080/dav/repo1</property>
 			<property name="username">christof</property>
 			<property name="password">ZAzZZzFL0R1An</property>
