@@ -90,13 +90,12 @@ Again, for the command line lovers:
 
 Arch Linux
 ^^^^^^^^^^
-Arch Linux users can use the `Syncany package on AUR <https://aur.archlinux.org/packages/syncany/>`_ to install Syncany. Simply download the `PKGBUILD file <https://aur.archlinux.org/packages/sy/syncany/PKGBUILD>`_ and run ``makepkg -s`` to build the package. Then use pacman to install the package:
+Arch Linux users can use the ``syncany`` package available on the `AUR <https://aur.archlinux.org/packages/syncany/>`_ to install Syncany. An AUR helper like yaourt could help with this:
 
 ::
 
-	wget https://aur.archlinux.org/packages/sy/syncany/PKGBUILD
-	makepkg -s
-	pacman -U syncany_0.1.8_alpha.tar.gz
+    yaourt -S syncany
+
 
 Docker
 ^^^^^^
