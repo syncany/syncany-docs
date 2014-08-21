@@ -4,6 +4,7 @@ Syncany takes security very seriously. Our goal is to protect the confidentialit
 
 *WORK IN PROGRESS*
 
+.. contents::
 
 Security Assumptions
 --------------------

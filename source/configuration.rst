@@ -51,6 +51,8 @@ The proxy config (and other system properties) can be added by creating/editing 
 	</userConfig>
 
 
+.. _configuration_daemon:
+
 Daemon Configuration (``daemon.xml``)
 -------------------------------------
 The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
@@ -139,4 +141,9 @@ Complex Daemon Config Example
 	      </user>
 	   </users>
 	</daemon>
+	
+Keys and Certificates
+---------------------
+- truststore.jks
+- keystore.jks	
 

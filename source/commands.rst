@@ -391,6 +391,8 @@ Example 5: Listing all PDF files at a certain time
 	14-07-23 18:48:19    rw-r--r--      273966     FILE a1d3b30444 33b1042a91 2 Code/repeatedly_compiling_test/scriptie/Scriptie.pdf
 	14-07-23 18:48:19    rw-r--r--      247367     FILE 4b66adf265 593a67cd5e 2 Code/repeatedly_compiling_test/scriptie/VoorlopigeScriptie.pdf
 
+.. _command_plugin:
+
 ``sy plugin``: List, install and remove storage backend plugins
 ---------------------------------------------------------------
 
