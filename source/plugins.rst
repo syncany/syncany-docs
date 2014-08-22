@@ -90,6 +90,14 @@ Amazon S3 Plugin
 ^^^^^^^^^^^^^^^^
 The Amazon S3 plugin (plugin identifier ``s3``) uses an Amazon S3 bucket to store the Syncany repository. `Amazon S3 (Simple Storage Service) <http://aws.amazon.com/s3/>`_ is an online file storage web service offered by Amazon Web Services. It's a pretty neat pay-as-you-go service and works very well with Syncany. If you've never tried it, you can get a `free account with 5 GB of storage <http://aws.amazon.com/free/>`_.
 
+As of today, the plugin only supports one repository per bucket. It cannot use sub paths of a bucket as repository. 
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The plugin uses the `JetS3t Amazon S3 library <http://www.jets3t.org/>`_ to access the S3 buckets. All communication is HTTPS-only, so access credentials are protected in transit. Since the actual data is encrypted before upload, data confidentiality is not an issue either.
+
 Options for ``config.xml``
 """"""""""""""""""""""""""
 
@@ -129,7 +137,15 @@ Example ``config.xml``
 
 FTP Plugin
 ^^^^^^^^^^
+The FTP plugin (plugin identifier ``ftp``) uses a single folder on an FTP server as repository. Since only a sub-folder is used, multiple repositories per FTP server are easily possible. 
 
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+As of today, the FTP plugin does not support FTPS (the TLS extension for FTP). That means that the FTP plugin **does not provide transport security** and FTP credentials might by read by a man-in-the-middle. However, since Syncany itself takes care of encrypting the files before they are uploaded, the confidentiality of your data is not at risk.
+
+However, be aware that this still means that an attacker might get access to your FTP account and simply delete all of your files.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
@@ -166,6 +182,12 @@ Example ``config.xml``
 
 SFTP Plugin
 ^^^^^^^^^^^
+The SFTP plugin (plugin identifier ``sftp``) uses a single folder on an SSH/SFTP server as repository. Since only a sub-folder is used, multiple repositories per SFTP server are easily possible.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
