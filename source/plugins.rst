@@ -207,13 +207,16 @@ If public key authentication is used, the first time you'll connect to a server,
 	The authenticity of host 'example.com' can't be established.
 	RSA key fingerprint is b0:48:b7:9d:a5:56:a6:e5:5a:49:94:29:5e:73:e4:95.
 	Are you sure you want to continue connecting?	
+	
+Note that if public key authentication is used, ``syncany://`` links **will not work**, because the private key isn't (and should not be) part of the link itself. Syncany will generate a link, but it won't work, unless the the public key of the other user/machine is available at the same path and was also copied to the authorized keys at the SSH/SFTP server.
 
 The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
 
 Plugin Security
 """""""""""""""
+The plugin uses the `JSch Java Secure Channel <http://www.jcraft.com/jsch/>` library. All communication is SSH/SFTP-baed, so access credentials are protected in transit. Since the actual data is encrypted before upload, data confidentiality is not an issue either.
 
-
+If the SFTP plugin is used, users sharing a repository typically access that repository **using the same SFTP username/password combination** (unless public key authentication is used). Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
