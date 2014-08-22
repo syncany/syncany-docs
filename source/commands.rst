@@ -465,6 +465,8 @@ Example 3: Remove installed plugin
 	Plugin successfully removed.
 	Original local was /home/pheckel/.config/syncany/plugins/syncany-plugin-sftp-0.1.0-alpha+SNAPSHOT.1404191549.git10ae8b7.jar
 
+.. _command_genlink:
+
 ``sy genlink``: Create a syncany:// link from an existing local folder
 ----------------------------------------------------------------------
 This command creates a Syncany link (syncany://..) from an existing local
