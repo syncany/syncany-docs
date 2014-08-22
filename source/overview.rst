@@ -8,6 +8,7 @@ Syncany breaks files into chunks, then packages those chunks into multichunks, c
 Manual syncing: CLI mode
 ------------------------
 
+.. _overview_daemon:
 
 Automatic syncing: Daemon mode
 ------------------------------

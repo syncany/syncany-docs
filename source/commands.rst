@@ -11,31 +11,48 @@ The ``sy`` command is not just a single command, but instead offers a variety of
 
 Available sub-commands:
 
-- ``init``: Initialize the current folder as a Syncany folder.
-- ``connect``: Connect the current folder to an existing Syncany repository.
-- ``status``: Detect local changes and print to STDOUT.
-- ``up``: Detect local changes and upload to repository.
-- ``ls-remote``: Detect remote changes and print to STDOUT.
-- ``down``: Detect remote changes and apply locally.
-- ``watch``: Automatically synchronizes the local folder with the repo.
-- ``cleanup``: Remove old versions from the local database and the repo.
-- ``restore``: Restore the given file paths from the remote repository.
-- ``genlink``: Create a syncany:// link from an existing local folder.
-- ``ls``: Print parts of the local database to STDOUT.
-- ``plugin``: List, install and remove storage backend plugins.
+- ``init``: Initialize the current folder as a Syncany folder
+- ``connect``: Connect the current folder to an existing Syncany repository
+- ``status``: List new and changed files in local Syncany folder
+- ``up``: Detect local changes and upload to repository
+- ``ls-remote``: List changes on remote repository
+- ``down``: Detect remote changes and apply locally
+- ``watch``: Automatically synchronizes the local folder with the repo
+- ``cleanup``: Remove old versions from the local database and the repo
+- ``restore``: Restore the given file paths from the remote repository
+- ``genlink``: Create a syncany:// link from an existing local folder
+- ``ls``: Lists and filters the current and past file tree
+- ``plugin``: List, install and remove storage backend plugins
 
-Command scope:
-- Within a managed folder
-- Outside of a managed folder
+Because the ``init`` and ``connect`` command initialize the current folder to a Syncany folder, they cannot be executed inside an already initialized Syncany folder. Most of the other commands behave exactly opposite to that: The commands ``status``, ``up``, ``ls-remote``, ``down``, ``watch``, ``cleanup``, ``restore``, ``genlink`` and ``ls`` can only be execute inside an initialized Syncany folder. The only command that doesn't care where it's executed is the ``plugin`` command.
 
 The ``syd`` command
 -------------------
-See daemon
+The ``syd`` command is a simple shell/batch script to start and stop the Syncany background process, also called the Syncany daemon. The command itself only offers the typical start/stop-script sub-commands, namely:
 
+- ``start``: Starts the Syncany background process (daemon), if it's not already running
+- ``stop``: Stop the Syncany daemon (if it is running)
+- ``status``: Displays whether the daemon is running and if it is, its PID
+- ``restart``: Restarts the daemon process by calling ``stop``, then ``start`` (Linux only)
+- ``reload``: Reloads the daemon configuration (``daemon.xml``) without restarting the daemon (Linux only)
+- ``force-stop``: Kills the Syncany daemon; can be used if ``stop`` doesn't respond (Linux only)
+
+The Syncany daemon is a user-level daemon. That means that it does not run as system service, but rather that each user may have its own daemon process running and that the daemon config is user-specific. The daemon configuration can be found at ``%AppData%\Syncany\daemon.xml`` (Windows) or at ``~/.config/syncany/daemon.xml`` (Linux). 
+
+Example: Starting and stopping the daemon
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
-  
-   $ syncanyd
-   Usage:  (start|stop|reload|restart|status|force-stop)
+
+	$ syddev start
+	Starting daemon: .. syncanyd (pid 16336).
+
+	$ syd status
+	Checking daemon: syncanyd running (pid 16336).
+
+	$ syd stop
+	Stopping daemon: .. syncanyd.
+
+.. _command_init:
 
 ``sy init``: Initializing a repository
 --------------------------------------
@@ -47,7 +64,6 @@ Once the 'init' command was successfully executed, the initialized local
 folder can be synced with the newly created repository. The commands
 'up', 'down', 'watch', etc. can be used. Other clients can then be connected
 using the 'connect' command.
-
 
 Example 1: Create new repository (interactive mode)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -74,7 +90,7 @@ Example 1: Create new repository (interactive mode)
 	Repository created, and local folder initialized. To share the same repository
 	with others, you can share this link:
 	
-	   syncany://storage/1/y8aqJUCsXqPtH9Ku+aoAKAKO0vccIUH32k/tPRCineNLLcCUDGHuGRBklmvhciUCe7WbTNw9M7sHN1z8V0HZ+A==-U3kCBQE6vaV...
+	   syncany://storage/1/y8aqJUCsXqPtH9Ku+aoAKAKO0vccIUH32k/tPRCineNLLc...
 	
 	This link is encrypted with the given password, so you can safely share it.
 	using unsecure communication (chat, e-mail, etc.)
@@ -86,8 +102,11 @@ Example 2: Create new repository (with prefilled settings)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-	$ sy init --plugin=s3 -o accessKey=AKIAJL7... -o secretKey=... -o bucket=syncanytest3 -o location=EU
+	$ sy init --plugin=s3 -o accessKey=AKIAJL7... -o secretKey=... \
+	                      -o bucket=syncanytest3 -o location=EU
 	...
+
+.. _command_connect:
 
 ``sy connect``: Connecting to an existing repository
 ----------------------------------------------------
@@ -150,6 +169,7 @@ Example 3: Connect to an existing repository (with prefilled settings)
 	Repository connected, and local folder initialized.
 	You can now use the 'syncany' command to sync your files.
 	
+.. _command_status:	
 	
 ``sy status``: Detect and display local changes
 -----------------------------------------------
@@ -201,7 +221,9 @@ As you can see below, the regular `sy status` command does not detect the change
 	$ sy status
 	No local changes.
 	$ sy status --force-checksum
-	M one-thousand.txt	
+	M one-thousand.txt
+	
+.. _command_up:		
 	
 ``sy up``: Detect local changes and upload to repository
 --------------------------------------------------------
@@ -236,6 +258,7 @@ Forcing checksum calculation means that we don't want to rely on last modified d
 	A testfile2.txt
 	Sync up finished.	
 	
+.. _command_ls_remote:
 	
 ``sy ls-remote``: Detect and display remote changes
 ---------------------------------------------------
@@ -301,17 +324,25 @@ Example 2: Download and apply remote changes (with conflicts)
 	 testfile (pheckel's conflicted copy, 27 Apr 14, 6-46 PM).txt
 	 testfile.txt
 
+.. _command_watch:
+
 ``sy watch``: Automatically synchronizes the local folder with the repo
 -----------------------------------------------------------------------
 TODO
+
+.. _command_cleanup:
 
 ``sy cleanup``: Remove old versions from the local database and the repo
 ------------------------------------------------------------------------
 TODO
 
+.. _command_restore:
+
 ``sy restore``: Restore older versions of files from the repository
 -------------------------------------------------------------------
 TODO
+
+.. _command_ls:
 
 ``sy ls``: Display current and historic local database
 ------------------------------------------------------
@@ -391,6 +422,43 @@ Example 5: Listing all PDF files at a certain time
 	14-07-23 18:48:19    rw-r--r--      273966     FILE a1d3b30444 33b1042a91 2 Code/repeatedly_compiling_test/scriptie/Scriptie.pdf
 	14-07-23 18:48:19    rw-r--r--      247367     FILE 4b66adf265 593a67cd5e 2 Code/repeatedly_compiling_test/scriptie/VoorlopigeScriptie.pdf
 
+.. _command_genlink:
+
+``sy genlink``: Create a syncany:// link from an existing local folder
+----------------------------------------------------------------------
+This command creates a Syncany link (syncany://..) from an existing local
+folder. The link can then be sent to someone else to connect to the
+repository.
+
+Syncany links contain the connection information of the storage backend,
+so in case of an FTP backend, host/user/pass/etc. would be contained in
+a link. If the link is shared, be aware that you are giving this information
+to the other users.
+
+Example 1: Normal usage of 'genlink'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+	$ sy genlink
+
+	To share the same repository with others, you can share this link:
+
+	   syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8ooYNkpSCSU8Bh...
+
+	This link is encrypted with the given password, so you can safely share it.
+	using unsecure communication (chat, e-mail, etc.)
+
+	WARNING: The link contains the details of your repo connection which typically
+		 consist of usernames/password of the connection (e.g. FTP user/pass).
+
+Example 2: Short output of 'genlink'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+	$ sy genlink --short
+	syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8ooYNkpSCSU8Bh5knX78HiGFVfa1bofUD6a0RjDyNMyr3LXGRFE4T1Q==-U3kCBQEMvF...
+
+
 .. _command_plugin:
 
 ``sy plugin``: List, install and remove storage backend plugins
@@ -464,40 +532,4 @@ Example 3: Remove installed plugin
 	$ sy plugin remove sftp
 	Plugin successfully removed.
 	Original local was /home/pheckel/.config/syncany/plugins/syncany-plugin-sftp-0.1.0-alpha+SNAPSHOT.1404191549.git10ae8b7.jar
-
-.. _command_genlink:
-
-``sy genlink``: Create a syncany:// link from an existing local folder
-----------------------------------------------------------------------
-This command creates a Syncany link (syncany://..) from an existing local
-folder. The link can then be sent to someone else to connect to the
-repository.
-
-Syncany links contain the connection information of the storage backend,
-so in case of an FTP backend, host/user/pass/etc. would be contained in
-a link. If the link is shared, be aware that you are giving this information
-to the other users.
-
-Example 1: Normal usage of 'genlink'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-::
-
-	$ sy genlink
-
-	To share the same repository with others, you can share this link:
-
-	   syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8ooYNkpSCSU8Bh...
-
-	This link is encrypted with the given password, so you can safely share it.
-	using unsecure communication (chat, e-mail, etc.)
-
-	WARNING: The link contains the details of your repo connection which typically
-		 consist of usernames/password of the connection (e.g. FTP user/pass).
-
-Example 2: Short output of 'genlink'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-::
-
-	$ sy genlink --short
-	syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8ooYNkpSCSU8Bh5knX78HiGFVfa1bofUD6a0RjDyNMyr3LXGRFE4T1Q==-U3kCBQEMvF...
 

@@ -57,7 +57,6 @@ Daemon Configuration (``daemon.xml``)
 -------------------------------------
 The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
 
-
 Simple Daemon Config Example
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

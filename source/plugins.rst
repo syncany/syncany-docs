@@ -237,6 +237,8 @@ Options for ``config.xml``
 | **port**             | no         | 22            | Port of the FTP server                                    |
 +----------------------+------------+---------------+-----------------------------------------------------------+
 
+**Please note:** If ``privatekey`` is set to ``"none"``, the ``password`` is interepreted as the ``username``s password. If ``privatekey`` is set, the ``password`` is interpreted as the password of the private key. If the private key is not password protected, leave the password empty.
+
 Example ``config.xml``
 """"""""""""""""""""""
 
