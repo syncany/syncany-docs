@@ -1,9 +1,9 @@
 Getting Started
 ===============
+Once you've :doc:`installed Syncany <installation>`, you can go ahead and open a terminal window and try out the ``sy`` command. As of today, Syncany is only available as a command line tool. We're working on a graphical user interface, but until that is ready, you'll have to make due with the CLI:
 
-Usage is pretty similar to a version control system. If you have used Git or
-SVN, it should feel a lot alike.
-
+.. image:: _static/getting_started_after_installation.png
+   :align: center
 
 Choose and install a storage plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
