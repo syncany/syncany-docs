@@ -26,6 +26,8 @@ Available sub-commands:
 
 Because the ``init`` and ``connect`` command initialize the current folder to a Syncany folder, they cannot be executed inside an already initialized Syncany folder. Most of the other commands behave exactly opposite to that: The commands ``status``, ``up``, ``ls-remote``, ``down``, ``watch``, ``cleanup``, ``restore``, ``genlink`` and ``ls`` can only be execute inside an initialized Syncany folder. The only command that doesn't care where it's executed is the ``plugin`` command.
 
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_sy`.
+
 The ``syd`` command
 -------------------
 The ``syd`` command is a simple shell/batch script to start and stop the Syncany background process, also called the Syncany daemon. The command itself only offers the typical start/stop-script sub-commands, namely:
@@ -43,7 +45,7 @@ Example: Starting and stopping the daemon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-	$ syddev start
+	$ syd start
 	Starting daemon: .. syncanyd (pid 16336).
 
 	$ syd status
@@ -64,6 +66,8 @@ Once the 'init' command was successfully executed, the initialized local
 folder can be synced with the newly created repository. The commands
 'up', 'down', 'watch', etc. can be used. Other clients can then be connected
 using the 'connect' command.
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_init`.
 
 Example 1: Create new repository (interactive mode)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,6 +129,8 @@ Once the repository is connected, the initialized local folder can be synced
 with the newly created repository. The commands 'up', 'down', 'watch', etc.
 can be used. Other clients can then be connected using the 'connect' command.
 
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_connect`.
+
 Example 1: Connect to an existing repository (with a syncany://-link)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -160,7 +166,8 @@ Example 3: Connect to an existing repository (with prefilled settings)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-	sy connect --plugin=webdav --plugin-option=url=http://dav.example.com/repo1 --plugin-option=username=pheckel --plugin-option=password=<somepass>
+	sy connect --plugin=webdav --plugin-option=url=http://dav.example.com/repo1 \
+	           --plugin-option=username=pheckel --plugin-option=password=<somepass>
 	
 	Password: (user enters password)
 	
@@ -183,6 +190,8 @@ content has not changed (no checksum comparison). If -f is enabled, the
 checksum is additionally compared.
 
 This command is used by the 'up' command to detect local changes. 
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_status`.
 
 Example 1: Basic usage (display new/changed file content)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -239,6 +248,8 @@ of the 'status' command can also be used in this command.
 If there are no local changes, the 'up' command will not upload anything -
 no multichunks and no metadata.
 
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_up`.
+
 Example 1: Basic usage (index and upload locally changed files)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -274,6 +285,8 @@ of the 'status' command can also be used in this command.
 If there are no local changes, the 'up' command will not upload anything -
 no multichunks and no metadata.
 
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_ls_remote`.
+
 Example: Using the ls-remote command
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -293,6 +306,8 @@ In some cases, file conflicts may occur if the local file differs from the
 expected file. If that happens, this command can either automatically rename
 conflicting files and append a filename suffix, or it can ask the user what
 to do.
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_down`.
 
 Example 1: Download and apply remote changes (no conflicts)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -328,19 +343,155 @@ Example 2: Download and apply remote changes (with conflicts)
 
 ``sy watch``: Automatically synchronizes the local folder with the repo
 -----------------------------------------------------------------------
-TODO
+Automatically synchronizes the local folder with the repository. The
+command performs the up and down command in an interval, watches the
+file system for changes and subscribes to the Syncany pub/sub server.
+
+In the default configuration (no options), the command subscribes to the
+Syncany pub/sub server and registers local file system watches in the
+locally synced folder (and all of its subfolders). When local events are
+registered, the command waits a few seconds (waiting for settlement) and
+then triggers the 'up' command. After the upload has finished, a message
+is published to the pub/sub server, telling other clients of this repo
+that there is new data. Clients subscribed to the repository's channel
+will receive this notification and immediately perform a 'down' command.
+This mechanism allows instant synchronization among clients even if a dumb
+storage server (such as FTP) is used.
+
+In case file system events or pub/sub notifications are missed, the
+periodic synchronization using the 'down' and 'up' command is implemented
+as a fallback.
+
+Note: The messages exchanged through the pub/sub server do not include any
+confidential data. They only include the repository identifier (randomly
+generated in the 'init' phase), and a client identifier (randomly generated
+on every restart).  
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_watch`.
+
+Example: Automatically syncing a folder with ``sy watch``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``watch`` command is a blocking command. That means when it is run, the command will not run in the background. If you desire the folder to be synced in the background, use the Syncany daemon. Details at :ref:`overview_daemon`.
+
+::
+
+	$ cd ~/Syncany
+	$ sy watch
+	   (This command blocks, use the daemon if you don't want this to happen)
 
 .. _command_cleanup:
 
 ``sy cleanup``: Remove old versions from the local database and the repo
 ------------------------------------------------------------------------
-TODO
+This command performs different operations to cleanup the local database as
+well as the remote store. It removes old versions from the local database,
+deletes unused multichunks (if possible) and merges a client's own remote
+database files (if necessary).
+
+Merge remote databases: Unless -M is specified, the remote databases of the
+local client are merged together if there are more than 15 remote databases.
+The purpose of this is to avoid endless amounts of small database files on
+the remote storage and a quicker download process for new clients.
+
+Remove old file versions: Unless -V is specified, file versions marked as
+'deleted' and files with as history longer than <count> versions will be
+removed from the database, and the remote storage. This will cleanup the
+local database and free up remote storage space. Per default, the number of
+available file versions per file is set to 5. This value can be overridden
+by setting -k.    
+
+This command uses the 'status' and 'ls-remote' commands and is only executed
+if there are neither local nor remote changes.
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_cleanup`.
+
+Example 1: Default cleanup
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+The default cleanup command can be run manually, or triggered automatically if run in daemon mode. It'll delete old multichunks, shorten file histories and thereby free up space on the offsite storage.
+
+::
+
+	$ sy cleanup 
+	15 database files merged.
+	8 multichunk(s) deleted on remote storage (freed 12.91 MB)
+	19 file histories shortened.
+	Cleanup successful.
+
+Example 2: Shorten file histories to one version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syncany stores multiple file versions for each file (default is 5). If ``sy cleanup`` is run without any options, it will still keep the last 5 versions unless ``--keep-versions=N`` is given, where ``N`` is the number of versions to keep. If you've run cleanup in the last 6 hours, you'll need to also apply ``--force``.
+
+::
+
+	$ echo version1 > file
+	$ sy up
+	A file
+	Sync up finished.
+
+	$ echo version2 > file
+	$ sy up
+	M file
+	Sync up finished.
+
+	$ sy cleanup --keep-versions=1 --force
+	3 database files merged.
+	1 multichunk(s) deleted on remote storage (freed 0.00 MB)
+	1 file histories shortened.
+	Cleanup successful.
 
 .. _command_restore:
 
 ``sy restore``: Restore older versions of files from the repository
 -------------------------------------------------------------------
-TODO
+This command restores old or deleted files from the remote storage.
+
+As long as a file is known to the local database and the corresponding
+chunks are available on the remote storage, it can be restored using this
+command. The command downloads the required chunks and assembles the file.
+
+If no target revision is given with -r, the last version is restored. To
+select a revision to restore, the `sy ls` command can be used. 
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_restore`.
+
+Example 1: Restoring a previous version of a file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+	$ echo version1 > somefile
+	$ sy up
+	A somefile
+	Sync up finished.
+
+	$ echo version2 > somefile
+	$ sy up
+	M somefile
+	Sync up finished.
+
+	$ sy ls --versions somefile
+	14-08-23 13:11:11    rw-r--r-- --a- 9     FILE bce8ce9ce1 69101d4e4d 1 somefile
+	14-08-23 13:11:22    rw-r--r-- --a- 9     FILE 48a2c49dd8 69101d4e4d 2 somefile
+
+	$ sy restore --revision=1 69101d4e4d
+	File restored to /tmp/ssh/a/somefile (restored version 1)
+
+	$ cat "somefile (restored version 1)"
+	version1
+
+Example 2: Restoring a deleted file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+	
+	$ rm somefile
+	$ sy up
+	D somefile
+	Sync up finished.
+
+	$ sy restore --revision=2 69101d4e4d
+	File restored to somefile (restored version 2)
+	
+	$ cat "somefile (restored version 2)"
+	version2
 
 .. _command_ls:
 
@@ -363,6 +514,8 @@ criteria:
 4. The -D option selects the date/time at which to select the file tree,
 e.g. ``sy ls -D20m`` to select the file tree 20 minutes ago or 
 ``sy ls -D2014-05-02`` to select the file tree at May 2.
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_ls`.
 
 Example 1: Create new repository (interactive mode)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -435,6 +588,8 @@ so in case of an FTP backend, host/user/pass/etc. would be contained in
 a link. If the link is shared, be aware that you are giving this information
 to the other users.
 
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_genlink`.
+
 Example 1: Normal usage of 'genlink'
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -451,12 +606,12 @@ Example 1: Normal usage of 'genlink'
 	WARNING: The link contains the details of your repo connection which typically
 		 consist of usernames/password of the connection (e.g. FTP user/pass).
 
-Example 2: Short output of 'genlink'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 2: Short output (for scripts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
 	$ sy genlink --short
-	syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8ooYNkpSCSU8Bh5knX78HiGFVfa1bofUD6a0RjDyNMyr3LXGRFE4T1Q==-U3kCBQEMvF...
+	syncany://storage/1/IOl4XYsdjHRazvUJCB4GPOSA+/CDhpE8o...
 
 
 .. _command_plugin:
@@ -465,6 +620,8 @@ Example 2: Short output of 'genlink'
 ---------------------------------------------------------------
 
 This command performs three different actions: It lists the locally installed and remotely available plugins, including version information and whether plugins can be upgraded. It installs new plugins from either a given URL or a local file. It removes locally installed plugins from the user's local plugin directory. 
+
+For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_plugin`. For a detailed explanations of plugins, refer to the chapter :doc:`plugins`.
 
 Example 1: List all available plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

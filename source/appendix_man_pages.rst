@@ -5,6 +5,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 
 .. contents::
 
+.. _man_sy:
+
 ``sy --help``
 ^^^^^^^^^^^^^
 ::
@@ -76,6 +78,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	COPYRIGHT
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
+	 
+.. _man_init:
 	  
 ``sy init --help``
 ^^^^^^^^^^^^^^^^^^
@@ -144,6 +148,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	COPYRIGHT
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
+	  	
+.. _man_connect:
 	  	  
 ``sy connect --help``
 ^^^^^^^^^^^^^^^^^^^^^
@@ -197,6 +203,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel     	  
 
+.. _man_status:
+
 ``sy status --help``
 ^^^^^^^^^^^^^^^^^^^^
 ::
@@ -231,6 +239,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
+.. _man_up:	  
+	  
 ``sy up --help``
 ^^^^^^^^^^^^^^^^
 ::
@@ -261,6 +271,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 
+.. _man_ls_remote:
+
 ``sy ls-remote --help``
 ^^^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -282,6 +294,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	COPYRIGHT
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel   
+	  
+.. _man_down:
 	  	    	      	  	  	  	  
 ``sy down --help``
 ^^^^^^^^^^^^^^^^^^
@@ -330,6 +344,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	COPYRIGHT
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel	
+	 
+.. _man_watch:
 	  
 ``sy watch --help``
 ^^^^^^^^^^^^^^^^^^^
@@ -413,6 +429,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 
+.. _man_cleanup:
+
 ``sy cleanup --help``
 ^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -479,6 +497,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	   
+.. _man_restore:
+	   
 ``sy restore --help``
 ^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -534,6 +554,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
+.. _man_genlink:
+	  
 ``sy genlink --help``
 ^^^^^^^^^^^^^^^^^^^^^
 ::
@@ -563,6 +585,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel	
 	  
+.. _man_ls:
 
 ``sy ls --help``
 ^^^^^^^^^^^^^^^^
@@ -656,6 +679,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	COPYRIGHT
 	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
+	  
+.. _man_plugin:
 	  	  
 ``sy plugin --help``
 ^^^^^^^^^^^^^^^^^^^^
