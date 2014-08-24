@@ -118,7 +118,7 @@ If your operating system isn't listed above, or if you just want to install Sync
 If you'd like to use Syncany from there, but without having to always type the entire path to run it, you may want to place the Syncany ``bin/`` folder in the system's ``PATH`` environment variable. This will let your system know where to look for the ``sy`` and ``syd`` commands. It's easy to find out how to do that, but just in case:
 
 - `How to set the PATH variable on Windows <http://www.computerhope.com/issues/ch000549.htm>`_
-- `How to set the PATH variable on Mac OSX <architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/>`_
+- `How to set the PATH variable on Mac OSX <http://architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/>`_
 - `How to set the PATH variable on Linux <http://www.troubleshooters.com/linux/prepostpath.htm>`_
 
 Installing the latest snapshot

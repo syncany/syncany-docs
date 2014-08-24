@@ -2,9 +2,9 @@ Configuration
 =============
 Syncany differentiates between three types of configuration:
 
-- **Managed Folder Configuration**: Each folder that is synchronized and managed by Syncany contains a ``.syncany/config.xml`` file. This file defines the per-folder config options such as the backend storage credentials or the machine name.
-- **User Configuration**: The user config defines central settings valid only for the logged in user. Examples include the proxy configuration or the standby settings.
-- **Daemon Configuration**: The daemon config contains which Syncany folders are managed by the background daemon, and where the web frontend and REST/WS API is running.
+- **Managed Folder Config**: Each folder that is synchronized and managed by Syncany contains a ``.syncany/config.xml`` file. This file defines the per-folder config options such as the backend storage credentials or the machine name.
+- **User Config**: The user config defines central settings valid only for the logged in user. Examples include the proxy configuration or the standby settings.
+- **Daemon Config**: The daemon config contains which Syncany folders are managed by the background daemon, and where the web frontend and REST/WS API is running.
 
 Syncany stores the managed folder configuration options in `.syncany` of the synchronized folder, and other general user-specific configurations (such as the user and daemon config) in ``%AppData%\Syncany\`` or ``~/.config/syncany/``. 
 
@@ -12,6 +12,9 @@ Syncany stores the managed folder configuration options in `.syncany` of the syn
 
 Managed Folder Configuration (``config.xml``)
 ---------------------------------------------
+
+Common Settings and Storage Connection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
@@ -21,6 +24,17 @@ Managed Folder Configuration (``config.xml``)
 			<property name="path">/tmp/tx/c</property>
 		</connection>
 	</config>
+
+Excluding/Ignoring Files and Folders
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``.syignore``
+
+::
+
+	*.bak
+	*.tmp
+	.git
+	regex:files/[0-9a-f]+
 
 
 User Configuration (``userconfig.xml``)

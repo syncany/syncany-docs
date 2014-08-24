@@ -2,7 +2,7 @@ What is Syncany?
 ================
 **WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
 
-Syncany is an open source Dropbox-like file sync tool. It synchronizes files and folders between computers either manually or automatically. Users can define certain folders on their machine and keep them in sync with friends or colleagues. 
+Syncany is an open source Dropbox-like file sync and backup tool. It synchronizes files and folders between computers either manually or automatically. Users can define certain folders on their machine and keep them in sync with friends or colleagues. 
 
 So what makes Syncany **awesome**?
 
@@ -23,34 +23,40 @@ Besides its incredible flexibilty in terms of storage, Syncany is also a very pr
 
 Combining these two features makes Syncany really awesome: You can use all of the free storage that the Internet gives you (Google Drive, OneDrive, etc.) to share your files, but you don't have to worry about your privacy. Syncany takes care of encryption before files are uploaded.
 
-Target audience: Who needs it?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The target audience for Syncany is not the usual *cloud user*, but rather at the more privacy-aware user. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+How do I use it?
+----------------
+As of today, Syncany is available as **a command line tool** on all major operating systems. We're working on a **graphical user interface** and a **web frontend**, but until that is ready, you'll have to make due with the command line. 
 
-Syncany is is for those out there that don't trust the providers of online storage with their data. For people that are afraid of what sysadmins and other interested parties might do with their data. And it's for people who would love to use all the free storage that the Internet provides without having to give up to any privacy. 
+You can either `manually trigger <getting_started_manually>`_ the file synchronization like you do with Git, rsync or Unison; or you can let the Syncany background process `automatically sync your files <getting_started_automatically>`_. Check out the :doc:`Getting Started Guide <getting_started>` to learn more.
 
-Use cases:
+Who needs another sync tool?
+----------------------------
+There are many sync tools like Syncany out there, so depending on your use case, Syncany might just not be for you. The target audience for Syncany is not the average *cloud user* (you know, the one who puts his life in a provider's hand), but rather the more privacy-aware user and/or users/companies that want to use their own storage:
 
-* Continuous file synchronization
+* If you want to share files with friends or colleagues without having to trust anyone but yourself, Syncany is the right tool for you.
+* If you want to use your own offsite storage instead of a provider-controlled storage, Syncany is the right tool for you.
+
+What Syncany is **not**!
+------------------------
+Because there are so many sync tools out there, it's very easy to assume that Syncany is just like the others. Here are a few things that Syncany is not:
+
+* Syncany is not a free or pay-as-you-go service. Syncany is a tool.
+* Syncany does not provide storage. **You must bring your own storage.**
+* Syncany is not a peer-to-peer network. Data is stored centrally and you must trust the persons you share files with.
+* Syncany has version control capabilities, but it is not a fully fledged version control system like Git.
+* Syncany is **not yet usable for critical files**. It's alpha software. Don't do it!
+
+Example Use Cases
+-----------------
+We've identified four major use cases that Syncany can be used for:
+
+* No-server continuous file synchronization
+* With-server continuous file synchronization
 * Interval-based or on-demand backups 
 * Simple binary-compatible file versioning
 
-What Syncany is **not**
-^^^^^^^^^^^^^^^^^^^^^^^
-* A service. You don't pay for it. You don't get storage from us. 
-* Usable for critical files yet. It's alpha software. Don't do it!
-* A large network of interconnected machines. You can't share folders with strangers. You must trust the persons you share files with.
-* A fully fledged version control system. 
-
-
-Requirements: What do I need?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Do you have some spare storage you 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
-Use Case 1: Friends sharing files 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use Case 1: No-server continuous file synchronization aka Friends sharing files 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Pim wants to share some ideas with Philipp, and Philipp wants to share some pictures with Steffen. Pim has a Windows server running a Samba server (Windows share), and Philipp has has a virtual server from a random hosting company lying around -- all set up with a spare SFTP account. 
 
 .. image:: _static/what_is_syncany_use_case_1.png

@@ -36,6 +36,8 @@ Syncany repositories can be synchronized manually via the command line, or autom
 * **Syncing files manually** is useful for automated backup jobs, or if you want to use Syncany like a version control system. 
 * Using the **automatic syncing** turns Syncany into a Dropbox-like tool, because changes on local files are detected automatically and remote changes are synced right after they happen.
 
+.. _getting_started_manually:
+
 Manually syncing files
 ^^^^^^^^^^^^^^^^^^^^^^
 To use Syncany for manual syncing, the ``sy status``, ``sy up`` and ``sy down`` commands are your best friends. These commands work similar to a version control system: 
@@ -51,6 +53,7 @@ Unlike a version control system, however, there is no need to first add, then co
 
 There are a couple of other very useful commands to manage a repository and a local Syncany folder: Use ``sy ls`` to show the current and past file tree, ``sy restore`` to restore old or deleted files, and ``sy cleanup`` to save space on the offsite storage by removing old file versions. A full list of commands can be found in :doc:`commands`.
 	
+.. _getting_started_automatically:
 .. _overview_daemon:
 	
 Automatically syncing files 
