@@ -1,5 +1,5 @@
-Command Line Client
-===================
+Commands
+========
 The Syncany command line client (CLI) comes with two main commands: ``sy`` (or: ``syncany``) and ``syd`` (or ``syncanyd``). The ``sy`` command is the central tool to perform all of the Syncany actions, e.g. creating a new managed folder, syncing files, or restoring them. The ``syd`` tool offers a way start and stop the Syncany user daemon, which will then run Syncany in the background. 
 
 .. contents::
@@ -196,6 +196,7 @@ For a detailed command reference including all command-specific options, please 
 Example 1: Basic usage (display new/changed file content)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
+
 	$ echo "new file content" > newfile.txt
 	$ echo "changed content" > testfile.txt 
 	$ sy status
@@ -253,6 +254,7 @@ For a detailed command reference including all command-specific options, please 
 Example 1: Basic usage (index and upload locally changed files)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
+
 	$ sy up
 	A testfile.txt
 	A testfile2.txt

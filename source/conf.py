@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Syncany'
-copyright = u'2014, Philipp Heckel'
+#copyright = u'2014, Philipp Heckel'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -130,6 +130,12 @@ html_theme_path = ["_themes", ]
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_context = {
+    'css_files': [
+        '_static/theme_overrides.css',  # overrides for wide tables in RTD theme
+        ],
+    }
+
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
@@ -163,10 +169,10 @@ html_static_path = ['_static']
 #html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-#html_show_sphinx = True
+html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-#html_show_copyright = True
+html_show_copyright = False
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
@@ -242,7 +248,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'Syncany', u'Syncany User Guide',
-   u'Philipp Heckel', 'Syncany', 'One line description of project.',
+   u'Philipp Heckel', 'Syncany', 'Secure file sync software for arbitrary storage backends.',
    'Miscellaneous'),
 ]
 

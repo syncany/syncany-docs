@@ -1,6 +1,5 @@
 Syncany User Guide
 ==================
-
 **WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
 
 Syncany is an open-source cloud storage and filesharing application. It allows
@@ -25,7 +24,7 @@ terms of storage type and provider:
    what_is_syncany
    installation
    getting_started
-   overview
+   concepts
    commands
    plugins
    security

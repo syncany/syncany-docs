@@ -1,5 +1,6 @@
 What is Syncany?
 ================
+**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
 
 Syncany is an open source Dropbox-like file sync tool. It synchronizes files and folders between computers either manually or automatically. Users can define certain folders on their machine and keep them in sync with friends or colleagues. 
 
