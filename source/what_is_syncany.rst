@@ -1,7 +1,5 @@
 What is Syncany?
 ================
-**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
-
 Syncany is an open source Dropbox-like file sync and backup tool. It synchronizes files and folders between computers either manually or automatically. Users can define certain folders on their machine and keep them in sync with friends or colleagues. 
 
 So what makes Syncany **awesome**?
@@ -25,7 +23,7 @@ Combining these two features makes Syncany really awesome: You can use all of th
 
 How do I use it?
 ----------------
-As of today, Syncany is available as **a command line tool** on all major operating systems. We're working on a **graphical user interface** and a **web frontend**, but until that is ready, you'll have to make due with the command line. 
+As of today, Syncany :doc:`is available <installation>` as **a command line tool** on all major operating systems. We're working on a **graphical user interface** and a **web frontend**, but until that is ready, you'll have to make due with the command line. 
 
 You can either `manually trigger <getting_started_manually>`_ the file synchronization like you do with Git, rsync or Unison; or you can let the Syncany background process `automatically sync your files <getting_started_automatically>`_. Check out the :doc:`Getting Started Guide <getting_started>` to learn more.
 
@@ -35,6 +33,12 @@ There are many sync tools like Syncany out there, so depending on your use case,
 
 * If you want to share files with friends or colleagues without having to trust anyone but yourself, Syncany is the right tool for you.
 * If you want to use your own offsite storage instead of a provider-controlled storage, Syncany is the right tool for you.
+
+We've identified three major use cases that Syncany can be used for:
+
+* Continuous file synchronization
+* Interval-based or on-demand backups 
+* Simple binary-compatible file versioning
 
 What Syncany is **not**!
 ------------------------
@@ -48,25 +52,25 @@ Because there are so many sync tools out there, it's very easy to assume that Sy
 
 Example Use Cases
 -----------------
-We've identified four major use cases that Syncany can be used for:
 
-* No-server continuous file synchronization
-* With-server continuous file synchronization
-* Interval-based or on-demand backups 
-* Simple binary-compatible file versioning
-
-Use Case 1: No-server continuous file synchronization aka Friends sharing files 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use Case 1: Friends sharing files 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Pim wants to share some ideas with Philipp, and Philipp wants to share some pictures with Steffen. Pim has a Windows server running a Samba server (Windows share), and Philipp has has a virtual server from a random hosting company lying around -- all set up with a spare SFTP account. 
 
 .. image:: _static/what_is_syncany_use_case_1.png
    :align: center
    
-Pim sets up a Syncany shared folder with Philipp, using the shared Windows folder on his server as a backend storage. He uses the ``sy init`` command to do that, types in ``samba`` to use the Windows share plugin, and chooses a strong password to encrypt the data with. After the one-minute setup, he gets a syncany://-link from Syncany. This link contains all the information required to access the storage. Philipp can now use this and the password to access the Syncany folder (using the ``sy connect`` command). Since the everything that lands in the *cloud* is encrypted with a key derived from the password, Pim and Philipp don't have to worry about a nosy storage provider or other interested parties.
+Pim sets up a Syncany shared folder with Philipp, using the shared Windows folder on his server as a backend storage. He uses the ``sy init`` command to do that, types in ``samba`` to use the Windows share plugin, and chooses a strong password to encrypt the data with. After the one-minute setup, he gets a ``syncany://``-link from Syncany. This link contains all the information required to access the storage. Philipp can now use this and the password to access the Syncany folder (using the ``sy connect`` command). Since the everything that lands in the *cloud* is encrypted with a key derived from the password, Pim and Philipp don't have to worry about a nosy storage provider or other interested parties.
 
 The process between Philipp and Steffen is exactly the same, only that now Philipp initializes the repository on his own remote storage, and that the SFTP plugin is used. 
 
 Use Case 2: Sharing in a company
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Note that not all of of the components required for this use case have been implemented completely. We are working on it though.*
 
-With server + web interface
+Company XYZ wants their employees to be able to share files on projects X, Y and Z. Since they have a Samba and an SFTP server lying around, they use them for projects Y and Z. The files for project X are hosted on Amazon S3 -- but since the data is encrypted, company XYZ doesn't worry about their files. 
+
+.. image:: _static/what_is_syncany_use_case_2.png
+   :align: center
+
+Armin works on projects X and Y. He uses ``sy connect`` to connect to the projects repository (via the Syncany daemon). Fabrice doesn't have Syncany installed, but still needs to browse the files on project Z. He uses the web interface to do that.

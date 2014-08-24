@@ -214,7 +214,7 @@ The plugin is not installed by default, but it can be easily installed using the
 
 Plugin Security
 """""""""""""""
-The plugin uses the `JSch Java Secure Channel <http://www.jcraft.com/jsch/>` library. All communication is SSH/SFTP-baed, so access credentials are protected in transit. Since the actual data is encrypted before upload, data confidentiality is not an issue either.
+The plugin uses the `JSch Java Secure Channel <http://www.jcraft.com/jsch/>`_ library. All communication is SSH/SFTP-baed, so access credentials are protected in transit. Since the actual data is encrypted before upload, data confidentiality is not an issue either.
 
 If the SFTP plugin is used, users sharing a repository typically access that repository **using the same SFTP username/password combination** (unless public key authentication is used). Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
