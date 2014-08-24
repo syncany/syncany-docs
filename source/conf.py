@@ -130,6 +130,10 @@ html_theme_path = ["_themes", ]
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+def setup(app):
+   #app.add_javascript("custom.js")
+   app.add_stylesheet("theme_overrides.css")
+
 #html_context = {
 #    'css_files': [
 #        '_static/theme.css', 
