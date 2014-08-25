@@ -154,7 +154,7 @@ The plugin is not installed by default, but it can be easily installed using the
 
 Plugin Security
 """""""""""""""
-As of today, the FTP plugin does not support FTPS (the TLS extension for FTP). That means that the FTP plugin **does not provide transport security** and FTP credentials might by read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your FTP account and simply delete all of your files.
+As of today, the FTP plugin does not support FTPS (the TLS extension for FTP). That means that the FTP plugin **does not provide transport security** and FTP credentials might by read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your FTP account and simply delete all of your files.
 
 If the FTP plugin is used, users sharing a repository typically access that repository **using the same FTP username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
@@ -338,15 +338,17 @@ Samba Plugin
 ^^^^^^^^^^^^
 The Samba plugin (plugin identifier ``samba``) uses a single folder on a SMB/CIFS share (also known as: Windows Share) as repository. Since only a sub-folder is used, multiple repositories per SMB/CIFS server are possible. 
 
-Since Microsoft Windows comes with SMB/CIFS support out of the box (Windows Explorer -> Folder -> Share), this plugin is most useful in Windows environments. Nevertheless, it works equally well with the Linux implementation Samba.
+Since Microsoft Windows comes with SMB/CIFS support out of the box, this plugin is most useful in Windows environments. Nevertheless, it works equally well with the Linux implementation Samba.
 
 The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
 
 Plugin Security
 """""""""""""""
-The Samba plugin uses the `SMB/CIFS library jCIFS library <http://jcifs.samba.org/>`_.
+The Samba plugin uses the `jCIFS library <http://jcifs.samba.org/>`_ for SMB/CIFS. Since this library only supports `NT LM 0.12 <https://lists.samba.org/archive/jcifs/2013-December/010123.html>`_ (which is `SMBv1 <http://richardkok.wordpress.com/2011/02/03/wireshark-determining-a-smb-and-ntlm-version-in-a-windows-environment/>`_), the plugin currently does not encrypt the communication to the SMB/CIFS server. 
 
-TODO
+That means that the plugin **does not provide transport security** and credentials might by read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your SMB/CIFS account and simply delete all of your files.
+
+If the Samba plugin is used, users sharing a repository typically access that repository **using the same username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
@@ -386,9 +388,29 @@ This example uses the folder ``Repo1`` on the ``Repositories`` share for storing
 
 Web Interface Plugins
 ---------------------
+Web Interface plugins are a way to provide a web frontend to Syncany folders managed by a Syncany daemon. If a web interface plugin is installed, a web based frontend will be available via the web browser. Like any other plugin, web interface plugins can be installed with ``sy plugin install`` and are available after restarting the Syncany daemon (see details about the plugin installation at :ref:`command_plugin`).
 
-If installed, the web interface can be accessed at https://localhost:8443 (default configuration).
-See :ref:`configuration_daemon`.
+In the default configuration, the web interface is served by the internal web server at port 8443 and can be accessed at https://localhost:8443. The web server settings can be changed by modifying the ``daemon.xml`` file as described at :ref:`configuration_daemon`.
+
+.. _plugin_simpleweb:
 
 Simple Web Interface Plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+
+	The Simple Web Interface plugin is a proof-of-concept implementation. It is available as a snapshot, but not fully functional. We are still looking for a web frontend developer to take over / rewrite the web frontend. Please refer to the `corresponding GitHub issue <https://github.com/syncany/syncany/issues/207>`_.
+	
+The Simple Web Interface plugin (plugin identifier ``simpleweb``) provides access to the daemon-managed Syncany folders, i.e. all folders configured in the ``daemon.xml`` (see :ref:`configuration_daemon`). The web frontend currently implements the following functionalities:
+
+- Display the file tree at different times (current and past)
+- Display file history of a file (old versions)
+- Restore old versions of a file
+- Download a file (current or past version)
+
+To install the plugin, use ``sy plugin install simpleweb --snapshot``. Make sure to enable the ``--snapshot`` flag, because there is no official release of the plugin (yet). 
+
+As of today, the web interface looks like this:
+
+.. image:: _static/plugins_simpleweb.png
+

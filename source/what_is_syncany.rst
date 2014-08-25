@@ -66,7 +66,10 @@ The process between Philipp and Steffen is exactly the same, only that now Phili
 
 Use Case 2: Sharing in a company
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-*Note that not all of of the components required for this use case have been implemented completely. We are working on it though.*
+
+.. note::
+
+	Note that not all of of the components required for this use case have been implemented completely. We are working on it though.
 
 Company XYZ wants their employees to be able to share files on projects X, Y and Z. Since they have a Samba and an SFTP server lying around, they use them for projects Y and Z. The files for project X are hosted on Amazon S3 -- but since the data is encrypted, company XYZ doesn't worry about their files. 
 
