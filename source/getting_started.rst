@@ -58,7 +58,9 @@ There are a couple of other very useful commands to manage a repository and a lo
 	
 Automatically syncing files 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-*As of today, the automatic synchronizaton setup is not as easy as it should be. We are aware of that and are working on a solution.*
+.. note::
+
+	As of today, the automatic synchronizaton setup is not as easy as it should be. We are aware of that and are working on a solution.
 
 To set up a Dropbox-like folder synchronizaton for a Syncany folder, the folder has to be managed by the Syncany background process (also called *the daemon*). This background process can be started with ``syd start`` (note that the command is not ``sy``, but ``syd``). Once the daemon is started, all registered folders are monitored for changes and remote changes are automatically applied to the local folder. All of these actions happen in the background -- without the need for any intervention.
 
