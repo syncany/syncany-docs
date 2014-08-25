@@ -368,7 +368,7 @@ Options for ``config.xml``
 Example ``config.xml``
 """"""""""""""""""""""
 
-This example uses the folder ``Repo1`` on the ``Repositories share for storing the files. The UNC path for this would be: ``\\192.168.1.25\Repositories\Repo1``.
+This example uses the folder ``Repo1`` on the ``Repositories`` share for storing the files. The UNC path for this would be: ``\\192.168.1.25\Repositories\Repo1``.
 
 .. code-block:: xml
 
