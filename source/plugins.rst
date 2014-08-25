@@ -274,12 +274,38 @@ Example ``config.xml``
 		</connection>
 	</config>
 
+.. _plugin_webdav:
 
 WebDAV Plugin
 ^^^^^^^^^^^^^
+The WebDAV plugin (plugin identifier ``webdav``) uses a single folder on a WebDAV server as repository. Since only a sub-folder is used, multiple repositories per WebDAV server are possible. The plugin supports HTTP and HTTPS connections and authenticates users via username/password.
 
-- HTTP or HTTPS
+The HTTP and HTTPS setup are identical in terms of parameters -- only the URL setting differs slightly (``http://`` and ``https://``). However, if HTTPS is used, the first time you connect to the server (during ``sy init`` or ``sy connect``), Syncany will ask you to confirm the server certificate. This will happen for all certificates (even if they are signed by one of the large CAs):
 
+::
+
+	Unknown SSL/TLS certificate
+	---------------------------
+	Owner: CN=*.syncany.org, OU=Domain Control Validated
+	Issuer: CN=GlobalSign Domain Validation CA - SHA256 - G2, O=GlobalSign nv-sa, C=BE
+	Serial number: 1492271418628120790652059091142976109636803
+	Valid from Mon Apr 14 23:01:38 CEST 2014 until: Wed Apr 15 23:01:38 CEST 2015
+	Certificate fingerprints:
+	 MD5:  60:FB:F7:F1:E1:9E:D6:74:06:41:03:01:16:D6:19:D3
+	 SHA1: DC:A8:5F:FA:1D:9D:92:A7:1C:8E:22:C6:43:9B:96:9E:62:13:C7:25
+	 SHA256: 84:DF:92:99:86:15:AF:A6:8D:EC:74:5C:13:BE:18:75:BC:08:34:...
+
+	Do you want to trust this certificate? (y/n)?
+	
+Once you've accepted this certificate, it is added to the :ref:`user-specific trust store <configuration_truststore>` at ``~/.config/syncany/truststore.jks`` (Linux) or ``%AppData\Syncany\truststore.jks`` (Windows).	
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The WebDAV plugin uses the `Sardine WebDAV library <https://github.com/lookfirst/sardine>`_. Depending on the URL configured during setup, communication is either HTTP or HTTPS. 
+
+If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and WebDAV credentials might by read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your WebDAV account and simply delete all of your files.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
@@ -310,6 +336,17 @@ Example ``config.xml``
 
 Samba Plugin
 ^^^^^^^^^^^^
+The Samba plugin (plugin identifier ``samba``) uses a single folder on a SMB/CIFS share (also known as: Windows Share) as repository. Since only a sub-folder is used, multiple repositories per SMB/CIFS server are possible. 
+
+Since Microsoft Windows comes with SMB/CIFS support out of the box (Windows Explorer -> Folder -> Share), this plugin is most useful in Windows environments. Nevertheless, it works equally well with the Linux implementation Samba.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The Samba plugin uses the `SMB/CIFS library jCIFS library <http://jcifs.samba.org/>`_.
+
+TODO
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
@@ -331,16 +368,18 @@ Options for ``config.xml``
 Example ``config.xml``
 """"""""""""""""""""""
 
+This example uses the folder ``Repo1`` on the ``Repositories share for storing the files. The UNC path for this would be: ``\\192.168.1.25\Repositories\Repo1``.
+
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="samba">
-			<property name="hostname">ftp.example.com</property>
-			<property name="username">Vincent</property>
+			<property name="hostname">192.168.1.25</property>
+			<property name="username">Philipp</property>
 			<property name="password">ZuUaI/kt3k!</property>
-			<property name="share">Pictures</property>
-			<property name="path">2014\Germany</property>
+			<property name="share">Repositories</property>
+			<property name="path">Repo1</property>
 		</connection>
 	</config>
 

@@ -27,7 +27,7 @@ html body .rst-content h4 tt.literal {
 }
 
 html body div.wy-table-responsive {
-	margin-bottom: 0;
+/*	margin-bottom: 10px;*/
 }
 
 html body div.wy-table-responsive .footnote td {

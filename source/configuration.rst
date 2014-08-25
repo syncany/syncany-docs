@@ -157,6 +157,18 @@ Complex Daemon Config Example
 	
 Keys and Certificates
 ---------------------
-- truststore.jks
+
+Private Keys
+^^^^^^^^^^^^
+
 - keystore.jks	
 
+.. _configuration_truststore:
+
+Trusted Certificates
+^^^^^^^^^^^^^^^^^^^^
+Syncany maintains a user-specific trust store of trusted X.509 certificates at ``~/.config/syncany/truststore.jks`` (Linux) or ``%AppData\Syncany\truststore.jks`` (Windows). This trust store is mainly used by plugins that communicate via SSL/TLS (such as the :ref:`WebDAV plugin <plugin_webdav>`). 
+
+Syncany trusts all SSL/TLS certificates in this trust store: When a connection to this store is opened, Syncany will not ask for user confirmation before it continues communication. If, however, the remote certificate is unknown, Syncany will ask the user what to do (if that is implemented in the plugin).
+
+The trust store format is in the **Java Key Store** (JKS) format. No password is used to protect the key store. To analyze this file and its entries, you may use the ``keytool`` util.
