@@ -49,6 +49,8 @@ Some plugins store per-user config or persist some user-specific state. The SFTP
 
 On Windows, this per-user plugin configuration can be found at ``%AppData%\Syncany\plugins\userdata\<plugin-id>\``, or at ``~/.config/syncany/plugins/userdata/<plugin-id>/`` on Linux. Depending on the plugin, the files in this folder may differ. 
 		
+.. _plugins_storage:		
+		
 Storage Plugins
 ---------------
 Storage plugins are part of the core idea of Syncany: provide a simple interface to make any type of storage usable. This is done by keeping all of the synchronization logic, file size issues and even encryption out of the plugins. Storage plugins only take care of uploading different types of files -- database files, multichunk files, and so on. 

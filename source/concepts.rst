@@ -16,6 +16,8 @@ Syncany breaks files into chunks, then packages those chunks into multichunks, c
 .. image:: _static/overview_chunking.png
    :align: center
    
+Synchronization and vector clocks?
+   
 Comparing it to others
 ---------------------- 
 

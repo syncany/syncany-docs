@@ -10,23 +10,64 @@ Syncany stores the managed folder configuration options in `.syncany` of the syn
 
 .. contents::
 
-Managed Folder Configuration (``config.xml``)
----------------------------------------------
+Managed Folder Config (``.syncany``, ``config.xml``, etc.)
+----------------------------------------------------------
+Whenever a new Syncany folder is initialized via ``sy init`` or ``sy connect``, Syncany creates a ``.syncany`` folder in that directory. This folder marks the folder as a Syncany folder and contains configuration and metadata information. Typically, **you don't have to touch any of these files**, but it doesn't hurt to know a little bit about them:
 
-Common Settings and Storage Connection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- ``.syncany/config.xml`` (main config file): Stores the local machine and display name, the connection details to the remote storage / plugin as well as the master key.
+- ``.syncany/syncany`` (repo file): The repo file (also: syncany file) stores common repository information (repo ID, chunking options). If the repository is encrypted, this file is also encrypted. 
+- ``.syncany/master`` (master salt file, optional): The master files stores the salt of the master key. It only exists if the repository is encrypted. 
+- ``.syncany/cache/`` (local cache): Cache folder to temporarily store files before upload or after download.
+- ``.syncany/db/`` (local SQL database): Files stored by the local embedded `HSQLDB <http://hsqldb.org/>`_ database. 
+- ``.syncany/logs/`` (log files): Stores log files created by Syncany. Log files rotate automatically.
+- ``.syignore`` (exclude/ignore files): Lists all the files to be ignored by Syncany.
+
+Common Settings and Storage Connection (``config.xml``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``config.xml`` file is initially created by the ``sy init`` or ``sy connect`` command. Changing its settings is typically not necessary -- unless your connection/storage details (such as credentials or hostname) change. 
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-------------------------------------------+
+| Plugin Option        | Mand.      | Def.          | Description                               |
++======================+============+===============+===========================================+
+| ``<machinename>``    | yes        | *none*        | Random local machine identifier           |
++----------------------+------------+---------------+-------------------------------------------+
+| ``<displayname>``    | yes        | *none*        | Human readable user name                  |
++----------------------+------------+---------------+-------------------------------------------+
+| ``<cacheKeepBytes>`` | no         | 524288000     | Size of cache in bytes                    |
++----------------------+------------+---------------+-------------------------------------------+
+| ``<connection>``     | yes        | *none*        | Key/value based storage settings          |
++----------------------+------------+---------------+-------------------------------------------+
+
+The ``<machinename>`` property represents a local machine identifier to technically identify a computer/user. It is purely random and carries no logic. This identifier is created during folder initialization and **should not be changed**. 
+
+The ``<displayname>`` is the human readable user name of the user. It is currently only used locally to create conflict files. As of today, this property is not transferred to other users, but it might be in the future. The property can safely be changed.
+
+The ``<cacheKeepBytes>`` property depicts the maximum size of the local ``.syncany/cache/`` folder (in bytes, default is 500 MB). After each synchronization, the cache is cleaned if it exceeds the keep size. The cache mechanism is least recently used (LRU).
+
+The ``<connection>`` property represents the :ref:`storage plugin <plugins_storage>` configuration. The definition of these properties is described in the corresponding plugin sub-chapter.
+
+Example configuration (full ``config.xml``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
 		<machinename>PCiqLdSQiampovfBfSZZ</machinename>
 		<displayname>pheckel</displayname>
-		<connection type="local">
-			<property name="path">/tmp/tx/c</property>
+		<connection type="ftp">
+			<property name="hostname">ftp.example.com</property>
+			<property name="username">armin</property>
+			<property name="password">cr0/ChRisTiAn</property>
+			<property name="path">/syncany/repo2</property>
+			<property name="port">21</property>
 		</connection>
+		<cacheKeepBytes>524288000</cacheKeepBytes>
 	</config>
 
-Excluding/Ignoring Files and Folders
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Excluding/Ignoring Files and Folders (``.syignore``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``.syignore``
 
 ::
@@ -36,9 +77,8 @@ Excluding/Ignoring Files and Folders
 	.git
 	regex:files/[0-9a-f]+
 
-
-User Configuration (``userconfig.xml``)
----------------------------------------
+User Config (``userconfig.xml``)
+--------------------------------
 
 Prevent standby/hibernate
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -67,8 +107,8 @@ The proxy config (and other system properties) can be added by creating/editing 
 
 .. _configuration_daemon:
 
-Daemon Configuration (``daemon.xml``)
--------------------------------------
+Daemon Config (``daemon.xml``)
+------------------------------
 The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
 
 Simple Daemon Config Example
