@@ -8,6 +8,7 @@ Syncany differentiates between two types of configuration:
 Syncany stores the folder-specific configuration options in ``.syncany`` of the synchronized folder, and other general user-specific configurations (such as the user and daemon config) in ``%AppData%\Syncany\`` or ``~/.config/syncany/``. 
 
 .. contents::
+   :depth: 3
 
 Folder-specific Configuration
 -----------------------------
@@ -30,7 +31,7 @@ The ``config.xml`` file is initially created by the ``sy init`` or ``sy connect`
 Options for ``config.xml``
 """"""""""""""""""""""""""
 +----------------------+------------+---------------+-------------------------------------------+
-| Plugin Option        | Mand.      | Def.          | Description                               |
+| Option               | Mand.      | Def.          | Description                               |
 +======================+============+===============+===========================================+
 | ``<machinename>``    | yes        | *none*        | Random local machine identifier           |
 +----------------------+------------+---------------+-------------------------------------------+
@@ -92,30 +93,59 @@ User-specific Configuration
 ---------------------------
 The user config defines central settings valid only for the logged-in user. Unlike the folder-specific settings, the user configuration settings apply to the entire user. There are two general categories of user-specific configuration files:
 
-- **General User Configuration**: Define central user-specific config options such as proxy settings, standby settings or other system properties. 
-- **Daemon Configuration**: Define settings specific to the Syncany background process (the daemon), such as which folders are managed by the daemon.
+- **General User Configuration** (``userconfig.xml``): Define central user-specific config options such as proxy settings, standby settings or other system properties. 
+- **Daemon Configuration** (``daemon.xml``): Define settings specific to the Syncany background process (the daemon), such as which folders are managed by the daemon.
 
 The configuration can be found at ``%AppData%\Syncany\`` (Windows) and at ``~/.config/syncany/`` (Linux).
 
 User Config (``userconfig.xml``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ``userconfig.xml`` config file is a defines global user config settings -- valid only for this user, but regardless of whether or not Syncany is run in daemon mode or manually. The options are pretty limited are right now. More config options will probably be added in future releases.
 
-Prevent standby/hibernate
-"""""""""""""""""""""""""
+Options for ``userconfig.xml``
+""""""""""""""""""""""""""""""
++------------------------+------------+---------------+--------------------------------------------+
+| Option                 | Mand.      | Def.          | Description                                |
++========================+============+===============+============================================+
+| ``<preventStandby>``   | no         | false         | Prevent standby/shutdown during sync       |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<systemProperties>`` | yes        | *none*        | Set any Java system properties (e.g proxy) |
++------------------------+------------+---------------+--------------------------------------------+
 
-To make sure that your workstation doesn't go into standby/hibernate while Syncany is uploading/downloading changes, the `userconfig.xml` needs to contain the following setting:
+If the ``<preventStandby>`` option is set to ``true``, Syncany will make sure that your system doesn't go into standby/hibernate if the synchronization process is run. This option will not prevent your system from going to sleep if no upload/download process is taking place. Since this option might also prevent the screensaver or screen lock, it is not enabled by default. 
+
+The ``<systemProperties>`` option allows you to set Java system properties via the Syncany configuration. Any of the ``<property>`` options will be passed to Java's ``System.setProperty()`` method. This can be used to set proxy settings, log settings, and so on.
+
+Useful System Properties
+""""""""""""""""""""""""
+This is a non-exhaustive list of useful system properties that can be used in the above mentioned ``<systemProperties>`` option. To add an option, simply add a property tag: 
 
 .. code-block:: xml
 
-	<preventStandby>true</preventStandby>
+	<property name="property-name">property value</property>
 
-Add proxy configuration
-"""""""""""""""""""""""
-The proxy config (and other system properties) can be added by creating/editing the ``%AppData%\Syncany\userconfig.xml`` or ``~/.config/syncany/userconfig.xml`` file:
++-----------------------------+-------------------------------------------------------------------------+
+| System Property             | Description                                                             |
++=============================+=========================================================================+
+| **http.proxyHost**          | Sets HTTP proxy hostname                                                |
++-----------------------------+-------------------------------------------------------------------------+
+| **http.proxyPort**          | Sets HTTP proxy port                                                    |
++-----------------------------+-------------------------------------------------------------------------+
+| **https.proxyHost**         | Sets HTTPS proxy hostname                                               |
++-----------------------------+-------------------------------------------------------------------------+
+| **https.proxyPort**         | Sets HTTPS proxy port                                                   |
++-----------------------------+-------------------------------------------------------------------------+
+| **org.syncany.test.tmpdir** | Developer property: Uses the given folder for Syncany unit tests        |
++-----------------------------+-------------------------------------------------------------------------+
+
+Example ``userconfig.xml``
+""""""""""""""""""""""""""
+This example shows how to set the HTTP and HTTPS proxy for all HTTP/HTTPS-traffic by Syncany. In particular, this includes traffic to the Syncany Plugin API and communication by the :ref:`WebDAV plugin <plugin_webdav>`. The example furthermore shows how to enable the standby/hibernate prevention.
 
 .. code-block:: xml
 
 	<userConfig xmlns="http://syncany.org/userconfig/1">
+	   <preventStandby>true</preventStandby>
 	   <systemProperties>
 	      <property name="http.proxyHost">your.proxy.host.tld</property>
 	      <property name="http.proxyPort">8080</property>
@@ -123,7 +153,6 @@ The proxy config (and other system properties) can be added by creating/editing 
 	      <property name="https.proxyPort">8080</property>
 	   </systemProperties>
 	</userConfig>
-
 
 .. _configuration_daemon:
 
@@ -216,17 +245,17 @@ Complex Daemon Config Example
 	</daemon>
 	
 Keys and Certificates
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 Private Keys
-""""""""""""
+^^^^^^^^^^^^
 
 - keystore.jks	
 
 .. _configuration_truststore:
 
 Trusted Certificates
-""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^
 Syncany maintains a user-specific trust store of trusted X.509 certificates at ``~/.config/syncany/truststore.jks`` (Linux) or ``%AppData\Syncany\truststore.jks`` (Windows). This trust store is mainly used by plugins that communicate via SSL/TLS (such as the :ref:`WebDAV plugin <plugin_webdav>`). 
 
 Syncany trusts all SSL/TLS certificates in this trust store: When a connection to this store is opened, Syncany will not ask for user confirmation before it continues communication. If, however, the remote certificate is unknown, Syncany will ask the user what to do (if that is implemented in the plugin).
