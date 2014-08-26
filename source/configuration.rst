@@ -14,13 +14,15 @@ Managed Folder Config (``.syncany``, ``config.xml``, etc.)
 ----------------------------------------------------------
 Whenever a new Syncany folder is initialized via ``sy init`` or ``sy connect``, Syncany creates a ``.syncany`` folder in that directory. This folder marks the folder as a Syncany folder and contains configuration and metadata information. Typically, **you don't have to touch any of these files**, but it doesn't hurt to know a little bit about them:
 
-- ``.syncany/config.xml`` (main config file): Stores the local machine and display name, the connection details to the remote storage / plugin as well as the master key.
-- ``.syncany/syncany`` (repo file): The repo file (also: syncany file) stores common repository information (repo ID, chunking options). If the repository is encrypted, this file is also encrypted. 
-- ``.syncany/master`` (master salt file, optional): The master files stores the salt of the master key. It only exists if the repository is encrypted. 
-- ``.syncany/cache/`` (local cache): Cache folder to temporarily store files before upload or after download.
-- ``.syncany/db/`` (local SQL database): Files stored by the local embedded `HSQLDB <http://hsqldb.org/>`_ database. 
+- ``.syncany/config.xml`` (main config): Stores client information and the connection details.
+- ``.syncany/syncany`` (repo file): Stores common repository information (repo ID, chunking options). 
+- ``.syncany/master`` (master salt file): Stores the salt of the master key (if repo encrypted).
+- ``.syncany/cache/`` (local cache): Cache folder to store temporarily files.
+- ``.syncany/db/`` (local database): Files stored by the local embedded `HSQLDB <http://hsqldb.org/>`_ database. 
 - ``.syncany/logs/`` (log files): Stores log files created by Syncany. Log files rotate automatically.
 - ``.syignore`` (exclude/ignore files): Lists all the files to be ignored by Syncany.
+
+Since only the ``config.xml`` and ``.syignore`` files should be changed manually, the following chapters only describe these files.
 
 Common Settings and Storage Connection (``config.xml``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,8 +50,8 @@ The ``<cacheKeepBytes>`` property depicts the maximum size of the local ``.synca
 
 The ``<connection>`` property represents the :ref:`storage plugin <plugins_storage>` configuration. The definition of these properties is described in the corresponding plugin sub-chapter.
 
-Example configuration (full ``config.xml``)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example ``config.xml``
+""""""""""""""""""""""
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
@@ -65,17 +67,27 @@ Example configuration (full ``config.xml``)
 		<cacheKeepBytes>524288000</cacheKeepBytes>
 	</config>
 
-
 Excluding/Ignoring Files and Folders (``.syignore``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``.syignore``
+The ``.syignore`` file allows you to ignore certain files and folders from the synchronization process. It must be created manually by the user if any exclude/ignore logic is desired. The file resides in the root of the managed folder and is itself synchronized to other clients using Syncany. 
+
+
+.. note::
+
+	As of today, new entries in the ``.syignore`` file are not picked up by Syncany (files are not ignored!) if the to-be-ignored-file has already been synchronized. We are aware that this is not a desired behavior and are `working on it to fix it <https://github.com/syncany/syncany/issues/189>`_.
+
+The file has a simple line-based structure, in which each line represents a path to be ignored by Syncany. The file supports the typical wildcards (``*`` and ``?``) as well as regular expression based patterns:
+
+- Wildcard-based exclusions: ``*`` matches any amount of characters (including none), ``?`` matches exactly one character.
+- Regular expression based exclusions: Lines prefixed ``regex:`` exclude files matching the given regular expression. 
+
+If ``C:\Users\Steffen\Syncany`` is the managed Syncany folder, the following file (if located at ``C:\Users\Steffen\Syncany\.syignore``) will ignore files/folders ending with ``.bak``, file/folders named ``.git`` as well as files/folders matching the regular expression ``private/20[0-9]{2}`` (e.g. ``private/2099`` or ``private/2000``):
 
 ::
 
 	*.bak
-	*.tmp
 	.git
-	regex:files/[0-9a-f]+
+	regex:private/20[0-9]{2}
 
 User Config (``userconfig.xml``)
 --------------------------------

@@ -19,7 +19,7 @@ html body .rst-content h1 tt.literal,
 html body .rst-content h2 tt.literal, 
 html body .rst-content h3 tt.literal,
 html body .rst-content h4 tt.literal,
-html body div.wy-table-responsive td tt.literal,
+html body .rst-content table td tt.literal,
 html body .rst-content li tt.literal {
 	font-size: 100%;
 }
