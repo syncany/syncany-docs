@@ -1,17 +1,16 @@
 Configuration
 =============
-Syncany differentiates between three types of configuration:
+Syncany differentiates between two types of configuration:
 
-- **Managed Folder Config**: Each folder that is synchronized and managed by Syncany contains a ``.syncany/config.xml`` file. This file defines the per-folder config options such as the backend storage credentials or the machine name.
-- **User Config**: The user config defines central settings valid only for the logged in user. Examples include the proxy configuration or the standby settings.
-- **Daemon Config**: The daemon config contains which Syncany folders are managed by the background daemon, and where the web frontend and REST/WS API is running.
+- **Folder-specific Configuration**: Each folder that is synchronized and managed by Syncany contains a ``.syncany`` folder. The files in this folder define the per-folder config options such as the backend storage credentials or the machine name.
+- **User-specific Configuration**: The user config defines central settings valid only for the logged in user -- this includes proxy configuration or the standby settings, but also daemon-specific configuration such as which Syncany folders are managed by the background daemon, and where the web frontend and REST/WS API is running.
 
-Syncany stores the managed folder configuration options in `.syncany` of the synchronized folder, and other general user-specific configurations (such as the user and daemon config) in ``%AppData%\Syncany\`` or ``~/.config/syncany/``. 
+Syncany stores the folder-specific configuration options in ``.syncany`` of the synchronized folder, and other general user-specific configurations (such as the user and daemon config) in ``%AppData%\Syncany\`` or ``~/.config/syncany/``. 
 
 .. contents::
 
-Managed Folder Config (``.syncany``, ``config.xml``, etc.)
-----------------------------------------------------------
+Folder-specific Configuration
+-----------------------------
 Whenever a new Syncany folder is initialized via ``sy init`` or ``sy connect``, Syncany creates a ``.syncany`` folder in that directory. This folder marks the folder as a Syncany folder and contains configuration and metadata information. Typically, **you don't have to touch any of these files**, but it doesn't hurt to know a little bit about them:
 
 - ``.syncany/config.xml`` (main config): Stores client information and the connection details.
@@ -48,7 +47,7 @@ The ``<displayname>`` is the human readable user name of the user. It is current
 
 The ``<cacheKeepBytes>`` property depicts the maximum size of the local ``.syncany/cache/`` folder (in bytes, default is 500 MB). After each synchronization, the cache is cleaned if it exceeds the keep size. The cache mechanism is least recently used (LRU).
 
-The ``<connection>`` property represents the :ref:`storage plugin <plugins_storage>` configuration. The definition of these properties is described in the corresponding plugin sub-chapter.
+The ``<connection>`` property represents the :ref:`storage plugin <plugins_storage>` configuration. The ``type="<plugin-id>"`` attribute defines the plugin used to synchronize this folder. The definition of these properties is described in the corresponding plugin sub-chapter.
 
 Example ``config.xml``
 """"""""""""""""""""""
@@ -78,8 +77,8 @@ The ``.syignore`` file allows you to ignore certain files and folders from the s
 
 The file has a simple line-based structure, in which each line represents a path to be ignored by Syncany. The file supports the typical wildcards (``*`` and ``?``) as well as regular expression based patterns:
 
-- Wildcard-based exclusions: ``*`` matches any amount of characters (including none), ``?`` matches exactly one character.
-- Regular expression based exclusions: Lines prefixed ``regex:`` exclude files matching the given regular expression. 
+- **Wildcard-based exclusions:** ``*`` matches any amount of characters (including none), ``?`` matches exactly one character.
+- **Regular expression based exclusions:** Lines prefixed ``regex:`` exclude files matching the given regular expression. 
 
 If ``C:\Users\Steffen\Syncany`` is the managed Syncany folder, the following file (if located at ``C:\Users\Steffen\Syncany\.syignore``) will ignore files/folders ending with ``.bak``, file/folders named ``.git`` as well as files/folders matching the regular expression ``private/20[0-9]{2}`` (e.g. ``private/2099`` or ``private/2000``):
 
@@ -89,11 +88,20 @@ If ``C:\Users\Steffen\Syncany`` is the managed Syncany folder, the following fil
 	.git
 	regex:private/20[0-9]{2}
 
+User-specific Configuration
+---------------------------
+The user config defines central settings valid only for the logged-in user. Unlike the folder-specific settings, the user configuration settings apply to the entire user. There are two general categories of user-specific configuration files:
+
+- **General User Configuration**: Define central user-specific config options such as proxy settings, standby settings or other system properties. 
+- **Daemon Configuration**: Define settings specific to the Syncany background process (the daemon), such as which folders are managed by the daemon.
+
+The configuration can be found at ``%AppData%\Syncany\`` (Windows) and at ``~/.config/syncany/`` (Linux).
+
 User Config (``userconfig.xml``)
---------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Prevent standby/hibernate
-^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""
 
 To make sure that your workstation doesn't go into standby/hibernate while Syncany is uploading/downloading changes, the `userconfig.xml` needs to contain the following setting:
 
@@ -102,7 +110,7 @@ To make sure that your workstation doesn't go into standby/hibernate while Synca
 	<preventStandby>true</preventStandby>
 
 Add proxy configuration
-^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""
 The proxy config (and other system properties) can be added by creating/editing the ``%AppData%\Syncany\userconfig.xml`` or ``~/.config/syncany/userconfig.xml`` file:
 
 .. code-block:: xml
@@ -120,11 +128,11 @@ The proxy config (and other system properties) can be added by creating/editing 
 .. _configuration_daemon:
 
 Daemon Config (``daemon.xml``)
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
 
 Simple Daemon Config Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""
 
 .. code-block:: xml
 
@@ -151,7 +159,7 @@ Simple Daemon Config Example
 	</daemon>
 
 Complex Daemon Config Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""
 
 .. code-block:: xml
 
@@ -208,17 +216,17 @@ Complex Daemon Config Example
 	</daemon>
 	
 Keys and Certificates
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 Private Keys
-^^^^^^^^^^^^
+""""""""""""
 
 - keystore.jks	
 
 .. _configuration_truststore:
 
 Trusted Certificates
-^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""
 Syncany maintains a user-specific trust store of trusted X.509 certificates at ``~/.config/syncany/truststore.jks`` (Linux) or ``%AppData\Syncany\truststore.jks`` (Windows). This trust store is mainly used by plugins that communicate via SSL/TLS (such as the :ref:`WebDAV plugin <plugin_webdav>`). 
 
 Syncany trusts all SSL/TLS certificates in this trust store: When a connection to this store is opened, Syncany will not ask for user confirmation before it continues communication. If, however, the remote certificate is unknown, Syncany will ask the user what to do (if that is implemented in the plugin).
