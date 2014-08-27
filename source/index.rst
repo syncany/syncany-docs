@@ -1,5 +1,9 @@
+.. image:: _static/index_syncany_logo.png
+   :align: right
+
 Syncany User Guide
 ==================
+
 **WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
 
 Syncany is an open-source cloud storage and filesharing application. It allows

@@ -160,8 +160,67 @@ Daemon Config (``daemon.xml``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
 
-Simple Daemon Config Example
-""""""""""""""""""""""""""""
+Options for ``daemon.xml``
+""""""""""""""""""""""""""
++------------------------+------------+---------------+--------------------------------------------+
+| Option                 | Mand.      | Def.          | Description                                |
++========================+============+===============+============================================+
+| ``<folders>``          | yes        | *none*        | Folders managed by the daemon              |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<webServer>``        | yes        | *none*        | Internal web server parameters             |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<users>``            | yes        | *none*        | Log-in users for web server and API        |
++------------------------+------------+---------------+--------------------------------------------+
+
+The ``<folders>`` option can contain multiple ``<folder>`` definitions, each of which represent a Syncany folder managed by the daemon. To add a new Syncany folder, simply initialize or connect to a repository (using ``sy init`` or ``sy connect``) and add the folder here. Then restart the daemon. Find details to this option below in :ref:`configuration_daemon_folders`:.
+
+The ``<webServer>`` option controls the internal Syncany web server (bind port and address, certificates). The web server is used for the web interface as well as for the Syncany API. Find details to this option below in :ref:`configuration_daemon_webserver`:
+
+The ``<users>`` option defines the users that can access the web interface and the API. Each ``<user>`` has full read/write access to the API and all managed folders. Find details to this option below in :ref:`configuration_daemon_users`:
+
+.. _configuration_daemon_folders:
+
+Managed Folder Configuration (``<folders>``)
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+.. note::
+
+	We're currently still in an alpha version of Syncany and the options inside the ``<folder>`` tag change more often than we desire. Please forgive us for not documenting all of the options.
+
+The ``<folders>`` tag can contain multiple ``<folder>`` tags, each of which has a vast amount of configuration options. Typically you don't need to touch any of them. To see a full example (including all available options), see :ref:`configuration_daemon_example_complex`.
+
+The ``<path>`` option defines the local path to the Syncany folder, and the ``<enabled>`` tag lets you enable/disable folders. 
+
+The ``<watch>`` tag defines the behavior for the internal watch operation. That includes the behavior of the index/upload operation (``<up>``), the download/apply operation (``<down>``) as well as the periodic cleanup mechanism (``<clean>``). It also includes general settings about the local file system watcher (``<watcher>``) and the central Syncany pub/sub server (``<announcements>``).
+
+.. _configuration_daemon_webserver:
+
+Web Server Configuration (``<webServer>``)
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
++-------------------------------+------------+---------------+------------------------------------------------+
+| Option                        | Mand.      | Def.          | Description                                    |
++===============================+============+===============+================================================+
+| ``<enabled>``                 | yes        | *none*        | Defines whether the web server will start      |
++-------------------------------+------------+---------------+------------------------------------------------+
+| ``<bindAddress>``             | yes        | *none*        | Address to which the server socket is bound    |
++-------------------------------+------------+---------------+------------------------------------------------+
+| ``<bindPort>``                | yes        | *none*        | Port to which the server socket is bound       |
++-------------------------------+------------+---------------+------------------------------------------------+
+| ``<certificateAutoGenerate>`` | yes        | *none*        | Regenerate certificate if common name changed. |
++-------------------------------+------------+---------------+------------------------------------------------+
+| ``<certificateCommonName>``   | yes        | *none*        | Common name in the server certificate          |
++-------------------------------+------------+---------------+------------------------------------------------+
+
+.. _configuration_daemon_users:
+
+User Configuration (``<users>``)
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+.. _configuration_daemon_example_simple:
+
+Example 1: Simple ``daemon.xml``
+""""""""""""""""""""""""""""""""
 
 .. code-block:: xml
 
@@ -187,8 +246,10 @@ Simple Daemon Config Example
 	   </users>
 	</daemon>
 
-Complex Daemon Config Example
-"""""""""""""""""""""""""""""
+.. _configuration_daemon_example_complex:
+
+Example 2: Complex ``daemon.xml``
+"""""""""""""""""""""""""""""""""
 
 .. code-block:: xml
 

@@ -13,7 +13,7 @@ The Magic behind it
 -------------------          
 Syncany breaks files into chunks, then packages those chunks into multichunks, compresses and encrypts those multichunks, and then uploads these multichunks. Metadata such as filenames and permissions is written to XML-based database files, and then compressed/encrypted with the same scheme.
 
-.. image:: _static/overview_chunking.png
+.. image:: _static/concepts_chunking.png
    :align: center
    
 Synchronization and vector clocks?
