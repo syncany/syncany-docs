@@ -387,6 +387,7 @@ This example uses the folder ``Repo1`` on the ``Repositories`` share for storing
 		</connection>
 	</config>
 
+.. _plugin_web_interface:
 
 Web Interface Plugins
 ---------------------
