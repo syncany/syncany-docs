@@ -24,6 +24,8 @@ Whenever a new Syncany folder is initialized via ``sy init`` or ``sy connect``, 
 
 Since only the ``config.xml`` and ``.syignore`` files should be changed manually, the following chapters only describe these files.
 
+.. _configuration_config_xml:
+
 Common Settings and Storage Connection (``config.xml``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The ``config.xml`` file is initially created by the ``sy init`` or ``sy connect`` command. Changing its settings is typically not necessary -- unless your connection/storage details (such as credentials or hostname) change. 
@@ -37,6 +39,8 @@ Options for ``config.xml``
 +----------------------+------------+---------------+-------------------------------------------+
 | ``<displayname>``    | yes        | *none*        | Human readable user name                  |
 +----------------------+------------+---------------+-------------------------------------------+
+| ``<masterkey>``      | no         | *none*        | Master key used to derive enc. keys       |
++----------------------+------------+---------------+-------------------------------------------+
 | ``<cacheKeepBytes>`` | no         | 524288000     | Size of cache in bytes                    |
 +----------------------+------------+---------------+-------------------------------------------+
 | ``<connection>``     | yes        | *none*        | Key/value based storage settings          |
@@ -45,6 +49,8 @@ Options for ``config.xml``
 The ``<machinename>`` property represents a local machine identifier to technically identify a computer/user. It is purely random and carries no logic. This identifier is created during folder initialization and **should not be changed**. 
 
 The ``<displayname>`` is the human readable user name of the user. It is currently only used locally to create conflict files. As of today, this property is not transferred to other users, but it might be in the future. The property can safely be changed.
+
+The ``<masterkey>`` represents the master key generated from the repository password. It is required if the repository is encrypted, and it must not be changed. To learn more about the master key, check out the :doc:`security` chapter.
 
 The ``<cacheKeepBytes>`` property depicts the maximum size of the local ``.syncany/cache/`` folder (in bytes, default is 500 MB). After each synchronization, the cache is cleaned if it exceeds the keep size. The cache mechanism is least recently used (LRU).
 
@@ -57,6 +63,7 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		<machinename>PCiqLdSQiampovfBfSZZ</machinename>
 		<displayname>pheckel</displayname>
+		<masterkey>51d32e99230581e2ba2f6725d2ce7d90822...</masterkey>
 		<connection type="ftp">
 			<property name="hostname">ftp.example.com</property>
 			<property name="username">armin</property>
