@@ -1,4 +1,4 @@
-Appendix A: Manual pages
+Appendix A: Manual Pages
 ========================
 
 This appendix lists all the manual/help pages available for the ``sy`` command, its sub-commands, as well as for the ``syd`` command. These help pages are available by calling ``sy <action> --help`` or ``man sy-<action>`` (Linux only).

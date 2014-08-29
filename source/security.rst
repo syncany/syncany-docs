@@ -28,7 +28,7 @@ There are two security/cryptography-related topics in Syncany:
 
 .. _security_encryption:
 
-Encryption Schema
+Encryption Scheme
 ^^^^^^^^^^^^^^^^^
 For users to share a repository with Syncany, they must trust each other completely: They share the pre-shared **repository password** to access the Syncany repository and use the same credentials to the offsite storage. 
 
@@ -40,7 +40,7 @@ Encrypting new Files
 """"""""""""""""""""
 Whenever new files have to be uploaded, Syncany encrypts these files with **128-bit AES/GCM and Twofish/GCM** using the crypto scheme and file format described below (8-21). File encryption happens with every file that is uploaded (except the ``master`` file): For instance, during the file index process in ``sy up``, Syncany packages new/unknown chunks into multichunks (= ZIP files containing many chunks) and creates a new database file (= metadata). These files are encrypted using the the following scheme:
 
-In the default configuration, Syncany uses two nested ciphers: It uses AES in GCM mode to encrypt the actual plaintext, and then encrypts the AES ciphertext with Twofish in GCM mode. As of today, Syncany can theoretically nest any authenticated cipher that is supported by the Bouncy Castle Cryptography Provider, but only Twofish/GCM and AES/GCM (both 128-bit or 256-bit) are enabled by Syncany. 
+In the default configuration, Syncany uses two nested ciphers: It uses AES in GCM mode to encrypt the actual plaintext, and then encrypts the AES ciphertext with Twofish in GCM mode. As of today, Syncany can theoretically nest any authenticated cipher that is supported by the Bouncy Castle Cryptography Provider, but only Twofish/GCM and AES/GCM (both 128-bit or 256-bit) are allowed by Syncany. 
 
 .. image:: _static/security_crypto_example.png
    :align: center
@@ -50,21 +50,22 @@ In the default configuration, Syncany uses two nested ciphers: It uses AES in GC
 
 The diagram shows an example for the default configuration: For each file to be encrypted, Syncany uses **HKDF with SHA-256** and a **random 96-bit salt** to derive a **128-bit file key** to use for the Twofish cipher (8-10), and another **128-bit file key** using the same scheme for the AES cipher (12-14). In addition to that, two **128-bit random IVs** are created and used as input for the two ciphers (11/15). Using the 128-bit key and the 128-bit IV, Syncany then encrypts plaintext (= multichunk file, database file, etc.) using the AES cipher in GCM mode, and then takes the output to do the same with Twofish in GCM mode.
 
-The salts and IVs as well as the cipher configuration itself (here: AES/GCM+Twofish/GCM) is stored in the file header of the crypto file format. Since this information is required to decrypt the files, they are unencrypted. However, to avoid an attack on the clients through header tampering, the header is authenticated using an **HMAC with SHA-256**, using **a 128-bit header key** derived from the master key and a random **96-bit header salt**.
+To reduce improve encryption/decryption performance, Syncany **re-uses file keys up to 100 times** -- meaning that up to 100 multichunks or database files are encrypted with the same key. Given that the maximum file size for multichunks is about 4 MB, max. 400 MB might be encrypted with the same key -- although typically it's much less. **IVs are never re-used!**
 
-The resulting **crypto file format** is structured as follows:
+The salts and IVs as well as the cipher configuration itself (here: AES/GCM+Twofish/GCM) is stored in the file header of the crypto file format. Since this information is required to decrypt the files, they are unencrypted. However, to avoid an attack on the clients through header tampering, the header is authenticated using an **HMAC with SHA-256**, using **a 128-bit header key** derived from the master key and a random **96-bit header salt**.
 
 .. image:: _static/security_crypto_format.png
    :align: center
    
+The resulting **crypto file format** is structured as follows:
+
 * **Magic identifier**: Used to identify Syncany-encrypted files (static ``0x53790205``) 
 * **Crypto format version:** Used to identify the crypto format version (static ``0x01``)
 * **Header HMAC salt:** Used to derive the HMAC header key with HKDF (to verify the header)
 * **Cipher Count:** Defines the number of nested ciphers (default: 2)
-* **Cipher Spec:**: For each of the nested ciphers, the following information is repeated.
-  * **Cipher Spec ID:** Identifies the algorithm and key size used for the first/second/.. cipher
-  * **Cipher Salt:** Random salt used to derive the cipher-specific file key
-  * **Cipher IV:** Random IV used as input for the given cipher (size depends on cipher spec ID)
+* **Cipher Spec ID** Identifies the algorithm and key size used for the first/second/.. cipher
+* **Cipher Salt:** Random salt used to derive the cipher-specific file key
+* **Cipher IV:** Random IV used as input for the given cipher (size depends on cipher spec ID)
 * **Header HMAC:** HMAC calculated over the cipher count and cipher specs.
 
 Connecting new Clients
@@ -90,39 +91,55 @@ Plaintext links naturally do not contain a master salt. They are structured like
 	
 Crypto Algorithms and Parameters
 """"""""""""""""""""""""""""""""
-- Users of a shared folder (= repository) share a password
-- Random values are created using Java's default SecureRandom implementation (``/dev/urandom`` on Linux, CryptGenRandom on Windows)
-- Input parameters: Password string, list of cipher specs (e.g. AES/GCM/NoPadding, 128 bit)
-- The user password is used to derive one symmetric key per cipher using PBKDF2 (12 byte salt, 1 million rounds)
-- The derived symmetric key(s) are used to encrypt files; each key is reused in max. 100 files (~ 200 MB)
-- Cipher algorithms are configurable, but not every cipher is allowed:
-  only AES and Twofish (128/256 bit), only authenticated modes (as of now only GCM; no ECB, CBC, etc.)
-- Ciphers are initialized with a random initialization vector (IV), IVs are never re-used
+This chapter sumarizes the algorithms and parameters used by Syncany. This is probably a bit repetetive, but maybe useful for people who don't want to read the entire text:
+
+- Users of a shared folder/repository share a repository password
+- Random values are generated using Java's default ``SecureRandom`` implementation (``/dev/urandom`` on Linux, CryptGenRandom on Windows)
+- The repository password is used to derive one symmetric key per cipher using PBKDF2 (12 byte salt, 1 million rounds)
+- The derived symmetric key(s) are used to encrypt files; each key is reused in max. 100 files (~ 400 MB)
+- Cipher algorithms are configurable, but not every cipher is allowed: only AES and Twofish (128/256 bit), only authenticated modes (as of now only GCM; no ECB, CBC, etc.)
+- Ciphers are initialized with a random initialization vector (IV), IVs are never reused
 - Multiple cipher algorithms can be nested/chained (1-n ciphers), e.g. AES-128 and Twofish-256
 - Cipher configurations, IVs and salts are authenticated with an HMAC-SHA256
-
-- Master key: PBKDF2 with 1MM round, random 512 bit salt
-- HKDF: Derive key from master key ...
-- AES/GCM + Twofish/GCM for multichunk/chunk
-- RSA 2048-bit keypair for self-signed certificates (web frontend and REST/WS interface)
-
-IVs are definitely never reused. Syncany only compares chunk checksums with one another, and it only does that on the clients. No calculation is or can be done on the server, since the server is just a dumb storage (FTP, etc.). A new file is broken into chunks and these chunks are then compared to the local database (chunk exists -> store reference, chunk does not exist -> store chunk data in new multichunk). 
-   
-
-metadata protection
-
-
-
 
 .. _security_daemon:
 
 HTTPS-only Daemon
 ^^^^^^^^^^^^^^^^^
+The Syncany daemon provides an API and a web interface that can be access over HTTPS (not HTTP!). The API is also available via secure WebSockets. 
 
-daemon API
+Keys and Certificates
+"""""""""""""""""""""
+The keypair and certificate used for the HTTPS server is generated by Syncany upon the first startup of the daemon. Syncany generates a **2048-bit RSA keypair** and then uses this keypair to **generate a self-signed X.509v3 certificate** with a validity of 5 years. The certificates common name is set to the local hostname, and the organization and org-unit to 'Syncany'. The certificate's **SHA-256 hash** is signed using the RSA private key (signature algorithm):
 
+::
 
+	Certificate:
+	    Data:
+		Version: 3 (0x2)
+		Serial Number: 1409206372293 (0x1481b3ec7c5)
+	    Signature Algorithm: sha256WithRSAEncryption
+		Issuer: CN=localhost, O=Syncany, OU=Syncany
+		Validity
+		    Not Before: Aug 27 06:12:52 2014 GMT
+		    Not After : Aug 27 06:12:52 2019 GMT
+		Subject: CN=localhost, O=Syncany, OU=Syncany
+		Subject Public Key Info:
+		    Public Key Algorithm: rsaEncryption
+		        Public-Key: (2048 bit)
+		        Modulus:
+		            00:a0:43:ca:d6:e6:e9:70:2d:ca:d5:77:ad:e9:3a:
+		            1a:50:fe: ...
+		        Exponent: 65537 (0x10001)
+	    Signature Algorithm: sha256WithRSAEncryption
+		 74:7b:a9:22:e3:fb:21:cf:15:3c:ba:11:46:c4:7a:6c:8e:2c:
+		 f4:aa:cc:27:98:e7: ...
 
+The private key and the certificate are stored in a key/trust store. Using your own keypair and certificate is also possible. See :ref:`configuration_keys_certificates` for details.
+
+Authentication and Authorization
+""""""""""""""""""""""""""""""""
+The user authentication and authorization capabilities of Syncany to the web server and REST/WS API are very limited. Syncany provides a simple **HTTP Basic-based user authentication** (but only over HTTPS!). All authenticated users have complete access to the REST/WS API. The user configuration is done via the ``daemon.xml`` file. See :ref:`configuration_daemon_users`.
 
 Threat Models
 -------------
@@ -148,6 +165,10 @@ Syncany provides no measures to ensure data availability: (a) both provider and 
 Social engineering
 ^^^^^^^^^^^^^^^^^^
 Syncany can furthermore not prevent or detect if the master key or password has been stolen or was used by an adversary. 
+
+Source Code
+-----------
+All the cryptography related code is implemented in the ``org.syncany.crypto`` package. Feel free to `inspect the code <https://github.com/syncany/syncany/tree/da6e4f5dd91a9c42f375a55bd764e61488a8950f/syncany-lib/src/main/java/org/syncany/crypto>`_ and `create a new issue <https://github.com/syncany/syncany/issues>`_ if something doesn't feel right.
 
 Known Issues and Limitations
 ----------------------------   
