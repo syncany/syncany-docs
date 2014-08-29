@@ -10,13 +10,25 @@ Our Philosophy
 TODO
 
 The Magic behind it
--------------------          
+-------------------
+
+Deduplication
+^^^^^^^^^^^^^      
 Syncany breaks files into chunks, then packages those chunks into multichunks, compresses and encrypts those multichunks, and then uploads these multichunks. Metadata such as filenames and permissions is written to XML-based database files, and then compressed/encrypted with the same scheme.
 
 .. image:: _static/concepts_chunking.png
    :align: center
-   
+
+- Reference to :doc:`security`
+- Repository design
+
+.. image:: _static/concepts_repo_format.png
+   :align: center
+
+Synchronization
+^^^^^^^^^^^^^^^
 Synchronization and vector clocks?
+
    
 Comparing it to others
 ---------------------- 
