@@ -1,7 +1,5 @@
 Security
 ========
-**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
-
 Syncany takes security very seriously. Our goal is to protect the confidentiality of user data stored on remote servers -- meaning that whatever leaves the local computer is encrypted. This chapter explains the **security concepts** of Syncany to the interested user in a hopefully understandable way. Due to the complexity of the subject, however, this is a rather technical chapter. If you just want to use Syncany, **you can safely skip this chapter**. 
 
 .. contents::
@@ -9,7 +7,7 @@ Syncany takes security very seriously. Our goal is to protect the confidentialit
    
 Prologue
 --------
-Although we take special care designing and implementing the security-related parts of Syncany, we are not cryptographers. We have have asked multiple parties to peer review our concept and implementation, and we hereby do that again: **Please review our security concepts and implementation!** If you believe that any of the concepts and/or the implementation is incorrect, insecure or can be attacked, please let us know `by creating a new issue <https://github.com/syncany/syncany/issues>`_.
+Although we take special care designing and implementing the security-related parts of Syncany, we are not cryptographers. We have have asked multiple parties to peer review our concept and implementation, and we hereby do that again: **Please review our security concepts and implementation!** If you believe that any of the concepts and/or the implementation is incorrect, insecure or can be attacked, please let us know `by creating a new issue <https://github.com/syncany/syncany/issues>`_ or `by contacting us directly for major issues <mailto:philipp.heckel@gmail.com>`_.
 
 Security Assumptions
 --------------------
@@ -141,30 +139,36 @@ Authentication and Authorization
 """"""""""""""""""""""""""""""""
 The user authentication and authorization capabilities of Syncany to the web server and REST/WS API are very limited. Syncany provides a simple **HTTP Basic-based user authentication** (but only over HTTPS!). All authenticated users have complete access to the REST/WS API. The user configuration is done via the ``daemon.xml`` file. See :ref:`configuration_daemon_users`.
 
-Threat Models
--------------
+Attack Scenarios
+----------------
+Syncany tries to prevent against a certain threat scenarios. This chapter briefly shows how an adversary might try to attack Syncany. In general, we differentiate between **attacks on the data in transit** and **attacks on the storage provider's side**. Since the local machine is assumed to be secure and data we're trying to protect is not encrypted on the local machine, attacks on the local machine are disregarded.
 
-Eavesdropping the data transfer 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Syncany cannot prevent the leakage of information about the frequency of downloads/uploads and the amount of data transferred by clients (e.g. through FTP logs). 
+Attacking Data Transmissions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+An adversary with access to the network infrastructure, e.g. through network monitoring or a man-in-the-middle attack, can either passively monitor the network traffic or actively modify the data being transmitted. 
 
+Since Syncany can be used with a many different plugins, **the overall security of the solution strongly depends on the storage plugin**. If, for instance, the FTP plugin is used, the transmitted data can be observed (or even modified) by the adversary, because the FTP protocol does not provide communication security. Similarly, if the WebDAV plugin is used with a HTTP target, the same attack scenario is possible.
 
-Provider-originated attacks
+However, because Syncany encrypts files before upload, the data being transmitted is of little to no value to the adversary. Even if the data is changed by the adversary, Syncany will detect these changes, because only authenticated ciphers are used -- meaning that data confidentiality and integrity is still ensured. When using a plugin without communication security and the adversary can modify the network, **data availibility might be compromised**. An attacker might simply read the storage access credentials and delete the entire repository.
+
+If, however, a plugin is used that provides communication security, an attacker cannot modify network transmissions and **data availibility is ensured**. Examples for such plugins include the WebDAV plugin with a HTTPS target, the Amazon S3 plugin, or the SFTP plugin. In summation: 
+
+* Syncany provides data confidentiality, integrity and availability against attacks on the network if the used plugin provides communication security
+* Syncany provides data confidentiality, integrity, **but not availability** against attacks on the network if the used plugin **does not provide communication security**
+
+Provider-originated Attacks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syncany stores its data at a central storage. By definition, the provider of that storage has complete access to the data that resides on that storage. If an evil provider takes interest in that data, it is very easy to gain access to it. If, for instance, the owner on an FTP server decides to modify or delete your repository, it is very easy for them to do so. In fact, **Syncany can never provide any protection against a provider-originated attack on data availibility**. 
 
-Attacks on data confidentiality
-"""""""""""""""""""""""""""""""
+However, similarly to the above mentioned no-communication-security scenario, Syncany still provides data confidentiality and integrity, because files are encrypted in an authenticated mode before upload. A provider might be able to retrieve the encrypted files (or even delete them), but it won't be able to decrypt them.
 
-Attacks on data integrity
-"""""""""""""""""""""""""
+Theft of Credentials
+^^^^^^^^^^^^^^^^^^^^
+One of Syncany's assumptions is that users sharing a repository must trust each other completely. The reason for that is that to access a repository, credentials to the storage are shared. If one of the trusted users were to be tricked into giving up the password, or her laptop were to be compromised, the repository password, the master key or the offsite storage credentials might be in the hand of an attacker.
 
-Attacks on data availability
-""""""""""""""""""""""""""""
-Syncany provides no measures to ensure data availability: (a) both provider and other trusted users (with storage credentials) may detectably alter or even delete encrypted files on the remote storage. (b) Also, an attacker with storage access may alter the master salt (stored in the clear, obviously) to prevent new clients from connecting to the repository.
+If the repository password or the master key is retrieved, data confidentiality is completely breached -- without other users having a chance of detecting it and without a chance of changing the password. **Syncany can not prevent or detect if the master key or password has been stolen or was used by an adversary.**
 
-Social engineering
-^^^^^^^^^^^^^^^^^^
-Syncany can furthermore not prevent or detect if the master key or password has been stolen or was used by an adversary. 
+If only the storage credentials are retrieved by an adversary, only the availability of data is at risk (same scenario as above).
 
 Source Code
 -----------
@@ -172,4 +176,5 @@ All the cryptography related code is implemented in the ``org.syncany.crypto`` p
 
 Known Issues and Limitations
 ----------------------------   
+- In multiple peer reviews, it has been suggested to drop the cipher nesting in favor of a single cipher. While there is no evidence that a nested cipher is or might be weaker than a single cipher, there is very little literature about it -- so it is probably not a good idea. See `issue 59 <https://github.com/syncany/syncany/issues/59>`_.
 - As of today, neither the master key nor the password can be changed. See `issue 150 <https://github.com/syncany/syncany/issues/150>`_.
