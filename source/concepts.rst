@@ -1,19 +1,25 @@
 Concepts
 ========
 
-**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
+**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute! Meanwhile, you can check out the two Syncany blog posts**
+
+* `Syncany explained: idea, progress, development and future (part 1) <http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/>`_
+* `Deep into the code of Syncany - command line client, application flow and data model (part 2) <http://blog.philippheckel.com/2014/02/14/deep-into-the-code-of-syncany-cli-application-flow-and-data-model/>`_
 
 This chapter explains the basic concepts of Syncany to the interested user in a hopefully understandable way. If you just want to use Syncany and don't care how it ticks inside, **you can safely skip this chapter**. 
 
-Our Philosophy
---------------
-TODO
-
 The Magic behind it
 -------------------
+TODO
+
+Client-only
+^^^^^^^^^^^
+TODO
 
 Deduplication
 ^^^^^^^^^^^^^      
+TODO
+
 Syncany breaks files into chunks, then packages those chunks into multichunks, compresses and encrypts those multichunks, and then uploads these multichunks. Metadata such as filenames and permissions is written to XML-based database files, and then compressed/encrypted with the same scheme.
 
 .. image:: _static/concepts_chunking.png
@@ -27,11 +33,14 @@ Syncany breaks files into chunks, then packages those chunks into multichunks, c
 
 Synchronization
 ^^^^^^^^^^^^^^^
+TODO
+
 Synchronization and vector clocks?
 
    
 Comparing it to others
 ---------------------- 
+TODO
 
 Differences and similarities to other tools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -97,14 +106,11 @@ Seafile
 - Syncany doesn't need an intelligent server instance, dumb storage is sufficient
 - Syncany does not allow sharing links with friends (as of now, in development)
 - Syncany has no web/desktop/mobile clients yet
-- Seafile has a `rather <https://github.com/haiwen/seafile/issues/714>`_ `bad <https://github.com/haiwen/ccnet/issues/35>`_, `security <https://github.com/haiwen/seafile/issues/587>`_, `record <https://github.com/haiwen/seafile/issues/350>`_
-
-    
+- Seafile has a `rather <https://github.com/haiwen/seafile/issues/714>`_ `bad <https://github.com/haiwen/ccnet/issues/35>`_ `security <https://github.com/haiwen/seafile/issues/587>`_ `record <https://github.com/haiwen/seafile/issues/350>`_
 
 SparkleShare
 """"""""""""
 TODO
-
 
 Others
 """"""
