@@ -3,9 +3,6 @@
 
 Syncany User Guide
 ==================
-
-**WORK IN PROGRESS: This is a work in progress. We are currently just copying relevant content in the corresponding chapters, and sorting stuff out. Feel free to contribute!**
-
 Syncany is an open-source cloud storage and filesharing application. It allows
 users to backup and share certain folders of their workstations using any kind
 of storage, e.g. FTP, SFTP, WebDAV, Amazon S3 and Samba.
