@@ -3,18 +3,9 @@
 
 Syncany User Guide
 ==================
-Syncany is an open-source cloud storage and filesharing application. It allows
-users to backup and share certain folders of their workstations using any kind
-of storage, e.g. FTP, SFTP, WebDAV, Amazon S3 and Samba.
+This is the user guide for `Syncany <https://www.syncany.org/>`_, an open-source cloud storage and filesharing application with a strong focus on security.
 
-While the basic idea is similar to Dropbox, Syncany is
-open-source and additionally provides data encryption and more flexibility in
-terms of storage type and provider:
-
-- **Data encryption**: Syncany encrypts the files locally, so that any online
-  storage can be used even for sensitive data.  
-- **Any storage**: Syncany uses a plug-in based storage system. It can
-  be used with any type of remote storage.
+This document is targeted at end-users. It describes how to use Syncany and how to configure it. For development and build instructions, please refer to the `GitHub page <https://github.com/syncany/syncany>`_ or the `project wiki <https://github.com/syncany/syncany/wiki>`_.
 
 **Contents**
 
