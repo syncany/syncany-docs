@@ -26,11 +26,13 @@ html body .rst-content li tt.literal {
 	font-size: 100%;
 }
 
-html body div.wy-table-responsive {
-/*	margin-bottom: 10px;*/
-}
-
 html body div.wy-table-responsive .footnote td {
 	padding-top: 1px;
 	padding-bottom: 4px;
+}
+
+html body .rst-content .footnote-reference,
+html body .rst-content .citation-reference {
+	font-size: 70%;
+	vertical-align: baseline;
 }

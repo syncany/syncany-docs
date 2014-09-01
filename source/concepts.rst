@@ -9,7 +9,7 @@ This chapter explains the basic concepts of Syncany to the interested user in a 
 
 .. contents::
 
-Abstraction for Dumb Storage through a Minimal API
+Abstraction for dumb storage through a minimal API
 --------------------------------------------------
 Syncany offers quite a bit of options when it comes to where you can store your files. As the :doc:`plugins` page describes, the backend storage options are very flexible. The reason why that is possible is the **storage abstraction** concept of Syncany. 
 
@@ -27,37 +27,44 @@ Notably, **plugins don't have to implement any active components on the server s
 
 This obviously includes the classical storage systems such as (S)FTP or WebDAV, but it extends to using protocols that were't really built for storage backends: One could use IMAP to store files in e-mails, or use the Google Images/Picasa API to store files in images. With Syncany's minimal storage API, *any* storage can be used!
 
-Minimizing Remote Disk Space through Deduplication
+Minimizing remote disk space through deduplication
 --------------------------------------------------
 Normal sync tools like rsync or Unison simply copy files from the local machine to the offsite storage. Granted, they transfer files pretty efficiently, but they store files at the offsite storage as they store them locally. Two marginally different or even identical files locally take up the same disk space as locally. 
 
 Syncany is different: Syncany uses **data deduplication** to minimize the amount of disk space used on the offsite storage. Deduplication exploits the similarities among different files to save disk space. It identifies duplicate sequences of bytes (chunks) and only stores one copy of that sequence. If a chunk appears again in the same file (or in another file of the same file set), deduplication only stores a reference to this chunk instead of its actual contents. Depending on the amount and type of input data, this technique can **significantly reduce the total amount of required storage**. [1]_
 
-While this concept is typically used in backend systems of backup solutions, it is ...............
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-Syncany breaks files into chunks, then packages those chunks into multichunks, compresses and encrypts those multichunks, and then uploads these multichunks. Metadata such as filenames and permissions is written to XML-based database files, and then compressed/encrypted with the same scheme.
-
 .. image:: _static/concepts_chunking.png
    :align: center
 
-- Reference to :doc:`security`
-- Repository design
+While this concept is typically used in backend systems of backup solutions, **Syncany performs deduplication on the client**: During the index process (in ``sy up``), Syncany breaks files into chunks and compares these chunks to the database. If chunks are new, they are marked for upload. If they are already known because they appeared in other files before, they are simply referenced. 
+
+New chunks are packaged together into so-called **multichunks** (basically ZIP files containing chunks) and uploaded to the offsite storage. These multichunks exist for two reasons: Firstly, by combining chunks to multichunks, the **per-file upload latency and roundtrip time is reduced** significantly (if you've uploaded an Eclipse workspace via FTP, you know what I mean). And secondly, **multichunks are compressed and encrypted before upload** and thereby add another storage reduction mechanism and ensure data confidentiality and integrity (for encryption details see :doc:`security`).
+
+Multichunks only store the raw chunk data. Metadata such as as file names and permissions is stored in database files. These database files are XML-based delta databases, each of which represents a *commit* describing what files were added, removed or renamed. They contain information about which chunks are stored in which multichunks and how to reassemble files. 
 
 .. image:: _static/concepts_repo_format.png
    :align: center
 
 
-Privacy by Design through Client-Side Encryption
+Privacy by design through client-side encryption
 ------------------------------------------------
 TODO
 
-Synchronization through Vector Clocks
+Synchronization through vector clocks
 -------------------------------------
 TODO -- see thesis
 
-Synchronization and vector clocks?
+xxxxxxxxxxxxxxxxxxxxx
+The synchronization algorithm is one of Syncany’s core elements. Its responsibility is to detect file changes among participating workstations and to bring them to the same state. This particularly includes what is known by most file synchronizers as update detection and reconciliation [57,51,52,53,54].
 
+Update detection is the process of discovering where updates have been made to the separate replicas since the last point of synchronization [57]. In state-based synchronizers [50] such as Unison or rsync, this is done by comparing the file lists of all replicas. The result is a global file list created by merging the individual lists into one. In trace-based synchronizers, update detection is based on the trace log of the replicas. Instead of a global file list, they generate a global file history based on the individual client histories. It typically compares histories and detects new file versions. Update detection must additionally detect conflicting updates and determine the winner of a conflict.
+
+Once the global file list/history has been created, it must be applied to the local workstation. This is done in the reconciliation phase, which usually downloads new files, deletes old files and moves renamed files.
+
+Due to Syncany’s versioning requirements, it detects updates via trace logs (file histories) of the individual clients. Histories of the participating clients are analyzed and compared to each other based on file identifiers, file versions, checksums and local timestamps. Syncany follows the optimistic replication approach. Clients populate their updates to the repository under the assumption that conflicts do not happen regularly. If a conflict occurs, each individual client detects it based on the trace log and determines a winner. The winning version of a file is restored from the repository and the local conflicting version is populated to the repository under a different name. [1]_
+
+Synchronization and vector clocks?
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    
 Differences and similarities to other tools
 -------------------------------------------
@@ -76,7 +83,6 @@ Further Resources
 * `Syncany explained: idea, progress, development and future (part 1) <http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/>`_
 * `Deep into the code of Syncany - command line client, application flow and data model (part 2) <http://blog.philippheckel.com/2014/02/14/deep-into-the-code-of-syncany-cli-application-flow-and-data-model/>`_
 
-
-**Footnotes**
+*Footnotes*
 
 .. [1] Explanation of data deduplication taken from the thesis `Minimizing remote storage usage and synchronization time using deduplication and multichunking: Syncany as an example <http://blog.philippheckel.com/2013/05/20/minimizing-remote-storage-usage-and-synchronization-time-using-deduplication-and-multichunking-syncany-as-an-example/>`_.
