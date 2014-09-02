@@ -26,6 +26,10 @@ html body .rst-content li tt.literal {
 	font-size: 100%;
 }
 
+html body div.wy-table-responsive {
+	margin-bottom: 8px;
+}
+	
 html body div.wy-table-responsive .footnote td {
 	padding-top: 1px;
 	padding-bottom: 4px;
