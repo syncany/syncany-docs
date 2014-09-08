@@ -25,7 +25,7 @@ How do I use it?
 ----------------
 As of today, Syncany :doc:`is available <installation>` as **a command line tool** on all major operating systems. We're working on a **graphical user interface** and a **web frontend**, but until that is ready, you'll have to make due with the command line. 
 
-You can either `manually trigger <getting_started_manually>`_ the file synchronization like you do with Git, rsync or Unison; or you can let the Syncany background process `automatically sync your files <getting_started_automatically>`_. Check out the :doc:`Getting Started Guide <getting_started>` to learn more.
+You can either :ref:`manually trigger <getting_started_manually>` the file synchronization like you do with Git, rsync or Unison; or you can let the Syncany background process :ref:`automatically sync your files <getting_started_automatically>`. Check out the :doc:`Getting Started Guide <getting_started>` to learn more.
 
 Who needs another sync tool?
 ----------------------------
