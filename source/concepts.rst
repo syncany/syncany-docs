@@ -51,25 +51,37 @@ Privacy by design through client-side encryption
 ------------------------------------------------
 Unlike other sync solutions, Syncany's encryption features are built-in by design and enabled by default. In fact, not encrypting the repository doesn't bring any user advantages and only minor performance benefits. Please refer to the :doc:`security` chapter for details.
 
-Synchronization through vector clocks
--------------------------------------
-The synchronization algorithm is one of Syncany's core elements. Its responsibility is to detect file changes among participating workstations and to bring them to the same state. This particularly includes what is known by most file synchronizers as *update detection* and *reconciliation* [2]_ [3]_ [4]_ [5]_ [6]_.
+Trace-based synchronization through vector clocks
+-------------------------------------------------
+The synchronization algorithm is one of Syncany's core elements. Its responsibility is to detect file changes among participating workstations and to bring them to the same state.
 
-Update detection is the process of discovering where updates have been made to the separate replicas since the last point of synchronization [2]_. In state-based synchronizers [7]_ such as Unison or rsync, this is done by comparing the file lists of all replicas. The result is a global file list created by merging the individual lists into one. In trace-based synchronizers, update detection is based on the trace log of the replicas. Instead of a global file list, they generate a global file history based on the individual client histories. It typically compares histories and detects new file versions. Update detection must additionally detect conflicting updates and determine the winner of a conflict.
+Trace-based synchronization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This particularly includes what is known by most file synchronizers as *update detection* and *reconciliation* [2]_ [3]_ [4]_ [5]_ [6]_. 
 
-Once the global file list/history has been created, it must be applied to the local workstation. This is done in the reconciliation phase, which usually downloads new files, deletes old files and moves renamed files.
+**Update detection** is the process of discovering where updates have been made to the separate replicas since the last point of synchronization [2]_:
 
-Due to its versioning requirements, **Syncany detects updates via trace logs** (file histories) of the individual clients. Histories of the participating clients are analyzed and compared to each other based on file identifiers, file versions, checksums and local timestamps. Syncany follows the **optimistic replication** approach. Clients populate their updates to the repository under the assumption that conflicts do not happen regularly. 
+* In *state-based synchronizers* [7]_ such as Unison or rsync, this is done by comparing the file lists of all clients. The result of the update detection process is a global file list created by merging the individual lists into one. 
 
-If a conflict occurs, each individual client detects it based on the trace log and determines a winner. The winning version of a file is restored from the repository and the local conflicting version is populated to the repository under a different name. [1]_
+* In *trace-based synchronizers* such as Syncany, update detection is based on the trace log of the clients -- i.e. changes of files rather than a final file list. Instead of a global file list, they generate a global file history based on the individual client histories. Trace-based synchronizers typically compare histories and detect new file versions. Update detection must additionally detect conflicting updates and determine the winner of a conflict.
 
-To detect these conflicts, Syncany uses `vector clocks <http://en.wikipedia.org/wiki/Vector_clock>`_ to mark delta databases uploaded by a client. 
+Once the global file list/history has been created, the synchronizer must apply changes to the local workstation. This is done in the **reconciliation phase**. The reconciliation phase typically downloads new files, deletes old files and moves renamed files.
 
-XXXXXXXXXXXXx
+Due to its versioning requirements, **Syncany detects updates via trace logs** (file histories) of the individual clients. Histories of the participating clients are analyzed and compared to each other based on file identifiers, file versions, checksums and local timestamps. 
+
+Database versions and vector clocks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Whenever a client uploads new changes by triggering ``sy up``, Syncany compares the local file tree to the local database. Changes in files are packed into multichunks and described in so-called database versions (see 'database-..' files). These database versions are somewhat similar to a commit in a version control system: they describe a set of file changes. Each database version is identified by a `vector clock <http://en.wikipedia.org/wiki/Vector_clock>`_, a logical clock that allows ordering of events in distributed systems. Using these vector clocks, Syncany knows how to order the database versions of the clients and how to resolve conflicts.
+
+Whenever a client calls ``sy down``, Syncany checks for new database files (i.e. database versions) of other clients and downloads them. It extracts them and orders them using the vector clocks and then compares the local file system to the result of the changes described in the database versions of the other clients. These changes are then applied to the local file system. 
+
+Conflict handling
+^^^^^^^^^^^^^^^^^
+When Syncany detects that two database versions were created independently of one another, i.e. their vector clocks are independent, a conflict has occurred. The conflict is resolved by simply comparing the local timestamps of the conflicting database versions to determine a winner [8]_. The winner's database version(s) are applied locally and the loser's databsae version(s) are discarded. When the losing client detects that it lost, it'll reconcile the database versions and re-upload its changes.
 
 Differences and similarities to other tools
 -------------------------------------------
-As stated in other posts, the fundamental idea of the Syncany software architecture is a mixture between a version control system like `Git <http://git-scm.com/>`_, `SVN <http://subversion.apache.org/>`_ or `Bazaar <http://bazaar.canonical.com/en/>`_, a file synchronization software like `rsync <http://rsync.samba.org/>`_ or `Unison <http://www.cis.upenn.edu/~bcpierce/unison/>`_, and crypto software such as `GPG <http://www.gnupg.org/>`_. 
+The fundamental idea of the Syncany software architecture is a mixture between a version control system like `Git <http://git-scm.com/>`_, `SVN <http://subversion.apache.org/>`_ or `Bazaar <http://bazaar.canonical.com/en/>`_, a file synchronization software like `rsync <http://rsync.samba.org/>`_ or `Unison <http://www.cis.upenn.edu/~bcpierce/unison/>`_, and crypto software such as `GPG <http://www.gnupg.org/>`_. 
 
 Like in a **version control system** (VCS), Syncany keeps track of the files in a certain folder using metadata about these files (size, last modified date, checksum, etc.). It manages different versions of a file, detects if a file has been moved or changed and adds a new file version if it has. Like version control systems, Syncany knows a concept similar to a "commit", i.e. a collection of changes the local files that are uploaded to the central repository. In other ways, however, it is also very different: In contrast to Git and its friends, Syncany does not support the full range of commands that regular VCS do. For instance, there is no explicit branching or merging, no tagging and diffing. Instead, Syncany has only one trunk/master and auto-resolves conflicts when they occur (much like `Dropbox <http://www.dropbox.com/>`_ does). Unlike most VCS, Syncany does not focus on text-based files, but treats all files the same (large/small, binary/text). In addition, Syncany is not limited to one or two transport protocols, but can be easily extended to many more. 
 
@@ -93,3 +105,4 @@ Further Resources
 .. [5] Yasushi Saito and Marc Shapiro. Optimistic replication. ACM Comput. Surv., 37:42-81, March 2005.
 .. [6] Anne-Marie Kermarrec, Antony Rowstron, Marc Shapiro, and Peter Druschel. The icecube approach to the reconciliation of divergent replicas. In Proceedings of the twentieth annual ACM symposium on Principles of distributed computing, PODC '01, pages 210-218, New York, NY, USA, 2001. ACM.
 .. [7] Benjamin C. Pierce and Jérôme Vouillon. What's in unison? a formal specification and reference implementation of a file synchronizer. Technical report, 2004.
+.. [8] The local timestamp is not used to compare which database version happened before another. It is only used as a tie-breaker to determine the winner between database versions. 
