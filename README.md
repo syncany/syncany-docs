@@ -1,6 +1,6 @@
 Syncany User Guide [![Documentation Status](https://readthedocs.org/projects/syncany/badge/?version=latest)](https://readthedocs.org/projects/syncany/?badge=latest)
 ==================
-The is the source project for the [Syncany User Guide](http://syncany-user-guide.readthedocs.org/). The documentation is built using the [Sphinx documentation generator](http://sphinx-doc.org/) on the [Read the Docs](https://readthedocs.org/) platform. It is automatically rebuilt with every commit to the `develop` branch.
+The is the source project for the [Syncany User Guide](http://syncany.readthedocs.org/). The documentation is built using the [Sphinx documentation generator](http://sphinx-doc.org/) on the [Read the Docs](https://readthedocs.org/) platform. It is automatically rebuilt with every commit to the `develop` branch.
 
 Building
 --------
