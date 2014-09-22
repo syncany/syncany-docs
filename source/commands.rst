@@ -29,8 +29,8 @@ Because the ``init`` and ``connect`` command initialize the current folder to a 
 
 For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_sy`.
 
-`daemon``: Start and stop the background process (daemon)
----------------------------------------------------------
+``sy daemon``: Start and stop the background process (daemon)
+-------------------------------------------------------------
 This command manages the Syncany background process (starts, stops, etc.), also called the Syncany daemon. The command itself only offers the typical start/stop-script sub-commands, namely:
 
 - ``start``: Starts the Syncany background process (daemon), if it's not already running
