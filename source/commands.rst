@@ -1,6 +1,6 @@
 Commands
 ========
-The Syncany command line client (CLI) comes with two main commands: ``sy`` (or: ``syncany``) and ``syd`` (or ``syncanyd``). The ``sy`` command is the central tool to perform all of the Syncany actions, e.g. creating a new managed folder, syncing files, or restoring them. The ``syd`` tool offers a way start and stop the Syncany user daemon, which will then run Syncany in the background. 
+The Syncany command line client (CLI) comes with one single main command: ``sy`` (or: ``syncany``). This command is the central tool to perform all of the Syncany actions, e.g. creating a new managed folder, syncing files, or restoring them. It also offers a way start and stop the Syncany user daemon, which will then run Syncany in the background. 
 
 .. contents::
    :depth: 2
@@ -23,14 +23,15 @@ Available sub-commands:
 - ``genlink``: Create a syncany:// link from an existing local folder
 - ``ls``: Lists and filters the current and past file tree
 - ``plugin``: List, install and remove storage backend plugins
+- ``daemon``: Start and stop the background process (daemon)
 
 Because the ``init`` and ``connect`` command initialize the current folder to a Syncany folder, they cannot be executed inside an already initialized Syncany folder. Most of the other commands behave exactly opposite to that: The commands ``status``, ``up``, ``ls-remote``, ``down``, ``watch``, ``cleanup``, ``restore``, ``genlink`` and ``ls`` can only be execute inside an initialized Syncany folder. The only command that doesn't care where it's executed is the ``plugin`` command.
 
 For a detailed command reference including all command-specific options, please refer to the manual page of this command at :ref:`man_sy`.
 
-The ``syd`` command
--------------------
-The ``syd`` command is a simple shell/batch script to start and stop the Syncany background process, also called the Syncany daemon. The command itself only offers the typical start/stop-script sub-commands, namely:
+`daemon``: Start and stop the background process (daemon)
+---------------------------------------------------------
+This command manages the Syncany background process (starts, stops, etc.), also called the Syncany daemon. The command itself only offers the typical start/stop-script sub-commands, namely:
 
 - ``start``: Starts the Syncany background process (daemon), if it's not already running
 - ``stop``: Stop the Syncany daemon (if it is running)
@@ -45,13 +46,13 @@ Example: Starting and stopping the daemon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
-	$ syd start
+	$ sy daemon start
 	Starting daemon: .. syncanyd (pid 16336).
 
-	$ syd status
+	$ sy daemon status
 	Checking daemon: syncanyd running (pid 16336).
 
-	$ syd stop
+	$ sy daemon stop
 	Stopping daemon: .. syncanyd.
 
 .. _command_init:

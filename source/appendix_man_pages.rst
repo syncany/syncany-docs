@@ -1,7 +1,7 @@
 Appendix A: Manual Pages
 ========================
 
-This appendix lists all the manual/help pages available for the ``sy`` command, its sub-commands, as well as for the ``syd`` command. These help pages are available by calling ``sy <action> --help`` or ``man sy-<action>`` (Linux only).
+This appendix lists all the manual/help pages available for the ``sy`` command, its sub-commands. These help pages are available by calling ``sy <action> --help`` or ``man sy-<action>`` (Linux only).
 
 .. contents::
 
@@ -37,6 +37,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    genlink    Create a syncany:// link from an existing local folder.
 	    log        Print parts of the local database to STDOUT.
 	    plugin     List, install and remove storage backend plugins.
+	    daemon     Start and stop the background process (daemon).	    
 	
 	  Short command descriptions and options can be found below. Detailed
 	  explanations can be queried with `sy <command> --help`.
@@ -76,9 +77,57 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	     https://www.github.com/syncany/syncany/issues
 	
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.1.10, Distributed under GPLv2,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	 
+.. _man_daemon:
+
+``sy daemon --help``:
+^^^^^^^^^^^^^^^^^^^^^
+::
+
+	NAME
+	  sy-daemon - starts and stops the background process (daemon)
+	  
+	SYNOPSIS
+	  sy daemon (start|stop|reload|restart|status|force-stop)
+	 
+	DESCRIPTION
+	  This command manages the Syncany background process (aka the daemon). It can
+	  start and stop the daemon, display the status and reload the daemon
+	  configuration.
+	 
+	  This daemon can be started with `sy daemon start`. Once it is running, all
+	  registered folders are monitored for changes and remote changes are
+	  automatically applied to the local folder(s). All of these actions happen
+	  in the background, without the need for any intervention.
+	 
+	  The daemon is configured using the `daemon.xml` file  at
+	  ~/.config/syncany/daemon.xml.
+	 
+	OPTIONS
+	  start
+	    Starts the background process (if it is not already running).
+	   
+	  stop
+	    Stops the background process (if it is running).
+	   
+	  reload
+	    Reloads the daemon configuration without restarting the proces.
+	   
+	  restart
+	    Stops, then starts the daemon again.
+	   
+	  status
+	    Displays the status and the process ID (PID) of the daemon.
+	   
+	  force-stop
+	    Forces the process to stop. Do not use this unless absolutely necessary!
+	   
+	COPYRIGHT
+	  Syncany 0.1.11-alpha+SNAPSHOT.1409212235.gitcbcf453, Distributed under GPLv3,
+	  Copyright (c) 2011-2014 Philipp C. Heckel
+	 	 
 .. _man_init:
 	  
 ``sy init --help``

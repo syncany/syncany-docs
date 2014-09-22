@@ -42,7 +42,7 @@ When you run the executable, you'll see a typical installer that looks something
    
 Other than where to install Syncany, the installer will only give you two additional options. **If you are not sure what they mean, don't change them.**
 
-* **Add Syncany to PATH environment variable (recommended)**: If you're unsure, leave this as is. For Syncany to be available on the command line, the command line will have to know where to look for it. If this option is unchecked, the ``sy`` and ``syd`` command will not be available unless the installation path is added to the PATH environment variable.
+* **Add Syncany to PATH environment variable (recommended)**: If you're unsure, leave this as is. For Syncany to be available on the command line, the command line will have to know where to look for it. If this option is unchecked, the ``sy`` command will not be available unless the installation path is added to the PATH environment variable.
 
 * **Set JAVA_HOME environment variable (recommended)**: If you're unsure, leave this as is. Syncany relies on the Java Runtime Environment (JRE) and this variable tells the Syncany commands where to look for it. 
 
@@ -113,9 +113,9 @@ Manual Installation (for other operating systems)
 If your operating system isn't listed above, or if you just want to install Syncany manually for some other reason, simply download either the .zip or the .tar.gz archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*). Then extract the archive and run Syncany and/or the daemon from the ``bin/`` folder. This is the exact same process on every major operating system:
 
 1. Download the latest archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*)
-2. Extract the archive and run ``bin/sy`` to run the Syncany command line tool or ``bin/syd`` to run the daemon
+2. Extract the archive and run ``bin/sy`` to run the Syncany command line tool
 
-If you'd like to use Syncany from there, but without having to always type the entire path to run it, you may want to place the Syncany ``bin/`` folder in the system's ``PATH`` environment variable. This will let your system know where to look for the ``sy`` and ``syd`` commands. It's easy to find out how to do that, but just in case:
+If you'd like to use Syncany from there, but without having to always type the entire path to run it, you may want to place the Syncany ``bin/`` folder in the system's ``PATH`` environment variable. This will let your system know where to look for the ``sy`` command. It's easy to find out how to do that, but just in case:
 
 - `How to set the PATH variable on Windows <http://www.computerhope.com/issues/ch000549.htm>`_
 - `How to set the PATH variable on Mac OSX <http://architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/>`_

@@ -62,9 +62,11 @@ Automatically syncing files
 
 	As of today, the automatic synchronizaton setup is not as easy as it should be. We are aware of that and are working on a solution.
 
-To set up a Dropbox-like folder synchronizaton for a Syncany folder, the folder has to be managed by the Syncany background process (also called *the daemon*). This background process can be started with ``syd start`` (note that the command is not ``sy``, but ``syd``). Once the daemon is started, all registered folders are monitored for changes and remote changes are automatically applied to the local folder. All of these actions happen in the background -- without the need for any intervention.
+To set up a Dropbox-like folder synchronizaton for a Syncany folder, the folder has to be managed by the Syncany background process (also called *the daemon*). This background process can be started with ``sy daemon start``. Once the daemon is started, all registered folders are monitored for changes and remote changes are automatically applied to the local folder. All of these actions happen in the background -- without the need for any intervention.
 
-To register a folder (and do other things), the daemon can be configured using the daemon config file at ``%AppData%\Syncany\daemon.xml`` or ``~/.config/syncany/daemon.xml``. Assuming that you'd like ``/home/pim/Syncany`` to be monitored and automatically synchronized, simply add the folder to the ``daemon.xml`` config file like this:
+By default, calling ``sy init`` or ``sy connect`` will add the added local folder to the Syncany daemon configuration. Upon the next start of the daemon, the folder will be daemon-managed. If you want to manually manage the folder start the two commands with the ``--no-daemon`` option.
+
+To register a folder manually or remove a folder from daemon management, the daemon can be configured using the daemon config file at ``%AppData%\Syncany\daemon.xml`` or ``~/.config/syncany/daemon.xml``. Assuming that you'd like ``/home/pim/Syncany`` to be monitored and automatically synchronized, simply add the folder to the ``daemon.xml`` config file like this:
 
 .. code-block:: xml
 
@@ -78,7 +80,7 @@ To register a folder (and do other things), the daemon can be configured using t
 	   </folders>
 	</daemon>
 	
-To let the daemon know about the new folder, run ``syd restart`` (or ``syd reload`` on Linux).
+To let the daemon know about the new folder, run ``sy daemon restart`` (or ``sy daemon reload``, only on Linux).
 
 Connecting other clients 
 ------------------------

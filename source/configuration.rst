@@ -165,7 +165,7 @@ This example shows how to set the HTTP and HTTPS proxy for all HTTP/HTTPS-traffi
 
 Daemon Config (``daemon.xml``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``syd start``) what folders should be monitored and automatically synced whenever something changes. 
+The main purpose of the daemon configuration is to tell the Syncany daemon (started by ``sy daemon start``) what folders should be monitored and automatically synced whenever something changes. 
 
 Options for ``daemon.xml``
 """"""""""""""""""""""""""

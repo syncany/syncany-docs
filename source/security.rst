@@ -72,16 +72,16 @@ When a user connects to an existing repository using ``sy connect``, Syncany fir
 
 ``syncany://`` Links
 """"""""""""""""""""
-After the actual initialization, the ``sy init`` command creates a so-called ``syncany://``-link which can be used by other users to connect to a repository. This link contains the plugin credentials needed to access the repository (e.g. FTP host/user/pass). The link is encrypted using the same crypto format as described above, except that the master salt is included and the link is base64 encoded.
+After the actual initialization, the ``sy init`` command creates a so-called ``syncany://``-link which can be used by other users to connect to a repository. This link contains the plugin credentials needed to access the repository (e.g. FTP host/user/pass). The link is encrypted using the same crypto format as described above, except that the master salt is included and the link is base58 encoded.
 
 Syncany supports two types of links:
 
 1. **Encrypted links (normal)**: Links prefixed ``syncany://storage/1/`` are encrypted and can be safely shared via unsecure channels.
 2. **Plaintext links (not recommended!):** Links prefixed ``syncany://storage/1/not-encrypted/`` are not encrypted and should **never be shared via unsecure channels**.
 
-Encrypted links are structured like this: ``syncany://storage/1/<master-salt>-<encrypted-config>``. Both ``<master-salt>`` and ``<encrypted-config>`` are base64 encoded. The master salt is stored in plaintext and unauthenticated. The encrypted config is stored in the same file format as described above, i.e. using a nested cipher combination of AES and Twofish. When a client attempts to connect to a repository using ``sy connect syncany://storage/1/...``, Syncany decrypts uses the master salt and the prompted password to derive a master key, and then uses the master key and the IVs and salts in the encrypted config to derive the actual cipher keys. These keys can then be used to decrypt the storage/connection config.
+Encrypted links are structured like this: ``syncany://storage/1/<master-salt>-<encrypted-config>``. Both ``<master-salt>`` and ``<encrypted-config>`` are base58 encoded. The master salt is stored in plaintext and unauthenticated. The encrypted config is stored in the same file format as described above, i.e. using a nested cipher combination of AES and Twofish. When a client attempts to connect to a repository using ``sy connect syncany://storage/1/...``, Syncany decrypts uses the master salt and the prompted password to derive a master key, and then uses the master key and the IVs and salts in the encrypted config to derive the actual cipher keys. These keys can then be used to decrypt the storage/connection config.
 
-Plaintext links naturally do not contain a master salt. They are structured like this: ``syncany://storage/1/not-encrypted/<plaintext-config>``. The ``<plaintext-config>`` is simply a base64-encoded representation of the storage/connection config. 
+Plaintext links naturally do not contain a master salt. They are structured like this: ``syncany://storage/1/not-encrypted/<plaintext-config>``. The ``<plaintext-config>`` is simply a base58-encoded representation of the storage/connection config. 
 
 .. warning::
 	
