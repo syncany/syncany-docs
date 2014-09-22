@@ -179,11 +179,11 @@ Options for ``daemon.xml``
 | ``<users>``            | yes        | *none*        | Log-in users for web server and API        |
 +------------------------+------------+---------------+--------------------------------------------+
 
-The ``<folders>`` option can contain multiple ``<folder>`` definitions, each of which represent a Syncany folder managed by the daemon. To add a new Syncany folder, simply initialize or connect to a repository (using ``sy init`` or ``sy connect``) and add the folder here. Then restart the daemon. Find details to this option below in :ref:`configuration_daemon_folders`:.
+The ``<folders>`` option can contain multiple ``<folder>`` definitions, each of which represent a Syncany folder managed by the daemon. To add a new Syncany folder, simply initialize or connect to a repository (using ``sy init`` or ``sy connect``) and add the folder here. Then restart the daemon. Find details to this option below in :ref:`configuration_daemon_folders`.
 
-The ``<webServer>`` option controls the internal Syncany web server (bind port and address, certificates). The web server is used for the web interface as well as for the Syncany API. Find details to this option below in :ref:`configuration_daemon_webserver`:
+The ``<webServer>`` option controls the internal Syncany web server (bind port and address, certificates). The web server is used for the web interface as well as for the Syncany API. Find details to this option below in :ref:`configuration_daemon_webserver`.
 
-The ``<users>`` option defines the users that can access the web interface and the API. Each ``<user>`` has full read/write access to the API and all managed folders. Find details to this option below in :ref:`configuration_daemon_users`:
+The ``<users>`` option defines the users that can access the web interface and the API. Each ``<user>`` has full read/write access to the API and all managed folders. Find details to this option below in :ref:`configuration_daemon_users`.
 
 .. _configuration_daemon_folders:
 
