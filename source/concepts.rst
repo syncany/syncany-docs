@@ -75,7 +75,7 @@ Whenever a client calls ``sy down``, Syncany checks for new database files (i.e.
 
 Conflict handling
 ^^^^^^^^^^^^^^^^^
-When Syncany detects that two database versions were created independently of one another, i.e. their vector clocks are independent, a conflict has occurred. The conflict is resolved by simply comparing the local timestamps of the conflicting database versions to determine a winner [8]_. The winner's database version(s) are applied locally and the loser's databsae version(s) are discarded. When the losing client detects that it lost, it'll reconcile the database versions and re-upload its changes.
+When Syncany detects that two database versions were created independently of one another, i.e. their vector clocks are independent, a conflict has occurred. The conflict is resolved by simply comparing the local timestamps of the conflicting database versions to determine a winner [8]_. The winner's database version(s) are applied locally and the loser's database version(s) are discarded. When the losing client detects that it lost, it'll reconcile the database versions and re-upload its changes.
 
 Differences and similarities to other tools
 -------------------------------------------
