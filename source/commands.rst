@@ -95,7 +95,7 @@ Example 1: Create new repository (interactive mode)
 	Repository created, and local folder initialized. To share the same repository
 	with others, you can share this link:
 	
-	   syncany://storage/1/y8aqJUCsXqPtH9Ku+aoAKAKO0vccIUH32k/tPRCineNLLc...
+	   syncany://storage/1/y8aqJUCsXqPtH9KuaoAKAKO0vccIUH32k/tPRCineNLLc...
 	
 	This link is encrypted with the given password, so you can safely share it.
 	using unsecure communication (chat, e-mail, etc.)

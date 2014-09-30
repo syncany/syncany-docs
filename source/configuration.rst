@@ -178,12 +178,16 @@ Options for ``daemon.xml``
 +------------------------+------------+---------------+--------------------------------------------+
 | ``<users>``            | yes        | *none*        | Log-in users for web server and API        |
 +------------------------+------------+---------------+--------------------------------------------+
+| ``<hooks>``            | no         | *none*        | Callback command to run on events          |
++------------------------+------------+---------------+--------------------------------------------+
 
 The ``<folders>`` option can contain multiple ``<folder>`` definitions, each of which represent a Syncany folder managed by the daemon. To add a new Syncany folder, simply initialize or connect to a repository (using ``sy init`` or ``sy connect``) and add the folder here. Then restart the daemon. Find details to this option below in :ref:`configuration_daemon_folders`.
 
 The ``<webServer>`` option controls the internal Syncany web server (bind port and address, certificates). The web server is used for the web interface as well as for the Syncany API. Find details to this option below in :ref:`configuration_daemon_webserver`.
 
 The ``<users>`` option defines the users that can access the web interface and the API. Each ``<user>`` has full read/write access to the API and all managed folders. Find details to this option below in :ref:`configuration_daemon_users`.
+
+The ``<hooks>`` option allows running local commands whenever an external event occurs. Commands might be run after files have been added or changed.
 
 .. _configuration_daemon_folders:
 
@@ -192,7 +196,7 @@ Managed Folder Configuration (``<folders>``)
 
 .. note::
 
-	We're currently still in an alpha version of Syncany and the options inside the ``<folder>`` tag change more often than we desire. Please forgive us for not documenting all of the options.
+	We're currently still in an alpha version of Syncany and the options inside the ``<folder>`` tag change more often than we desire. Please forgive us for not documenting all of the options. You might want to check out the ``daemon-example.xml`` file to see all available options.
 
 The ``<folders>`` tag can contain multiple ``<folder>`` tags, each of which has a vast amount of configuration options. Typically you don't need to touch any of them. To see a full example (including all available options), see :ref:`configuration_daemon_example_complex`.
 
@@ -254,6 +258,20 @@ All users provided in the ``<users>`` option have full read/write access to the 
 	   </users>
 	   
 In the example, users Pim and Philipp have the same access rights. Both can access the web interface and execute any REST/WS request.
+
+.. _configuration_daemon_hooks:
+
+Event Callbacks / Hooks (``<hooks>``)
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+The event callback functionality of Syncany is very new and very much evolving. The purpose of event hooks/callbacks are to react on events that happen in Syncany. Whenever an event occurs, Syncany checks whether a hook is defined and calls the corresponding command if there is. Variables are passed to the commands to describe the event. Currently, only one event is supported:
+
+.. code-block:: xml
+
+	   <hooks>
+	      <runAfterDown>notify-send "%subject"</runAfterDown>
+	   </hooks>
+	   
+In the example, the command ``notify-send`` is called after the down operation is run and returned a non-empty result. THe ``%subject`` variable is replaced by something like "3 files added, 2 changed".
 
 .. _configuration_daemon_example_simple:
 
@@ -341,6 +359,9 @@ Example 2: Complex ``daemon.xml``
 		 <password>IOgotcpZzNPh</password>
 	      </user>
 	   </users>
+	   <hooks>
+	      <runAfterDown>notify-send "%subject"</runAfterDown>
+	   </hooks>	   
 	</daemon>
 	
 .. _configuration_keys_certificates:
