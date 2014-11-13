@@ -99,6 +99,8 @@ Example ``config.xml``
 		</connection>
 	</config>
 
+.. _plugin_s3:
+
 Amazon S3 Plugin
 ^^^^^^^^^^^^^^^^
 The Amazon S3 plugin (plugin identifier ``s3``) uses an Amazon S3 bucket to store the Syncany repository. `Amazon S3 (Simple Storage Service) <http://aws.amazon.com/s3/>`_ is an online file storage web service offered by Amazon Web Services. It's a pretty neat pay-as-you-go service and works very well with Syncany. If you've never tried it, you can get a `free account with 5 GB of storage <http://aws.amazon.com/free/>`_. As of today, the plugin only supports one repository per bucket. It cannot use sub paths of a bucket as repository. 
@@ -148,6 +150,8 @@ Example ``config.xml``
 		</connection>
 	</config>
 
+.. _plugin_ftp:
+
 FTP Plugin
 ^^^^^^^^^^
 The FTP plugin (plugin identifier ``ftp``) uses a single folder on an FTP server as repository. Since only a sub-folder is used, multiple repositories per FTP server are possible. 
@@ -192,6 +196,8 @@ Example ``config.xml``
 			<port>21</port>
 		</connection>
 	</config>
+
+.. _plugin_sftp:
 
 SFTP Plugin
 ^^^^^^^^^^^
@@ -387,11 +393,9 @@ This example uses the folder ``Repo1`` on the ``Repositories`` share for storing
 		</connection>
 	</config>
 
-XXXXXXXXXXXx
-
 RAID0 Plugin
 ^^^^^^^^^^^^
-The RAID0 plugin (plugin identifier ``raid0``) virtually combines two storage backends into a single storage. The plugin can use any two storage plugins, e.g. an FTP folder and an Amazon S3 bucket. Unlike a RAID1 (or other RAID forms), it does not mirror the storage or provide protection against the failure of one backend. It merely combines their disk space. If one of the backends fails, all repository data is lost. A RAID1 plugin will be provided eventually.
+The RAID0 plugin (plugin identifier ``raid0``) virtually combines two storage backends into a single storage. The plugin can use any two storage plugins, e.g. an FTP folder (:ref:`FTP plugin <plugin_ftp>`) and an Amazon S3 bucket (:ref:`Amazon S3 plugin <plugin_s3>`). Unlike a RAID1 (or other RAID forms), it does not mirror the storage or provide protection against the failure of one backend. It merely combines their disk space. If one of the backends fails, all repository data is lost. As of today, there is no RAID1 plugin, but we will provide it eventually.
 
 The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
 
@@ -401,6 +405,7 @@ The RAID0 plugin uses two other storage plugins, so its security directly depend
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
+The RAID0 plugin options are a bit different from other plugins, because depending on the chosen storage plugins, the sub-options are different. If, for instance, an FTP plugin is chosen as storage 1 (``storage1:type=ftp``), the storage options are ``storage1.hostname=..``, ``storage1.username=..``, and so on.
 
 +----------------------+------------+---------------+-----------------------------------------------------------+
 | Plugin Option        | Mandatory  | Default Value | Description                                               |
@@ -416,7 +421,7 @@ Options for ``config.xml``
 
 Example ``config.xml``
 """"""""""""""""""""""
-This example uses an Amazon S3 plugin and an SFTP plugin as a backend:
+This example uses an Amazon S3 plugin and an SFTP plugin as a backend.
 
 .. code-block:: xml
 
@@ -442,15 +447,52 @@ This example uses an Amazon S3 plugin and an SFTP plugin as a backend:
 
 OpenStack Swift Plugin
 ^^^^^^^^^^^^^^^^^^^^^^
-The OpenStack Swift plugin (plugin identifier ``swift``) ....
+The Swift plugin (plugin identifier ``swift``) uses an `OpenStack Swift <http://swift.openstack.org/>`_ container as a storage backend. Data is stored within objects in the object container of a Swift Object Store. The plugin authenticates against the publicly available Swift API via a authentication URL, using a username and a password.
+
+Swift uses HTTP or HTTPS as a method of transferring files to and from the remote server and authenticate users via username/password.
+
+The HTTP and HTTPS setup are identical in terms of parameters -- only the authentication URL setting differs slightly (``http://`` and ``https://``). However, if HTTPS is used, only server certificates signed by CAs included in the JRE/JDK will be accepted, e.g. certificates by VeriSign, GlobalSign, etc. 
+
+.. note::
+
+	At this time, this plugin **will not work with HTTPS-based backends** if the certificate is self-signed or the signed by any CA not shipped with the JRE/JDK. In particular, you will be not asked to confirm the plugin interactively/manually. This is a known issu
+
+Plugin Security
+"""""""""""""""
+Depending on the URL configured during setup, communication is either HTTP or HTTPS. If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and credentials might by read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your account and simply delete all of your files.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **authUrl**          | yes        | *none*        | Swift API Authentication URL (`http://` or `https://`)    |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Swift username                                            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Swift password                                            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="swift">
+			<authUrl>https://cloud.swiftstack.com/auth/v1.0</authUrl>
+			<username>sw1f7Us3r</username>
+			<password>FJhsdlkjlkjfsd</password>
+		</connection>
+	</config>
 
 Dropbox Plugin
 ^^^^^^^^^^^^^^
-The Dropbox plugin (plugin identifier ``dropbox``) ....
+The Dropbox plugin (plugin identifier ``dropbox``) ... *To be described*
 
 Graphical User Interface Plugin
 -------------------------------
-The GUI plugin ....
+The GUI plugin ... *To be described*
 
 .. _plugin_web_interface:
 
