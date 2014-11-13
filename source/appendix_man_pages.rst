@@ -31,55 +31,55 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    up         Detect local changes and upload to repository.
 	    ls-remote  Detect remote changes and print to STDOUT.
 	    down       Detect remote changes and apply locally.
+	    ls         List and filter the current and past file tree.
 	    watch      Automatically synchronizes the local folder with the repo.
 	    cleanup    Remove old versions from the local database and the repo.
 	    restore    Restore the given file paths from the remote repository.
 	    genlink    Create a syncany:// link from an existing local folder.
-	    log        Print parts of the local database to STDOUT.
 	    plugin     List, install and remove storage backend plugins.
-	    daemon     Start and stop the background process (daemon).	    
-	
+	    daemon     Start and stop the background process (daemon).
+
 	  Short command descriptions and options can be found below. Detailed
 	  explanations can be queried with `sy <command> --help`.
-	
+
 	GLOBAL OPTIONS
 	  -l, --localdir=<path>
 	      Use <path> instead of the current directory as local sync folder.
 	      Syncany searches for a '.syncany' folder in the given and all parent
 	      directories.
-	
+
 	  -d, --debug
 	      Sets the log level to ALL, and print the log to the console.
 	      Alias to: --loglevel=ALL --print
-	
+
 	  -h, --help
 	      Print this help screen and exit.
-	
+
 	  -v, -vv
 	      Print application version exit.
-	
+
 	  --log=<path>
 	      Log output to the file given by <path>. If - is given, the
 	      output will be logged to STDOUT (default).
-	
+
 	  --loglevel=<level>
 	      Change log level to <level>. Level can be either of the
 	      following: OFF, SEVERE, WARNING, INFO, FINE, FINER, FINEST, ALL
-	
+
 	  --print
 	      Print the log to the console (in addition to the log file).
-	
+
 	AUTHORS
 	  Written by Philipp C. Heckel and many others
-	
+
 	REPORTING BUGS
 	  Please report bugs to the GitHub issues page at
 	     https://www.github.com/syncany/syncany/issues
-	
+
 	COPYRIGHT
-	  Syncany 0.1.10, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
-	 
+
 .. _man_daemon:
 
 ``sy daemon --help``:
@@ -125,7 +125,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    Forces the process to stop. Do not use this unless absolutely necessary!
 	   
 	COPYRIGHT
-	  Syncany 0.1.11-alpha+SNAPSHOT.1409212235.gitcbcf453, Distributed under GPLv3,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	 	 
 .. _man_init:
@@ -136,66 +136,69 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
   
 	NAME
 	  sy-init - intialize local directory and create remote Syncany repository
-	
+
 	SYNOPSIS
 	  sy init [-P | --plugin=<plugin>] [-o | --plugin-option=<key=value>]
-	          [-E | --no-encryption] [-G | --no-compression]
-	          [-t | --create-target] [-a | --advanced] [-I | --no-interaction]
-	           
+		  [-E | --no-encryption] [-G | --no-compression] [-s | --short]
+		  [-t | --create-target] [-a | --advanced] [-n | --add-daemon]
+
 	DESCRIPTION
 	  This command creates a new remote repository using the specified plugin, and
-	  initializes the local directory. Unless -I is set, the command is
-	  interactive and queries the user for input. 
-	                
+	  initializes the local directory. Unless -o is set, the command is
+	  interactive and queries the user for input.
+
 	  Depending on the chosen plugin chosen (with -P or interactively), different
 	  plugin-specific options are required or optional.
-	
+
 	  Once the 'init' command was successfully executed, the initialized local
 	  folder can be synced with the newly created repository. The commands
 	  'up', 'down', 'watch', etc. can be used. Other clients can then be connected
 	  using the 'connect' command.
-	 
+
 	OPTIONS
-	  -P, --plugin=<plugin>           
+	  -P, --plugin=<plugin>
 	    Selects a plugin to use for the repository. Local files will be synced via
 	    the storage specified by this plugin. Any of the following available
 	    plugins can be used: %PLUGINS%
-	    
+
 	  -o, --plugin-option=<key=value> (multiple options possible)
 	    Sets a plugin-specific setting in the form of a key/value pair. Each
-	    plugin defines different mandatory and optional settings that must/can
-	    either be specified by this option, or interactively. All mandatory and
+	    plugin defines different mandatory and optional settings. At least, all
+	    mandatory settings must be specified by this option. All mandatory and
 	    optional settings can be listed using the 'plugin' command.
-	   
-	  -E, --no-encryption             
+
+	  -E, --no-encryption
 	    DO NOT USE THIS OPTION. Turns off the encryption for the newly created
 	    remote repository. All files are stored in plaintext. No password is
 	    needed for either syncany:// link, multichunk or metadata.
-	   
-	  -G, --no-compression            
+
+	  -G, --no-compression
 	    Turns off Gzip compression for the newly created remote repository. All
 	    files are stored in uncompressed form. Can increase indexing performance,
 	    but will also increase transfer times and remote storage space.
-	   
-	  -t, --create-target             
+
+	  -t, --create-target
 	    If not existent, creates the target path on the remote storage. If this
 	    option is not given, the command will fail if the target folder/path does
 	    not exist.
-	   
-	  -a, --advanced                  
+
+	  -a, --advanced
 	    Runs the interactive setup in an advanced mode, querying the user for more
 	    detailed encryption options. In particular, it is possible to select the
 	    available symmetric ciphers and modes of operation to encrypt the
 	    repository with.
+
+	  -n, --add-daemon
+	    The initialized local folder is automatically added to the daemon
+	    configuration for automatic synchronization if this option is used.
 	   
-	  -I, --no-interaction            
-	    Runs the command in a non-interactive mode. The user will not be queried
-	    for any input. The command will fail if not all mandatory options are
-	    given on the command line. This option can be used to automate repository
-	    creation.
-	                
+	  -s, --short
+	    The syncany:// link printed after the initialization will be shortened
+	    using the Syncany link shortener service. This option stores the encrypted
+	    link on the Syncany servers. The option does not work if -E is enabled.
+
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  	
 .. _man_connect:
@@ -206,52 +209,56 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	
 	NAME
 	  sy-connect - connect to an existing Syncany repository
-	 
+
 	SYNOPSIS
 	  sy connect <syncany-link>
-	
+
 	  sy connect [-P | --plugin=<plugin>] [-o | --plugin-option=<key=value>]
-	             [-I | --no-interaction] 
-	           
+		     [-n | --add-daemon]
+
 	DESCRIPTION
 	  This command connects to an existing remote repository and initializes
 	  the local directory.
-	 
+
 	  The command can be called as follows:
-	 
+
 	  1. Using a syncany:// link generated by either 'init' or 'genlink',
 	     the command connects to the repository given in the link. If the link
 	     is encrypted, the link/repo password must be entered.
-	    
+
 	  2. If no link is given, the command acts like 'init', i.e. it queries the
 	     user for storage plugin and connection details of the repository to
 	     connect to.
-	     
+
 	  Once the repository is connected, the initialized local folder can be synced
 	  with the newly created repository. The commands 'up', 'down', 'watch', etc.
 	  can be used. Other clients can then be connected using the 'connect' command.
-	 
+
 	OPTIONS
-	  -P, --plugin=<plugin>           
+	  -P, --plugin=<plugin>
 	    Selects a plugin to use for the repository. Local files will be synced via
 	    the storage specified by this plugin.
-	    
+
 	  -o, --plugin-option=<key=value> (multiple options possible)
 	    Sets a plugin-specific setting in the form of a key/value pair. Each
-	    plugin defines different mandatory and optional settings that must/can
-	    either be specified by this option, or interactively. All mandatory and
+	    plugin defines different mandatory and optional settings. At least, all
+	    mandatory settings must be specified by this option. All mandatory and
 	    optional settings can be listed using the 'plugin' command.
-	   
-	  -I, --no-interaction            
+
+	  -I, --no-interaction
 	    Runs the command in a non-interactive mode. The user will not be queried
 	    for any input. The command will fail if not all mandatory options are
 	    given on the command line. This option can be used to automate repository
 	    creation.
-	                
-	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
-	  Copyright (c) 2011-2014 Philipp C. Heckel     	  
 
+	  -n, --add-daemon
+	    The initialized local folder is automatically added to the daemon
+	    configuration for automatic synchronization if this option is used.
+
+	COPYRIGHT
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
+	  Copyright (c) 2011-2014 Philipp C. Heckel
+  
 .. _man_status:
 
 ``sy status --help``
@@ -285,7 +292,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    decrease the performance of this command and increase I/O significantly. 
 
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
 .. _man_up:	  
@@ -317,8 +324,8 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  All arguments of the 'status' command can be used.
 
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
-	  Copyright (c) 2011-2014 Philipp C. Heckel
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
+	  Copyright (c) 2011-2014 Philipp C. Heckel	
 
 .. _man_ls_remote:
 
@@ -341,7 +348,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  to download and compare.
 	 
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel   
 	  
 .. _man_down:
@@ -352,7 +359,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 
 	NAME
 	  sy-down - fetch remote changes from Syncany repository and apply locally
-	
+
 	SYNOPSIS
 	  sy down [-C | --conflict-strategy=<rename|ask>] [-A | --no-apply]
 	 
@@ -391,7 +398,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    The 'ask' strategy is currently NOT implemented! 
 	   
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel	
 	 
 .. _man_watch:
@@ -475,7 +482,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  'ls-remote', 'up' and 'down' can be used.
 
 	COPYRIGHT
-	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 
 .. _man_cleanup:
@@ -488,8 +495,9 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  sy-cleanup - remove old versions and free remote disk space 
 
 	SYNOPSIS
-	  sy cleanup [-M | --no-database-merge] [-V | --no-version-remove]
-		     [-k | --keep-versions=<count>] [<status-options>]
+	  sy cleanup [-M | --no-database-merge] [-V | --no-version-removal]
+		     [-T | --no-temp-removal] [-k | --keep-versions=<count>]
+		     [<status-options>]
 		   
 	DESCRIPTION
 	  This command performs different operations to cleanup the local database as
@@ -520,10 +528,15 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    command will not merge this client's metadata files even if there are more
 	    than 15 database files on the remote storage.
 	   
-	  -V, --no-version-remove  
+	  -V, --no-version-removal
 	    Turns off the removal of old versions for the command. If this is set, this
 	    command will not shorten file histories to the <count> given by -k, and it
-	    will not delete file versions marked as 'deleted' in the database.      
+	    will not delete file versions marked as 'deleted' in the database. 
+	   
+	  -T, --no-temp-removal  
+	    Turns off the removal of leftover temporary files for the command. If this
+	    is set, this command will leave temporary files on the offsite storage
+	    untouched.  
 	       
 	  -k, --keep-versions=<count>     
 	    Sets the number of file versions per file to keep in the database and the
@@ -543,8 +556,9 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    files will be merged to one per client.
 	   
 	COPYRIGHT
-	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
+	   
 	   
 .. _man_restore:
 	   
@@ -600,7 +614,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    thrown.
 	   
 	COPYRIGHT
-	  Syncany 0.1.9-alpha+SNAPSHOT.1408201834.git965cd65, Distributed under GPLv3,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
 .. _man_genlink:
@@ -613,7 +627,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  sy-genlink - generate Syncany link for initialized local directory
 	   
 	SYNOPSIS
-	  sy genlink [-s | --short]
+	  sy genlink [-s | --short] [-m | --machine-readable]
 	 
 	DESCRIPTION
 	  This command creates a Syncany link (syncany://..) from an existing local
@@ -626,13 +640,18 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	  to the other users.
 	   
 	OPTIONS
-	  -S, --short
+	  -s, --short
+	    The generated syncany:// link will be shortened using the Syncany link
+	    shortener service. This option stores the encrypted link on the Syncany
+	    servers. The option does not work if the repository is not encrypted.
+	   
+	  -m, --machine-readable
 	    Only prints the link and leaves out any explanatory text. Useful if the
 	    link is used in a script.
 	   
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
-	  Copyright (c) 2011-2014 Philipp C. Heckel	
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
+	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
 .. _man_ls:
 
@@ -726,7 +745,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    This selects the entire database. Use with caution.
 	   
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
 	  Copyright (c) 2011-2014 Philipp C. Heckel
 	  
 .. _man_plugin:
@@ -808,6 +827,5 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 	    system-wide plugins.   
 
 	COPYRIGHT
-	  Syncany 0.1.7-alpha+SNAPSHOT.1407211951.git4a2d264, Distributed under GPLv2,
-	  Copyright (c) 2011-2014 Philipp C. Heckel		 
-
+	  Syncany 0.2.1-alpha+SNAPSHOT.1411130840.git508d8d9, Distributed under GPLv3,
+	  Copyright (c) 2011-2014 Philipp C. Heckel
