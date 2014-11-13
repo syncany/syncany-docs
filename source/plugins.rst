@@ -95,7 +95,7 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="local">
-			<property name="path">/tmp/tx/c</property>
+			<path>/tmp/tx/c</path>
 		</connection>
 	</config>
 
@@ -141,10 +141,10 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="s3">
-			<property name="accessKey">AKIAIHIALEXANDREUIIE</property>
-			<property name="secretKey">wJalrXUtnFEMI/K7MDENG/bPxRfiANTHONYXZAEZ</property>
-			<property name="bucket">syncany-demo</property>
-			<property name="location">us-west-1</property>
+			<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
+			<secretKey>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</secretKey>
+			<bucket>syncany-demo</bucket>
+			<location">us-west-1</location>
 		</connection>
 	</config>
 
@@ -185,11 +185,11 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="ftp">
-			<property name="hostname">ftp.example.com</property>
-			<property name="username">armin</property>
-			<property name="password">cr0/ChRisTiAn</property>
-			<property name="path">/syncany/repo2</property>
-			<property name="port">21</property>
+			<hostname>ftp.example.com</hostname>
+			<username>armin</username>
+			<password>cr0/ChRisTiAn</password>
+			<path>/syncany/repo2</path>
+			<port>21</port>
 		</connection>
 	</config>
 
@@ -251,12 +251,12 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="sftp">
-			<property name="hostname">example.com</property>
-			<property name="username">spikeh</property>
-			<property name="privatekey">none</property>
-			<property name="password">spikehPassword</property>
-			<property name="path">/home/spikeh/SyncanyRepo</property>
-			<property name="port">22</property>
+			<hostname>example.com</hostname>
+			<username>spikeh</username>
+			<privatekey>none</privatekey>
+			<password>spikehPassword</password>
+			<path>/home/spikeh/SyncanyRepo</path>
+			<port>22</port>
 		</connection>
 	</config>
 
@@ -267,12 +267,12 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="sftp">
-			<property name="hostname">ftp.example.com</property>
-			<property name="username">armin</property>
-			<property name="privatekey">/home/localuser/.ssh/id_rsa</property>
-			<property name="password">PrivateKeyPassword</property>
-			<property name="path">/home/spikeh/SyncanyRepo</property>
-			<property name="port">22</property>
+			<hostname>ftp.example.com</hostname>
+			<username>armin</username>
+			<privatekey>/home/localuser/.ssh/id_rsa</privatekey>
+			<password>PrivateKeyPassword</password>
+			<path>/home/spikeh/SyncanyRepo</path>
+			<port>22</port>
 		</connection>
 	</config>
 
@@ -330,9 +330,9 @@ Example ``config.xml``
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="webdav">
-			<property name="url">https://dav.example.com:8080/dav/repo1</property>
-			<property name="username">christof</property>
-			<property name="password">ZAzZZzFL0R1An</property>
+			<url>https://dav.example.com:8080/dav/repo1</url>
+			<username>christof</username>
+			<password>ZAzZZzFL0R1An</password>
 		</connection>
 	</config>
 
@@ -379,13 +379,78 @@ This example uses the folder ``Repo1`` on the ``Repositories`` share for storing
 	<config xmlns="http://syncany.org/config/1">
 		...
 		<connection type="samba">
-			<property name="hostname">192.168.1.25</property>
-			<property name="username">Philipp</property>
-			<property name="password">ZuUaI/kt3k!</property>
-			<property name="share">Repositories</property>
-			<property name="path">Repo1</property>
+			<hostname>192.168.1.25</hostname>
+			<username>Philipp</username>
+			<password>ZuUaI/kt3k!</password>
+			<share>Repositories</share>
+			<path>Repo1</path>
 		</connection>
 	</config>
+
+XXXXXXXXXXXx
+
+RAID0 Plugin
+^^^^^^^^^^^^
+The RAID0 plugin (plugin identifier ``raid0``) virtually combines two storage backends into a single storage. The plugin can use any two storage plugins, e.g. an FTP folder and an Amazon S3 bucket. Unlike a RAID1 (or other RAID forms), it does not mirror the storage or provide protection against the failure of one backend. It merely combines their disk space. If one of the backends fails, all repository data is lost. A RAID1 plugin will be provided eventually.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The RAID0 plugin uses two other storage plugins, so its security directly depends on the respective plugins. Please refer to their documentation for details.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **storage1:type**    | yes        | *none*        | Plugin identifier of the first storage backend            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of first plugin                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1:type**    | yes        | *none*        | Plugin identifier of the second storage backend           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of second plugin                  |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+This example uses an Amazon S3 plugin and an SFTP plugin as a backend:
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="raid0">
+			<storage1 type="s3">
+				<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
+				<secretKey>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</secretKey>
+				<bucket>syncany-demo</bucket>
+				<location">us-west-1</location>
+			</storage1>
+			<storage2 type="sftp">
+				<hostname>example.com</hostname>
+				<username>spikeh</username>
+				<privatekey>none</privatekey>
+				<password>spikehPassword</password>
+				<path>/home/spikeh/SyncanyRepo</path>
+				<port>22</port>
+			</storage2>
+		</connection>
+	</config>
+
+OpenStack Swift Plugin
+^^^^^^^^^^^^^^^^^^^^^^
+The OpenStack Swift plugin (plugin identifier ``swift``) ....
+
+Dropbox Plugin
+^^^^^^^^^^^^^^
+The Dropbox plugin (plugin identifier ``dropbox``) ....
+
+Graphical User Interface Plugin
+-------------------------------
+The GUI plugin ....
 
 .. _plugin_web_interface:
 

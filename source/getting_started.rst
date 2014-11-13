@@ -64,7 +64,7 @@ Automatically syncing files
 
 To set up a Dropbox-like folder synchronizaton for a Syncany folder, the folder has to be managed by the Syncany background process (also called *the daemon*). This background process can be started with ``sy daemon start``. Once the daemon is started, all registered folders are monitored for changes and remote changes are automatically applied to the local folder. All of these actions happen in the background -- without the need for any intervention.
 
-By default, calling ``sy init`` or ``sy connect`` will add the added local folder to the Syncany daemon configuration. Upon the next start of the daemon, the folder will be daemon-managed. If you want to manually manage the folder start the two commands with the ``--no-daemon`` option.
+By default, calling ``sy init`` or ``sy connect`` will **not** add the added local folder to the Syncany daemon configuration. That means, that unless you call the command with the ``--add-daemon`` option, the folder will not be daemon-managed. If you want to use the daemon, use ``sy connect --add-daemon`` or ``sy init --add-daemon``.
 
 To register a folder manually or remove a folder from daemon management, the daemon can be configured using the daemon config file at ``%AppData%\Syncany\daemon.xml`` or ``~/.config/syncany/daemon.xml``. Assuming that you'd like ``/home/pim/Syncany`` to be monitored and automatically synchronized, simply add the folder to the ``daemon.xml`` config file like this:
 
