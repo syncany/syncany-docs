@@ -35,22 +35,22 @@ Options for ``config.xml``
 +----------------------+------------+---------------+-------------------------------------------+
 | Option               | Mand.      | Def.          | Description                               |
 +======================+============+===============+===========================================+
-| ``<machinename>``    | yes        | *none*        | Random local machine identifier           |
+| ``<machineName>``    | yes        | *none*        | Random local machine identifier           |
 +----------------------+------------+---------------+-------------------------------------------+
-| ``<displayname>``    | yes        | *none*        | Human readable user name                  |
+| ``<displayName>``    | yes        | *none*        | Human readable user name                  |
 +----------------------+------------+---------------+-------------------------------------------+
-| ``<masterkey>``      | no         | *none*        | Master key used to derive enc. keys       |
+| ``<masterKey>``      | no         | *none*        | Master key used to derive enc. keys       |
 +----------------------+------------+---------------+-------------------------------------------+
 | ``<cacheKeepBytes>`` | no         | 524288000     | Size of cache in bytes                    |
 +----------------------+------------+---------------+-------------------------------------------+
 | ``<connection>``     | yes        | *none*        | Key/value based storage settings          |
 +----------------------+------------+---------------+-------------------------------------------+
 
-The ``<machinename>`` property represents a local machine identifier to technically identify a computer/user. It is purely random and carries no logic. This identifier is created during folder initialization and **should not be changed**. 
+The ``<machineName>`` property represents a local machine identifier to technically identify a computer/user. It is purely random and carries no logic. This identifier is created during folder initialization and **should not be changed**. 
 
-The ``<displayname>`` is the human readable user name of the user. It is currently only used locally to create conflict files. As of today, this property is not transferred to other users, but it might be in the future. The property can safely be changed.
+The ``<displayName>`` is the human readable user name of the user. It is currently only used locally to create conflict files. As of today, this property is not transferred to other users, but it might be in the future. The property can safely be changed.
 
-The ``<masterkey>`` represents the master key generated from the repository password. It is required if the repository is encrypted, and it must not be changed. To learn more about the master key, check out the :doc:`security` chapter.
+The ``<masterKey>`` represents the master key generated from the repository password. It is required if the repository is encrypted, and it must not be changed. To learn more about the master key, check out the :doc:`security` chapter.
 
 The ``<cacheKeepBytes>`` property depicts the maximum size of the local ``.syncany/cache/`` folder (in bytes, default is 500 MB). After each synchronization, the cache is cleaned if it exceeds the keep size. The cache mechanism is least recently used (LRU).
 
@@ -61,15 +61,15 @@ Example ``config.xml``
 .. code-block:: xml
 
 	<config xmlns="http://syncany.org/config/1">
-		<machinename>PCiqLdSQiampovfBfSZZ</machinename>
-		<displayname>pheckel</displayname>
-		<masterkey>51d32e99230581e2ba2f6725d2ce7d90822...</masterkey>
+		<machineName>PCiqLdSQiampovfBfSZZ</machineName>
+		<displayName>pheckel</displayName>
+		<masterKey salt="51d32e99230581e2..." key="ba2f6725d2ce7d90822..."/>
 		<connection type="ftp">
-			<property name="hostname">ftp.example.com</property>
-			<property name="username">armin</property>
-			<property name="password">cr0/ChRisTiAn</property>
-			<property name="path">/syncany/repo2</property>
-			<property name="port">21</property>
+			<hostname>ftp.example.com</hostname>
+			<username>armin</username>
+			<password encrypted="true">87abc68afe1428319fad...</password>
+			<path>/syncany/repo2</path>
+			<port>21</port>
 		</connection>
 		<cacheKeepBytes>524288000</cacheKeepBytes>
 	</config>
@@ -111,17 +111,21 @@ The ``userconfig.xml`` config file is a defines global user config settings -- v
 
 Options for ``userconfig.xml``
 """"""""""""""""""""""""""""""
-+------------------------+------------+---------------+--------------------------------------------+
-| Option                 | Mand.      | Def.          | Description                                |
-+========================+============+===============+============================================+
-| ``<preventStandby>``   | no         | false         | Prevent standby/shutdown during sync       |
-+------------------------+------------+---------------+--------------------------------------------+
-| ``<systemProperties>`` | yes        | *none*        | Set any Java system properties (e.g proxy) |
-+------------------------+------------+---------------+--------------------------------------------+
++---------------------------+------------+---------------+---------------------------------------------------+
+| Option                    | Mand.      | Def.          | Description                                       |
++===========================+============+===============+===================================================+
+| ``<preventStandby>``      | no         | false         | Prevent standby/shutdown during sync              |
++---------------------------+------------+---------------+---------------------------------------------------+
+| ``<systemProperties>``    | yes        | *none*        | Set any Java system properties (e.g proxy)        |
++---------------------------+------------+---------------+---------------------------------------------------+
+| ``<configEncryptionKey>`` | yes        | *none*        | Encryption key to encrypt repo access credentials |
++---------------------------+------------+---------------+---------------------------------------------------+
 
 If the ``<preventStandby>`` option is set to ``true``, Syncany will make sure that your system doesn't go into standby/hibernate if the synchronization process is run. This option will not prevent your system from going to sleep if no upload/download process is taking place. Since this option might also prevent the screensaver or screen lock, it is not enabled by default. 
 
 The ``<systemProperties>`` option allows you to set Java system properties via the Syncany configuration. Any of the ``<property>`` options will be passed to Java's ``System.setProperty()`` method. This can be used to set proxy settings, log settings, and so on.
+
+The ``<configEncryptionKey>`` option is used to encrypt sensitive values in the :ref:`config.xml <configuration_config_xml>` file, e.g. the (S)FTP/WebDAV password, the Amazon S3 / Dropbox access token, and so on. 
 
 Useful System Properties
 """"""""""""""""""""""""
@@ -159,6 +163,7 @@ This example shows how to set the HTTP and HTTPS proxy for all HTTP/HTTPS-traffi
 	      <property name="https.proxyHost">your.proxy.host.tld</property>
 	      <property name="https.proxyPort">8080</property>
 	   </systemProperties>
+	   <configEncryptionKey salt="87d32e99230581e2..." key="652f6725d2ce7d90822..."/>
 	</userConfig>
 
 .. _configuration_daemon:

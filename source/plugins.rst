@@ -144,9 +144,9 @@ Example ``config.xml``
 		...
 		<connection type="s3">
 			<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
-			<secretKey>wJalrXUtnFEMI/K7MDENG/bPxRfiANTHONYXZAEZ</secretKey>
+			<secretKey encrypted="true">af81727a87abc68afe1428319fad...</secretKey>
 			<bucket>syncany-demo</bucket>
-			<location">us-west-1</location>
+			<location>us-west-1</location>
 		</connection>
 	</config>
 
@@ -191,7 +191,7 @@ Example ``config.xml``
 		<connection type="ftp">
 			<hostname>ftp.example.com</hostname>
 			<username>armin</username>
-			<password>cr0/ChRisTiAn</password>
+			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
 			<path>/syncany/repo2</path>
 			<port>21</port>
 		</connection>
@@ -260,7 +260,8 @@ Example ``config.xml``
 			<hostname>example.com</hostname>
 			<username>spikeh</username>
 			<privatekey>none</privatekey>
-			<password>spikehPassword</password>
+			<!-- User password -->
+			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
 			<path>/home/spikeh/SyncanyRepo</path>
 			<port>22</port>
 		</connection>
@@ -276,7 +277,8 @@ Example ``config.xml``
 			<hostname>ftp.example.com</hostname>
 			<username>armin</username>
 			<privatekey>/home/localuser/.ssh/id_rsa</privatekey>
-			<password>PrivateKeyPassword</password>
+			<!-- Private key password -->
+			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password> 
 			<path>/home/spikeh/SyncanyRepo</path>
 			<port>22</port>
 		</connection>
@@ -338,7 +340,7 @@ Example ``config.xml``
 		<connection type="webdav">
 			<url>https://dav.example.com:8080/dav/repo1</url>
 			<username>christof</username>
-			<password>ZAzZZzFL0R1An</password>
+			<password encrypted="true">0e99b946577d26376c64b59a...</password>
 		</connection>
 	</config>
 
@@ -387,7 +389,7 @@ This example uses the folder ``Repo1`` on the ``Repositories`` share for storing
 		<connection type="samba">
 			<hostname>192.168.1.25</hostname>
 			<username>Philipp</username>
-			<password>ZuUaI/kt3k!</password>
+			<password encrypted="true">0e99b946577d26376c64b59a...</password>
 			<share>Repositories</share>
 			<path>Repo1</path>
 		</connection>
@@ -432,13 +434,13 @@ This example uses an Amazon S3 plugin and an SFTP plugin as a backend.
 				<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
 				<secretKey>wJalrXUtnFEMI/K7MDENG/bPxRfiANTHONYXZAEZ</secretKey>
 				<bucket>syncany-demo</bucket>
-				<location">us-west-1</location>
+				<location>us-west-1</location>
 			</storage1>
 			<storage2 type="sftp">
 				<hostname>example.com</hostname>
 				<username>spikeh</username>
 				<privatekey>none</privatekey>
-				<password>spikehPassword</password>
+				<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
 				<path>/home/spikeh/SyncanyRepo</path>
 				<port>22</port>
 			</storage2>
@@ -455,7 +457,9 @@ The HTTP and HTTPS setup are identical in terms of parameters -- only the authen
 
 .. note::
 
-	At this time, this plugin **will not work with HTTPS-based backends** if the certificate is self-signed or the signed by any CA not shipped with the JRE/JDK. In particular, you will be not asked to confirm the plugin interactively/manually. This is a known issu
+	At this time, this plugin **will not work with HTTPS-based backends** if the certificate is self-signed or the signed by any CA not shipped with the JRE/JDK. In particular, you will be not asked to confirm the plugin interactively/manually. This is a known issue and will hopefully be resolved soon.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
 
 Plugin Security
 """""""""""""""
@@ -482,13 +486,47 @@ Example ``config.xml``
 		<connection type="swift">
 			<authUrl>https://cloud.swiftstack.com/auth/v1.0</authUrl>
 			<username>sw1f7Us3r</username>
-			<password>FJhsdlkjlkjfsd</password>
+			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
 		</connection>
 	</config>
 
 Dropbox Plugin
 ^^^^^^^^^^^^^^
-The Dropbox plugin (plugin identifier ``dropbox``) ... *To be described*
+The Dropbox plugin (plugin identifier ``dropbox``) uses a folder in your `Dropbox <http://www.dropbox.com/>`_ as a storage backend. Data is stored in the Syncany repository format in a dedicated ``Apps`` folder of your Dropbox. The plugin authenticates against the Dropbox REST API via a OAuth 2.0: During ``sy init``, you will be asked to navigate to the Dropbox website and copy an access token from there. 
+
+.. note::
+
+	Syncany will only use Dropbox as a storage backend, it is not an alternative Dropbox sync client. In particular, **you will not be able to read files synchronized with Syncany using your Dropbox web interface**, because Syncany files are stored in the Syncany repository format. 
+
+	In addition to that, if you run both Syncany and the Dropbox client, Dropbox will **regularly show notifications** about Syncany-originated files that have been changed. Due to the fact that Dropbox cannot disable notifications for certain folders, it is not practical to run both Syncany and the Dropbox client. Instead, we suggest to only use Dropbox as a storage backend and **disable/close the Dropbox client**.
+	
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+Dropbox REST API traffic is based on HTTPS, so **tranport security is ensured**. Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Dropbox (or any third party) cannot read your files, even if they access the encrypted files in your Dropbox folder.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **accessToken**      | yes        | *none*        | OAuth access token displayed on the Dropbox website       |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | yes        | *none*        | Repository folder in your Dropbox-Syncany app folder      |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="dropbox">
+			<accessToken encrypted="true">5379020501945a9c7e6196cb2bc1...</accessToken>
+			<path>RepoWork</path>
+		</connection>
+	</config>
 
 Graphical User Interface Plugin
 -------------------------------
