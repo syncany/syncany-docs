@@ -527,10 +527,27 @@ Example ``config.xml``
 			<path>RepoWork</path>
 		</connection>
 	</config>
+	
+.. _plugin_gui:
 
 Graphical User Interface Plugin
 -------------------------------
-The GUI plugin ... *To be described*
+
+.. note::
+
+	The GUI plugin is still in the making, meaning that while it is functioning for a limited functionality, we are constantly improving it. Please refer to the `related GitHub issue <https://github.com/syncany/syncany/issues/204>`_.
+	
+The GUI plugin (plugin identifier ``gui``) provides a graphical user interface for Syncany. Since Syncany mainly runs in the background, the user interface is very minimal. It consists of a tray icon and a small wizard to initialize or connect Syncany folders. It connects to the background daemon and displays all daemon-managed Syncany folders. Folders can either be added via the GUI, or by adding it to the ``daemon.xml`` (see :ref:`configuration_daemon`). 
+
+.. image:: _static/plugins_gui_tray.png
+   :align: center
+
+The tray icon indicates the progress of all daemon-managed Syncany folders -- whether they are syncing or in-sync as well as a more detailed status information in form of a status text and popup notifications.
+
+.. image:: _static/plugins_gui_wizard.png
+   :align: center
+
+Like other plugins, the GUI can be installed via ``sy plugin install`` and then run from the command line using ``sy gui``. Even though this works, the GUI plugin is not meant to be installed and run like this. Instead it should be installed using the respective installers or packages. That way, Syncany can be started from the menu. For Debian/Ubuntu, a .deb package is offered; for Windows, a separate installer is provided.
 
 .. _plugin_web_interface:
 
@@ -561,4 +578,5 @@ To install the plugin, use ``sy plugin install simpleweb --snapshot``. Make sure
 As of today, the web interface looks like this:
 
 .. image:: _static/plugins_simpleweb.png
+   :align: center
 

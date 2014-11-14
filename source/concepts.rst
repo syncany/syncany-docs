@@ -3,7 +3,9 @@ Concepts
 
 There are a few very smart concepts built into Syncany that make it so flexible and differentiate it from other solutions. It's not necessary for users to understand these concepts, but it helps to understand why Syncany does things the way it does them.
 
-This chapter explains the basic concepts of Syncany to the interested user in a hopefully understandable way. If you just want to use Syncany and don't care how it ticks inside, **you can safely skip this chapter**. 
+.. note::
+
+	This chapter explains the basic concepts of Syncany to the interested user in a hopefully understandable way. If you just want to use Syncany and don't care how it ticks inside, **you can safely skip this chapter**. 
 
 .. contents::
 
