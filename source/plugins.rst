@@ -160,7 +160,7 @@ The plugin is not installed by default, but it can be easily installed using the
 
 Plugin Security
 """""""""""""""
-As of today, the FTP plugin does not support FTPS (the TLS extension for FTP). That means that the FTP plugin **does not provide transport security** and FTP credentials might by read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your FTP account and simply delete all of your files.
+As of today, the FTP plugin does not support FTPS (the TLS extension for FTP). That means that the FTP plugin **does not provide transport security** and FTP credentials might be read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your FTP account and simply delete all of your files.
 
 If the FTP plugin is used, users sharing a repository typically access that repository **using the same FTP username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
@@ -315,7 +315,7 @@ Plugin Security
 """""""""""""""
 The WebDAV plugin uses the `Sardine WebDAV library <https://github.com/lookfirst/sardine>`_. Depending on the URL configured during setup, communication is either HTTP or HTTPS. 
 
-If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and WebDAV credentials might by read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your WebDAV account and simply delete all of your files.
+If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and WebDAV credentials might be read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your WebDAV account and simply delete all of your files.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
@@ -356,7 +356,7 @@ Plugin Security
 """""""""""""""
 The Samba plugin uses the `jCIFS library <http://jcifs.samba.org/>`_ for SMB/CIFS. Since this library only supports `NT LM 0.12 <https://lists.samba.org/archive/jcifs/2013-December/010123.html>`_ (which is `SMBv1 <http://richardkok.wordpress.com/2011/02/03/wireshark-determining-a-smb-and-ntlm-version-in-a-windows-environment/>`_), the plugin currently does not encrypt the communication to the SMB/CIFS server. 
 
-That means that the plugin **does not provide transport security** and credentials might by read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your SMB/CIFS account and simply delete all of your files.
+That means that the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your SMB/CIFS account and simply delete all of your files.
 
 If the Samba plugin is used, users sharing a repository typically access that repository **using the same username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
 
@@ -463,7 +463,7 @@ The plugin is not installed by default, but it can be easily installed using the
 
 Plugin Security
 """""""""""""""
-Depending on the URL configured during setup, communication is either HTTP or HTTPS. If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and credentials might by read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your account and simply delete all of your files.
+Depending on the URL configured during setup, communication is either HTTP or HTTPS. If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your account and simply delete all of your files.
 
 Options for ``config.xml``
 """"""""""""""""""""""""""
