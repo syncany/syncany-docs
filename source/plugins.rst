@@ -53,7 +53,7 @@ On Windows, this per-user plugin configuration can be found at ``%AppData%\Synca
 		
 Storage Plugins
 ---------------
-Storage plugins are part of the core idea of Syncany: provide a simple interface to make any type of storage usable. This is done by keeping all of the synchronization logic, file size issues and even encryption out of the plugins. Storage plugins only take care of uploading different types of files -- database files, multichunk files, and so on. 
+Storage plugins are part of the core idea of Syncany: They provide a simple interface to make any type of storage usable. This is done by keeping all of the synchronization logic, file size issues and even encryption out of the plugins. Storage plugins only take care of uploading different types of files -- database files, multichunk files, and so on. 
 
 Once a storage plugin is installed (see :ref:`plugins_manage`), it can be used to create a new remote repository (``sy init``) or connect to an existing repository (``sy connect``). After you've successfully connected a local folder to a remote repository, you can synchronize files manually with ``sy up`` or ``sy down``, or configure the daemon to automatically sync the folder in the background.
 
