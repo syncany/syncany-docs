@@ -10,6 +10,7 @@ As of today, we provide the following download possibilities:
 * Debian package (.deb)
 * Ubuntu/Launchpad personal package archive (PPA)
 * Arch Linux AUR 
+* Mac OS X (homebrew)
 * Docker Application
 * Manual Installation (via .tar.gz/.zip)
 
@@ -96,6 +97,20 @@ Arch Linux users can use the ``syncany`` package available on the `AUR <https://
 
     yaourt -S syncany
 
+
+Mac OS X
+^^^^^^^^
+On Mac OS X, you can either build syncany from source, extract the zip file or use `homebrew <http://brew.sh>`_ which is a well-known package manager for Mac OS X. Since syncany is still alpha software, homebrew refuses per convetion to include syncany in its official package list. Therefore we provide the needed formular on our own.
+Assuming you have a running version of homebrew, the installation of syncany is a piece of cake.
+
+::
+
+	brew install https://raw.githubusercontent.com/syncany/syncany/master/gradle/osx/syncany.rb
+	
+This installs the most recent (pre-)release. If you want to install the bleeding edge version simply append ``--HEAD`` to the previous command. 
+
+If you like the syncany daemon to start at system startup, install the provided launchagent following homebrew instructions.
+
 Docker
 ^^^^^^
 If you just want to try Syncany for a few minutes, we provide it as a containerized `Docker <https://www.docker.com/>`_ application for Syncany. If you've installed Docker already, you can use the `syncany/release <https://registry.hub.docker.com/u/syncany/release/>`_ repository. 
@@ -106,7 +121,6 @@ If you just want to try Syncany for a few minutes, we provide it as a containeri
 	docker run -ti syncany/release
 	syncany@e52be0b2522b:~$ sy -v
 	0.1.8-alpha
-
 
 Manual Installation (for other operating systems)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
