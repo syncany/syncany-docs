@@ -105,7 +105,7 @@ Assuming you have a running version of homebrew, the installation of syncany is 
 
 ::
 
-	brew install https://raw.githubusercontent.com/syncany/syncany/master/gradle/osx/syncany.rb
+	brew install https://get.syncany.org/homebrew/syncany.rb
 	
 This installs the most recent (pre-)release. If you want to install the bleeding edge version simply append ``--HEAD`` to the previous command. 
 
