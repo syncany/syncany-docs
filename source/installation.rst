@@ -10,7 +10,7 @@ As of today, we provide the following download possibilities:
 * Debian package (.deb)
 * Ubuntu/Launchpad personal package archive (PPA)
 * Arch Linux AUR 
-* Mac OS X (homebrew)
+* Mac OS X (Homebrew)
 * Docker Application
 * Manual Installation (via .tar.gz/.zip)
 
@@ -100,8 +100,8 @@ Arch Linux users can use the ``syncany`` package available on the `AUR <https://
 
 Mac OS X
 ^^^^^^^^
-On Mac OS X, you can either build syncany from source, extract the zip file or use `homebrew <http://brew.sh>`_ which is a well-known package manager for Mac OS X. Since syncany is still alpha software, homebrew refuses per convetion to include syncany in its official package list. Therefore we provide the needed formular on our own.
-Assuming you have a running version of homebrew, the installation of syncany is a piece of cake.
+On Mac OS X, you can either build Syncany from source, extract the ZIP file or use `homebrew <http://brew.sh>`_, a well-known package manager for Mac OS X. Since Syncany is still alpha software, Homebrew refuses (per convetion) to include it in its official package list. Therefore we provide the needed formula on our own until we reach beta.
+Assuming you have a running version of Homebrew, the installation of Syncany is a piece of cake.
 
 ::
 
@@ -109,7 +109,7 @@ Assuming you have a running version of homebrew, the installation of syncany is 
 	
 This installs the most recent (pre-)release. If you want to install the bleeding edge version simply append ``--HEAD`` to the previous command. 
 
-If you like the syncany daemon to start at system startup, install the provided launchagent following homebrew instructions.
+If you like the Syncany daemon to start at system startup, install the provided LaunchAgent following Homebrew instructions.
 
 Docker
 ^^^^^^
