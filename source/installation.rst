@@ -100,7 +100,7 @@ Arch Linux users can use the ``syncany`` package available on the `AUR <https://
 
 Mac OS X
 ^^^^^^^^
-On Mac OS X, you can either build Syncany from source, extract the ZIP file or use `homebrew <http://brew.sh>`_, a well-known package manager for Mac OS X. Since Syncany is still alpha software, Homebrew refuses (per convetion) to include it in its official package list. Therefore we provide the needed formula on our own until we reach beta.
+On Mac OS X, you can either build Syncany from source, extract the ZIP file or use `Homebrew <http://brew.sh>`_, a well-known package manager for Mac OS X. Since Syncany is still alpha software, it cannot be installed from the official Homebrew sources. Therefore we provide the needed formula on our own until we reach beta.
 Assuming you have a running version of Homebrew, the installation of Syncany is a piece of cake.
 
 ::
