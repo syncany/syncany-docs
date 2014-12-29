@@ -52,11 +52,26 @@ After the installation is complete, open the command prompt by typing ``cmd`` in
 .. image:: _static/installation_windows_cmd.png
    :align: center   
 
-Debian/Ubuntu
-^^^^^^^^^^^^^
-On Debian-based systems, the prebuilt *.deb*-packages can be installed via the regular package mananger. For Ubuntu, we additionally provide a personal package archive (PPA) for releases and snapshots. Unlike standalone Debian packages, PPAs provide the possibility to stay on the up-to-date version of Syncany, since new versions are updated with the regular system updates.
+Debian / Ubuntu / Linux Mint
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For Debian-based systems, we provide an `APT archive <http://archive.syncany.org/>`_ (for installation via ``apt-get``) as well as a way to manually download and install prebuilt *.deb*-packages (see `distribution site <https://www.syncany.org/dist>`_).
 
-As stated above, the only requirements to install Syncany are Java and bash-completion. If they are not installed, simply get them from the default archives: ``sudo apt-get install default-jre bash-completion``. After that, the packages should work properly.
+Installing via **APT archive**: 
+
+1. Add the APT archive **http://archive.syncany.org/apt/release/** to your *additional software sources* (this might ask you to confirm the `Syncany public key <http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3F6B7F13651D12BD>`_ as a trusted key).
+2. Once that is done, you can now update the package archives by ``sudo apt-get update``, and install Syncany with ``sudo apt-get install syncany``.
+3. After the installation, open the terminal and type ``sy``.
+
+Again, for the command line lovers:
+
+.. code-block:: bash
+
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A3002F0613D342687D70AEEE3F6B7F13651D12BD
+	sudo sh -c "echo deb http://archive.syncany.org/apt/release/ release main > /etc/apt/sources.list.d/syncany.list"
+	sudo apt-get update
+	sudo apt-get install syncany
+	sy -v
+
 
 Installing via a **.deb-package**:
 
@@ -70,23 +85,6 @@ If you're more of a command line guy, simply do this:
 
 	wget https://syncany.org/latest.deb
 	sudo dpkg -i syncany-latest.deb
-	sy -v
-
-Installing via **Ubuntu/Launchpad PPA** (via command line):
-
-1. Open your terminal, and add the Syncany release PPA by typing ``sudo add-apt-repository ppa:syncany/release``
-2. You'll be asked to confirm the imported public key. Make sure the public key identifier is **52DA5B42**. If it's not, do not import the key!
-3. Once that is done, you can now update the package archives by ``sudo apt-get update``, and install Syncany with ``sudo apt-get install syncany``.
-4. After the installation, open the terminal and type ``sy``.
-
-Again, for the command line lovers:
-
-.. code-block:: bash
-
-	sudo add-apt-repository ppa:syncany/release
-	   # Verify that public key identifier is 52DA5B42!
-	sudo apt-get update
-	sudo apt-get install syncany
 	sy -v
 
 Arch Linux
