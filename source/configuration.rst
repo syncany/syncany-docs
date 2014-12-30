@@ -114,18 +114,22 @@ Options for ``userconfig.xml``
 +---------------------------+------------+---------------+---------------------------------------------------+
 | Option                    | Mand.      | Def.          | Description                                       |
 +===========================+============+===============+===================================================+
-| ``<preventStandby>``      | no         | false         | Prevent standby/shutdown during sync              |
-+---------------------------+------------+---------------+---------------------------------------------------+
-| ``<systemProperties>``    | yes        | *none*        | Set any Java system properties (e.g proxy)        |
-+---------------------------+------------+---------------+---------------------------------------------------+
 | ``<configEncryptionKey>`` | yes        | *none*        | Encryption key to encrypt repo access credentials |
 +---------------------------+------------+---------------+---------------------------------------------------+
+| ``<systemProperties>``    | no         | *none*        | Set any Java system properties (e.g proxy)        |
++---------------------------+------------+---------------+---------------------------------------------------+
+| ``<preventStandby>``      | no         | false         | Prevent standby/shutdown during sync              |
++---------------------------+------------+---------------+---------------------------------------------------+
+| ``<maxMemory>``           | no         | 2G            | Limit memory usage of Syncany                     |
++---------------------------+------------+---------------+---------------------------------------------------+
 
-If the ``<preventStandby>`` option is set to ``true``, Syncany will make sure that your system doesn't go into standby/hibernate if the synchronization process is run. This option will not prevent your system from going to sleep if no upload/download process is taking place. Since this option might also prevent the screensaver or screen lock, it is not enabled by default. 
+The ``<configEncryptionKey>`` option is used to encrypt sensitive values in the :ref:`config.xml <configuration_config_xml>` file, e.g. the (S)FTP/WebDAV password, the Amazon S3 / Dropbox access token, and so on. 
 
 The ``<systemProperties>`` option allows you to set Java system properties via the Syncany configuration. Any of the ``<property>`` options will be passed to Java's ``System.setProperty()`` method. This can be used to set proxy settings, log settings, and so on.
 
-The ``<configEncryptionKey>`` option is used to encrypt sensitive values in the :ref:`config.xml <configuration_config_xml>` file, e.g. the (S)FTP/WebDAV password, the Amazon S3 / Dropbox access token, and so on. 
+If the ``<preventStandby>`` option is set to ``true``, Syncany will make sure that your system doesn't go into standby/hibernate if the synchronization process is run. This option will not prevent your system from going to sleep if no upload/download process is taking place. Since this option might also prevent the screensaver or screen lock, it is not enabled by default. 
+
+The ``<maxMemory>`` option can be used to limit Syncany's memory usage to the given value. Example values are ``1G`` (1 GB) or ``500M`` (500 MB). By default, Syncany will limit the max. memory value to ``2G`` (2 GB). The value will be passed on to the Java Virtual Machine (``-Xmx``). 
 
 Useful System Properties
 """"""""""""""""""""""""
