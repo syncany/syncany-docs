@@ -29,6 +29,10 @@ An **interactive command line interface** will ask you a couple of questions abo
         
 As soon as you've successfully run the init command, the repository is all set up. You can now sync files to it using ``sy up`` and ``sy down``, and you can connect other client with the ``sy connect`` command. The command will output a link that you can share with trusted friends or colleagues that enables them to connect to the same repository.
 
+.. note::
+
+	Syncany will synchronize everything in the initialized folder (including sub-folders). If you are just starting out, choose a *small directory* and and get a feel for the tool before synchronizing large amounts of data. **Do not sync your home directory**!
+
 Syncing files
 -------------
 Syncany repositories can be synchronized manually via the command line, or automatically with the help of the background process (or daemon):
