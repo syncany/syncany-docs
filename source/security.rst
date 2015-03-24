@@ -170,6 +170,17 @@ If the repository password or the master key is retrieved, data confidentiality 
 
 If only the storage credentials are retrieved by an adversary, only the availability of data is at risk (same scenario as above).
 
+Syncany Server Communication
+----------------------------
+Syncany usually only communicates with the backend storage it is being used with. However, there are very few instances in which it actually calls out to the Syncany server [1]_:
+
+* **Listing available plugins**: To list available remote plugins, Syncany queries the `Syncany API <https://github.com/syncany/syncany-website>`_ (at api.syncany.org). Listing plugins is manually initiated via the command line (``sy plugin list``) or when opening the Preferences dialog in the GUI.
+* **Downloading/Installing plugins**: When a plugin is installed via ``sy plugin install <plugin-id>`` (or via the GUI), Syncany retrieves the download location via the Syncany API, and then downloads this plugin from the that location (at get.syncany.org).
+* **Checking for application/updates**: To check for new versions of the application and/or plugins, Syncany will query the Syncany API. This can be initiated via ``sy update check`` or via the GUI once a day.
+* **Pub/sub server**: To quickly notify other clients that new data has been uploaded, Syncany subscribes each user to a small pub/sub server at notify.syncany.org:8080 based on `Fanout <https://github.com/travisghansen/fanout>`_. The data exchanged via this pub/sub server only contains the random repository identifer and is only used to trigger the other clients sync process.
+
+All calls to the Syncany API can be manually overridden by specifying an alternative API endpoint (``--api-endpoint=...``). The pub/sub server can be overridden by the ``--announce`` command line options or the corresponding configuration setting.
+
 Source Code
 -----------
 All the cryptography related code is implemented in the ``org.syncany.crypto`` package. Feel free to `inspect the code <https://github.com/syncany/syncany/tree/da6e4f5dd91a9c42f375a55bd764e61488a8950f/syncany-lib/src/main/java/org/syncany/crypto>`_ and `create a new issue <https://github.com/syncany/syncany/issues>`_ if something doesn't feel right.
@@ -178,3 +189,7 @@ Known Issues and Limitations
 ----------------------------   
 - In multiple peer reviews, it has been suggested to drop the cipher nesting in favor of a single cipher. While there is no evidence that a nested cipher is or might be weaker than a single cipher, there is very little literature about it -- so it is probably not a good idea. See `issue 59 <https://github.com/syncany/syncany/issues/59>`_.
 - As of today, neither the master key nor the password can be changed. See `issue 150 <https://github.com/syncany/syncany/issues/150>`_.
+
+.. rubric:: Footnotes
+
+.. [1] The Syncany server is a rented server managed by the project lead of Syncany. It is located in Germany and hosted by Host Europe GmbH.
