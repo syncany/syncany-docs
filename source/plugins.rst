@@ -66,39 +66,6 @@ For other users to connect to a repository, you can either provide them with the
 .. warning::
 	Users sharing a repository typically access that repository **using the same storage credentials**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. **Only share a repository with people you trust with these credentials!**
 
-Local Plugin
-^^^^^^^^^^^^
-The local plugin (plugin identifier ``local``) is the only built-in storage plugin. It provides a way to use a local folder as repository for Syncany. That means that instead of connecting to a remote storage and storing the repository files remotely, Syncany will use the predefined folder to store them. While that sounds quite odd at first (*why would I want to sync to a local folder?*), it actually makes quite a lot of sense for a few cases:
-
-* **Removable devices**: If you sync or backup to a removable device, you can use the local plugin to address the target folder on that device. For instance, you'd be specifying ``/mnt/backupdisk/office`` or ``E:\office`` as a target folder.
-* **Virtual file systems**: Many storage systems can already be mounted as virtual file systems. NFS, Samba, Google Drive are just a few examples. If you used a mounted folder as target, you won't even need a special Samba or NFS plugin for Syncany, because the local plugin can be used.
-* **Testing**: If you want to try out Syncany or test something, the local plugin is a very simple way to do that.
-
-Plugin Security
-"""""""""""""""
-Syncany assumes that the local machine is secure, so if a regular local folder (removable device or hard disk) is used, there are no security remarkds regarding this plugin. If, however, the target repository folder points to a mounted a virtual file system, it depends on the underlying protocol if/how vulnerable the system is. 
-
-Options for ``config.xml``
-""""""""""""""""""""""""""
-
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| Plugin Option        | Mandatory  | Default Value | Description                                               |
-+======================+============+===============+===========================================================+
-| **path**             | yes        | *none*        | Local folder used to store repository files to.           |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-
-Example ``config.xml``
-""""""""""""""""""""""
-
-.. code-block:: xml
-
-	<config xmlns="http://syncany.org/config/1">
-		...
-		<connection type="local">
-			<path>/tmp/tx/c</path>
-		</connection>
-	</config>
-
 .. _plugin_s3:
 
 Amazon S3 Plugin
@@ -150,6 +117,44 @@ Example ``config.xml``
 		</connection>
 	</config>
 
+Dropbox Plugin
+^^^^^^^^^^^^^^
+The Dropbox plugin (plugin identifier ``dropbox``) uses a folder in your `Dropbox <http://www.dropbox.com/>`_ as a storage backend. Data is stored in the Syncany repository format in a dedicated ``Apps`` folder of your Dropbox. The plugin authenticates against the Dropbox REST API via a OAuth 2.0: During ``sy init``, you will be asked to navigate to the Dropbox website and copy an access token from there. 
+
+.. note::
+
+	Syncany will only use Dropbox as a storage backend, it is not an alternative Dropbox sync client. In particular, **you will not be able to read files synchronized with Syncany using your Dropbox web interface**, because Syncany files are stored in the Syncany repository format. 
+
+	In addition to that, if you run both Syncany and the Dropbox client, Dropbox will **regularly show notifications** about Syncany-originated files that have been changed. Due to the fact that Dropbox cannot disable notifications for certain folders, it is not practical to run both Syncany and the Dropbox client. Instead, we suggest to only use Dropbox as a storage backend and **disable/close the Dropbox client**.
+	
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+Dropbox REST API traffic is based on HTTPS, so **tranport security is ensured**. Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Dropbox (or any third party) cannot read your files, even if they access the encrypted files in your Dropbox folder.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **accessToken**      | yes        | *none*        | OAuth access token displayed on the Dropbox website       |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | yes        | *none*        | Repository folder in your Dropbox-Syncany app folder      |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="dropbox">
+			<accessToken encrypted="true">5379020501945a9c7e6196cb2bc1...</accessToken>
+			<path>RepoWork</path>
+		</connection>
+	</config>
+
 .. _plugin_ftp:
 
 FTP Plugin
@@ -194,6 +199,191 @@ Example ``config.xml``
 			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
 			<path>/syncany/repo2</path>
 			<port>21</port>
+		</connection>
+	</config>	
+	
+Local Plugin
+^^^^^^^^^^^^
+The local plugin (plugin identifier ``local``) is the only built-in storage plugin. It provides a way to use a local folder as repository for Syncany. That means that instead of connecting to a remote storage and storing the repository files remotely, Syncany will use the predefined folder to store them. While that sounds quite odd at first (*why would I want to sync to a local folder?*), it actually makes quite a lot of sense for a few cases:
+
+* **Removable devices**: If you sync or backup to a removable device, you can use the local plugin to address the target folder on that device. For instance, you'd be specifying ``/mnt/backupdisk/office`` or ``E:\office`` as a target folder.
+* **Virtual file systems**: Many storage systems can already be mounted as virtual file systems. NFS, Samba, Google Drive are just a few examples. If you used a mounted folder as target, you won't even need a special Samba or NFS plugin for Syncany, because the local plugin can be used.
+* **Testing**: If you want to try out Syncany or test something, the local plugin is a very simple way to do that.
+
+Plugin Security
+"""""""""""""""
+Syncany assumes that the local machine is secure, so if a regular local folder (removable device or hard disk) is used, there are no security remarkds regarding this plugin. If, however, the target repository folder points to a mounted a virtual file system, it depends on the underlying protocol if/how vulnerable the system is. 
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **path**             | yes        | *none*        | Local folder used to store repository files to.           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="local">
+			<path>/tmp/tx/c</path>
+		</connection>
+	</config>
+	
+.. _plugin_swift:	
+
+OpenStack Swift Plugin
+^^^^^^^^^^^^^^^^^^^^^^
+The Swift plugin (plugin identifier ``swift``) uses an `OpenStack Swift <http://swift.openstack.org/>`_ container as a storage backend. Data is stored within objects in the object container of a Swift Object Store. The plugin authenticates against the publicly available Swift API via a authentication URL, using a username and a password.
+
+Swift uses HTTP or HTTPS as a method of transferring files to and from the remote server and authenticate users via username/password.
+
+The HTTP and HTTPS setup are identical in terms of parameters -- only the authentication URL setting differs slightly (``http://`` and ``https://``). However, if HTTPS is used, only server certificates signed by CAs included in the JRE/JDK will be accepted, e.g. certificates by VeriSign, GlobalSign, etc. 
+
+.. note::
+
+	At this time, this plugin **will not work with HTTPS-based backends** if the certificate is self-signed or the signed by any CA not shipped with the JRE/JDK. In particular, you will be not asked to confirm the plugin interactively/manually. This is a known issue and will hopefully be resolved soon.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+Depending on the URL configured during setup, communication is either HTTP or HTTPS. If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your account and simply delete all of your files.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **authUrl**          | yes        | *none*        | Swift API Authentication URL (`http://` or `https://`)    |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Swift username                                            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Swift password                                            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="swift">
+			<authUrl>https://cloud.swiftstack.com/auth/v1.0</authUrl>
+			<username>sw1f7Us3r</username>
+			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
+		</connection>
+	</config>	
+
+.. _plugin_raid0:
+
+RAID0 Plugin
+^^^^^^^^^^^^
+The RAID0 plugin (plugin identifier ``raid0``) virtually combines two storage backends into a single storage. The plugin can use any two storage plugins, e.g. an FTP folder (:ref:`FTP plugin <plugin_ftp>`) and an Amazon S3 bucket (:ref:`Amazon S3 plugin <plugin_s3>`). Unlike a RAID1 (or other RAID forms), it does not mirror the storage or provide protection against the failure of one backend. It merely combines their disk space. If one of the backends fails, all repository data is lost. As of today, there is no RAID1 plugin, but we will provide it eventually.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The RAID0 plugin uses two other storage plugins, so its security directly depends on the respective plugins. Please refer to their documentation for details.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+The RAID0 plugin options are a bit different from other plugins, because depending on the chosen storage plugins, the sub-options are different. If, for instance, an FTP plugin is chosen as storage 1 (``storage1:type=ftp``), the storage options are ``storage1.hostname=..``, ``storage1.username=..``, and so on.
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **storage1:type**    | yes        | *none*        | Plugin identifier of the first storage backend            |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of first plugin                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1:type**    | yes        | *none*        | Plugin identifier of the second storage backend           |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of second plugin                  |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+This example uses an Amazon S3 plugin and an SFTP plugin as a backend.
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="raid0">
+			<storage1 type="s3">
+				<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
+				<secretKey>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</secretKey>
+				<bucket>syncany-demo</bucket>
+				<location>us-west-1</location>
+			</storage1>
+			<storage2 type="sftp">
+				<hostname>example.com</hostname>
+				<username>spikeh</username>
+				<privatekey>none</privatekey>
+				<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
+				<path>/home/spikeh/SyncanyRepo</path>
+				<port>22</port>
+			</storage2>
+		</connection>
+	</config>
+
+.. _plugin_samba:
+
+Samba Plugin
+^^^^^^^^^^^^
+The Samba plugin (plugin identifier ``samba``) uses a single folder on a SMB/CIFS share (also known as: Windows Share) as repository. Since only a sub-folder is used, multiple repositories per SMB/CIFS server are possible. 
+
+Since Microsoft Windows comes with SMB/CIFS support out of the box, this plugin is most useful in Windows environments. Nevertheless, it works equally well with the Linux implementation Samba.
+
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+The Samba plugin uses the `jCIFS library <http://jcifs.samba.org/>`_ for SMB/CIFS. Since this library only supports `NT LM 0.12 <https://lists.samba.org/archive/jcifs/2013-December/010123.html>`_ (which is `SMBv1 <http://richardkok.wordpress.com/2011/02/03/wireshark-determining-a-smb-and-ntlm-version-in-a-windows-environment/>`_), the plugin currently does not encrypt the communication to the SMB/CIFS server. 
+
+That means that the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your SMB/CIFS account and simply delete all of your files.
+
+If the Samba plugin is used, users sharing a repository typically access that repository **using the same username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
+
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **hostname**         | yes        | *none*        | Hostname or IP address of the Samba server                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **username**         | yes        | *none*        | Username of the Samba user                                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **password**         | yes        | *none*        | Password of the samba user                                |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **share**            | yes        | *none*        | Name of the Samba share                                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **path**             | no         | /             | Sub path of the Samba share                               |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+
+This example uses the folder ``Repo1`` on the ``Repositories`` share for storing the files. The UNC path for this would be: ``\\192.168.1.25\Repositories\Repo1``.
+
+.. code-block:: xml
+
+	<config xmlns="http://syncany.org/config/1">
+		...
+		<connection type="samba">
+			<hostname>192.168.1.25</hostname>
+			<username>Philipp</username>
+			<password encrypted="true">0e99b946577d26376c64b59a...</password>
+			<share>Repositories</share>
+			<path>Repo1</path>
 		</connection>
 	</config>
 
@@ -283,7 +473,7 @@ Example ``config.xml``
 			<port>22</port>
 		</connection>
 	</config>
-
+	
 .. _plugin_webdav:
 
 WebDAV Plugin
@@ -342,192 +532,8 @@ Example ``config.xml``
 			<username>christof</username>
 			<password encrypted="true">0e99b946577d26376c64b59a...</password>
 		</connection>
-	</config>
+	</config>	
 
-Samba Plugin
-^^^^^^^^^^^^
-The Samba plugin (plugin identifier ``samba``) uses a single folder on a SMB/CIFS share (also known as: Windows Share) as repository. Since only a sub-folder is used, multiple repositories per SMB/CIFS server are possible. 
-
-Since Microsoft Windows comes with SMB/CIFS support out of the box, this plugin is most useful in Windows environments. Nevertheless, it works equally well with the Linux implementation Samba.
-
-The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
-
-Plugin Security
-"""""""""""""""
-The Samba plugin uses the `jCIFS library <http://jcifs.samba.org/>`_ for SMB/CIFS. Since this library only supports `NT LM 0.12 <https://lists.samba.org/archive/jcifs/2013-December/010123.html>`_ (which is `SMBv1 <http://richardkok.wordpress.com/2011/02/03/wireshark-determining-a-smb-and-ntlm-version-in-a-windows-environment/>`_), the plugin currently does not encrypt the communication to the SMB/CIFS server. 
-
-That means that the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. However, be aware that this still means that an attacker might get access to your SMB/CIFS account and simply delete all of your files.
-
-If the Samba plugin is used, users sharing a repository typically access that repository **using the same username/password combination**. Be aware that sharing a ``syncany://`` link and the repository password with other users also means giving away these storage credentials. Only share a repository with people you trust with these credentials.
-
-Options for ``config.xml``
-""""""""""""""""""""""""""
-
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| Plugin Option        | Mandatory  | Default Value | Description                                               |
-+======================+============+===============+===========================================================+
-| **hostname**         | yes        | *none*        | Hostname or IP address of the Samba server                |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **username**         | yes        | *none*        | Username of the Samba user                                |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **password**         | yes        | *none*        | Password of the samba user                                |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **share**            | yes        | *none*        | Name of the Samba share                                   |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **path**             | no         | /             | Sub path of the Samba share                               |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-
-Example ``config.xml``
-""""""""""""""""""""""
-
-This example uses the folder ``Repo1`` on the ``Repositories`` share for storing the files. The UNC path for this would be: ``\\192.168.1.25\Repositories\Repo1``.
-
-.. code-block:: xml
-
-	<config xmlns="http://syncany.org/config/1">
-		...
-		<connection type="samba">
-			<hostname>192.168.1.25</hostname>
-			<username>Philipp</username>
-			<password encrypted="true">0e99b946577d26376c64b59a...</password>
-			<share>Repositories</share>
-			<path>Repo1</path>
-		</connection>
-	</config>
-
-RAID0 Plugin
-^^^^^^^^^^^^
-The RAID0 plugin (plugin identifier ``raid0``) virtually combines two storage backends into a single storage. The plugin can use any two storage plugins, e.g. an FTP folder (:ref:`FTP plugin <plugin_ftp>`) and an Amazon S3 bucket (:ref:`Amazon S3 plugin <plugin_s3>`). Unlike a RAID1 (or other RAID forms), it does not mirror the storage or provide protection against the failure of one backend. It merely combines their disk space. If one of the backends fails, all repository data is lost. As of today, there is no RAID1 plugin, but we will provide it eventually.
-
-The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
-
-Plugin Security
-"""""""""""""""
-The RAID0 plugin uses two other storage plugins, so its security directly depends on the respective plugins. Please refer to their documentation for details.
-
-Options for ``config.xml``
-""""""""""""""""""""""""""
-The RAID0 plugin options are a bit different from other plugins, because depending on the chosen storage plugins, the sub-options are different. If, for instance, an FTP plugin is chosen as storage 1 (``storage1:type=ftp``), the storage options are ``storage1.hostname=..``, ``storage1.username=..``, and so on.
-
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| Plugin Option        | Mandatory  | Default Value | Description                                               |
-+======================+============+===============+===========================================================+
-| **storage1:type**    | yes        | *none*        | Plugin identifier of the first storage backend            |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of first plugin                   |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **storage1:type**    | yes        | *none*        | Plugin identifier of the second storage backend           |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of second plugin                  |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-
-Example ``config.xml``
-""""""""""""""""""""""
-This example uses an Amazon S3 plugin and an SFTP plugin as a backend.
-
-.. code-block:: xml
-
-	<config xmlns="http://syncany.org/config/1">
-		...
-		<connection type="raid0">
-			<storage1 type="s3">
-				<accessKey>AKIAIHIALEXANDREUIIE</accessKey>
-				<secretKey>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</secretKey>
-				<bucket>syncany-demo</bucket>
-				<location>us-west-1</location>
-			</storage1>
-			<storage2 type="sftp">
-				<hostname>example.com</hostname>
-				<username>spikeh</username>
-				<privatekey>none</privatekey>
-				<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
-				<path>/home/spikeh/SyncanyRepo</path>
-				<port>22</port>
-			</storage2>
-		</connection>
-	</config>
-
-OpenStack Swift Plugin
-^^^^^^^^^^^^^^^^^^^^^^
-The Swift plugin (plugin identifier ``swift``) uses an `OpenStack Swift <http://swift.openstack.org/>`_ container as a storage backend. Data is stored within objects in the object container of a Swift Object Store. The plugin authenticates against the publicly available Swift API via a authentication URL, using a username and a password.
-
-Swift uses HTTP or HTTPS as a method of transferring files to and from the remote server and authenticate users via username/password.
-
-The HTTP and HTTPS setup are identical in terms of parameters -- only the authentication URL setting differs slightly (``http://`` and ``https://``). However, if HTTPS is used, only server certificates signed by CAs included in the JRE/JDK will be accepted, e.g. certificates by VeriSign, GlobalSign, etc. 
-
-.. note::
-
-	At this time, this plugin **will not work with HTTPS-based backends** if the certificate is self-signed or the signed by any CA not shipped with the JRE/JDK. In particular, you will be not asked to confirm the plugin interactively/manually. This is a known issue and will hopefully be resolved soon.
-
-The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
-
-Plugin Security
-"""""""""""""""
-Depending on the URL configured during setup, communication is either HTTP or HTTPS. If HTTP is used, traffic between the remote server and the local machine is not encrypted -- i.e. in this case, the plugin **does not provide transport security** and credentials might be read by an adversary (man-in-the-middle attack). However, since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Be aware that this still means that an attacker might get access to your account and simply delete all of your files.
-
-Options for ``config.xml``
-""""""""""""""""""""""""""
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| Plugin Option        | Mandatory  | Default Value | Description                                               |
-+======================+============+===============+===========================================================+
-| **authUrl**          | yes        | *none*        | Swift API Authentication URL (`http://` or `https://`)    |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **username**         | yes        | *none*        | Swift username                                            |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **password**         | yes        | *none*        | Swift password                                            |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-
-Example ``config.xml``
-""""""""""""""""""""""
-.. code-block:: xml
-
-	<config xmlns="http://syncany.org/config/1">
-		...
-		<connection type="swift">
-			<authUrl>https://cloud.swiftstack.com/auth/v1.0</authUrl>
-			<username>sw1f7Us3r</username>
-			<password encrypted="true">0e2144feed0d93bc6e8d22da...</password>
-		</connection>
-	</config>
-
-Dropbox Plugin
-^^^^^^^^^^^^^^
-The Dropbox plugin (plugin identifier ``dropbox``) uses a folder in your `Dropbox <http://www.dropbox.com/>`_ as a storage backend. Data is stored in the Syncany repository format in a dedicated ``Apps`` folder of your Dropbox. The plugin authenticates against the Dropbox REST API via a OAuth 2.0: During ``sy init``, you will be asked to navigate to the Dropbox website and copy an access token from there. 
-
-.. note::
-
-	Syncany will only use Dropbox as a storage backend, it is not an alternative Dropbox sync client. In particular, **you will not be able to read files synchronized with Syncany using your Dropbox web interface**, because Syncany files are stored in the Syncany repository format. 
-
-	In addition to that, if you run both Syncany and the Dropbox client, Dropbox will **regularly show notifications** about Syncany-originated files that have been changed. Due to the fact that Dropbox cannot disable notifications for certain folders, it is not practical to run both Syncany and the Dropbox client. Instead, we suggest to only use Dropbox as a storage backend and **disable/close the Dropbox client**.
-	
-The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
-
-Plugin Security
-"""""""""""""""
-Dropbox REST API traffic is based on HTTPS, so **tranport security is ensured**. Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Dropbox (or any third party) cannot read your files, even if they access the encrypted files in your Dropbox folder.
-
-Options for ``config.xml``
-""""""""""""""""""""""""""
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| Plugin Option        | Mandatory  | Default Value | Description                                               |
-+======================+============+===============+===========================================================+
-| **accessToken**      | yes        | *none*        | OAuth access token displayed on the Dropbox website       |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-| **path**             | yes        | *none*        | Repository folder in your Dropbox-Syncany app folder      |
-+----------------------+------------+---------------+-----------------------------------------------------------+
-
-Example ``config.xml``
-""""""""""""""""""""""
-.. code-block:: xml
-
-	<config xmlns="http://syncany.org/config/1">
-		...
-		<connection type="dropbox">
-			<accessToken encrypted="true">5379020501945a9c7e6196cb2bc1...</accessToken>
-			<path>RepoWork</path>
-		</connection>
-	</config>
-	
 .. _plugin_gui:
 
 Graphical User Interface Plugin
