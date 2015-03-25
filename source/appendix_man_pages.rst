@@ -9,6 +9,7 @@ This appendix lists all the manual/help pages available for the ``sy`` command, 
 
 sy / syncany
 ^^^^^^^^^^^^
+::
 
 	NAME
 	  sy - secure file sync software for arbitrary storage backends
