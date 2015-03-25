@@ -155,6 +155,66 @@ Example ``config.xml``
 		</connection>
 	</config>
 
+.. _plugin_flickr:
+
+Flickr Plugin
+^^^^^^^^^^^^^
+The Flickr plugin (plugin identifier ``flickr``) is a bit of a fun plugin. It encodes all the user data into PNG images and uploads them to a `Flickr <http://www.flickr.com/>`_ album. Data of all the files in a local Syncany folder is transformed into valid square PND images that can be viewed in any image view. Because Syncany repacks and encrypts data, the images appear random to the human eye. 
+
+.. note::
+
+	While Flickr offers 1 TB of storage for images, the plugin has not extensively tested for large folders. Please be aware of this!
+
+The plugin authenticates against the Dropbox REST API via a OAuth 2.0: During ``sy init``, you will be asked to navigate to the Flickr website and copy an access token from there. 
+	
+The plugin is not installed by default, but it can be easily installed using the ``sy plugin install`` command. For details about how to use this command, refer to the command reference at :ref:`command_plugin`.
+
+Plugin Security
+"""""""""""""""
+Flickr REST API traffic is based on HTTPS, so **tranport security is ensured**. Since Syncany itself takes care of encrypting the files before they are uploaded, the **confidentiality of your data is not at risk**. Flickr (or any third party) cannot read your files, even if they access the encrypted files in your Flickr albums.
+
+Options for ``config.xml``
+""""""""""""""""""""""""""
++----------------------+------------+---------------+-----------------------------------------------------------+
+| Plugin Option        | Mandatory  | Default Value | Description                                               |
++======================+============+===============+===========================================================+
+| **auth**             | yes        | *none*        | Structured authentication information                     |
++----------------------+------------+---------------+-----------------------------------------------------------+
+| **album**            | yes        | *none*        | Flickr album identifier                                   |
++----------------------+------------+---------------+-----------------------------------------------------------+
+
+Example ``config.xml``
+""""""""""""""""""""""
+.. code-block:: xml
+
+	<config>
+		...
+		<connection class="org.syncany.plugins.flickr.FlickrTransferSettings" type="flickr">
+			<album>82554672157651456</album>
+			<auth>
+				<token>36576...</token>
+				<tokenSecret>bd1d...</tokenSecret>
+				<user>
+					<id>585546793@N00</id>
+					<username>Philipp Roth</username>
+					<admin>false</admin>
+					<pro>false</pro>
+					<iconFarm>0</iconFarm>
+					<iconServer>0</iconServer>
+					<realName>Christian Otte</realName>
+					<photosCount>0</photosCount>
+					<bandwidthMax>0</bandwidthMax>
+					<bandwidthUsed>0</bandwidthUsed>
+					<filesizeMax>0</filesizeMax>
+					<revContact>false</revContact>
+					<revFriend>false</revFriend>
+					<revFamily>false</revFamily>
+				</user>
+				<permission>delete</permission>
+			</auth>
+		</connection>
+	</config>	
+
 .. _plugin_ftp:
 
 FTP Plugin
