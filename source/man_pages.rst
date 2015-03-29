@@ -508,7 +508,7 @@ sy log
 	  Syncany 0.4.4-alpha, Distributed under GPLv3,
 	  Copyright (c) 2011-2015 Philipp C. Heckel
 
-.. _man_ls-remote:
+.. _man_ls_remote:
 
 sy ls-remote
 ^^^^^^^^^^^^

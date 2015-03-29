@@ -21,5 +21,7 @@ This document is targeted at end-users. It describes how to use Syncany and how 
    plugins
    security
    configuration  
-   appendix_man_pages 
+   faq
+   man_pages 
+   videos_and_links
 
