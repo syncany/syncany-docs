@@ -121,7 +121,7 @@ Options for ``userconfig.xml``
 +---------------------------+------------+---------------+---------------------------------------------------+
 | ``<preventStandby>``      | no         | false         | Prevent standby/shutdown during sync              |
 +---------------------------+------------+---------------+---------------------------------------------------+
-| ``<maxMemory>``           | no         | 512M          | Limit memory usage of Syncany                     |
+| ``<maxMemory>``           | no         | 1G            | Limit memory usage of Syncany                     |
 +---------------------------+------------+---------------+---------------------------------------------------+
 
 The ``<configEncryptionKey>`` option is used to encrypt sensitive values in the :ref:`config.xml <configuration_config_xml>` file, e.g. the (S)FTP/WebDAV password, the Amazon S3 / Dropbox access token, and so on. 
@@ -130,7 +130,7 @@ The ``<systemProperties>`` option allows you to set Java system properties via t
 
 If the ``<preventStandby>`` option is set to ``true``, Syncany will make sure that your system doesn't go into standby/hibernate if the synchronization process is run. This option will not prevent your system from going to sleep if no upload/download process is taking place. Since this option might also prevent the screensaver or screen lock, it is not enabled by default. 
 
-The ``<maxMemory>`` option can be used to limit Syncany's memory usage to the given value. Example values are ``1G`` (1 GB) or ``500M`` (500 MB). By default, Syncany will limit the max. memory value to ``2G`` (2 GB). The value will be passed on to the Java Virtual Machine (``-Xmx``). 
+The ``<maxMemory>`` option can be used to limit Syncany's memory usage to the given value. Example values are ``1G`` (1 GB) or ``500M`` (500 MB). By default, Syncany will limit the max. memory value to ``1G`` (1 GB). The value will be passed on to the Java Virtual Machine (``-Xmx``). 
 
 Useful System Properties
 """"""""""""""""""""""""
