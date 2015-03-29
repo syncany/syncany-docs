@@ -98,10 +98,11 @@ If ``C:\Users\Steffen\Syncany`` is the managed Syncany folder, the following fil
 
 User-specific Configuration
 ---------------------------
-The user config defines central settings valid only for the logged-in user. Unlike the folder-specific settings, the user configuration settings apply to the entire user. There are two general categories of user-specific configuration files:
+The user config defines central settings valid only for the logged-in user. Unlike the folder-specific settings, the user configuration settings apply to the entire user. There are three general categories of user-specific configuration files:
 
 - **General User Configuration** (``userconfig.xml``): Define central user-specific config options such as proxy settings, standby settings or other system properties. 
 - **Daemon Configuration** (``daemon.xml``): Define settings specific to the Syncany background process (the daemon), such as which folders are managed by the daemon.
+- **GUI Configuration** (``gui.xml``): Define settings specific to the Syncany graphical user interface (only present if GUI is installed).
 
 The configuration can be found at ``%AppData%\Syncany\`` (Windows) and at ``~/.config/syncany/`` (Linux).
 
@@ -120,7 +121,7 @@ Options for ``userconfig.xml``
 +---------------------------+------------+---------------+---------------------------------------------------+
 | ``<preventStandby>``      | no         | false         | Prevent standby/shutdown during sync              |
 +---------------------------+------------+---------------+---------------------------------------------------+
-| ``<maxMemory>``           | no         | 2G            | Limit memory usage of Syncany                     |
+| ``<maxMemory>``           | no         | 512M          | Limit memory usage of Syncany                     |
 +---------------------------+------------+---------------+---------------------------------------------------+
 
 The ``<configEncryptionKey>`` option is used to encrypt sensitive values in the :ref:`config.xml <configuration_config_xml>` file, e.g. the (S)FTP/WebDAV password, the Amazon S3 / Dropbox access token, and so on. 
@@ -146,9 +147,25 @@ This is a non-exhaustive list of useful system properties that can be used in th
 +-----------------------------+-------------------------------------------------------------------------+
 | **http.proxyPort**          | Sets HTTP proxy port                                                    |
 +-----------------------------+-------------------------------------------------------------------------+
+| **http.proxyUser**          | Sets HTTP proxy username (if proxy needs authentication)                |
++-----------------------------+-------------------------------------------------------------------------+
+| **http.proxyPass**          | Sets HTTP proxy password (if proxy needs authentication)                |
++-----------------------------+-------------------------------------------------------------------------+
 | **https.proxyHost**         | Sets HTTPS proxy hostname                                               |
 +-----------------------------+-------------------------------------------------------------------------+
 | **https.proxyPort**         | Sets HTTPS proxy port                                                   |
++-----------------------------+-------------------------------------------------------------------------+
+| **https.proxyUser**         | Sets HTTPS proxy username (if proxy needs authentication)               |
++-----------------------------+-------------------------------------------------------------------------+
+| **https.proxyPass**         | Sets HTTPS proxy password (if proxy needs authentication)               |
++-----------------------------+-------------------------------------------------------------------------+
+| **socksProxyHost**          | Sets SOCKS proxy hostname                                               |
++-----------------------------+-------------------------------------------------------------------------+
+| **socksProxyPort**          | Sets SOCKS proxy port                                                   |
++-----------------------------+-------------------------------------------------------------------------+
+| **java.net.socks.username** | Sets SOCKS proxy username (if proxy needs authentication)               |
++-----------------------------+-------------------------------------------------------------------------+
+| **java.net.socks.password** | Sets SOCKS proxy password (if proxy needs authentication)               |
 +-----------------------------+-------------------------------------------------------------------------+
 | **org.syncany.test.tmpdir** | Developer property: Uses the given folder for Syncany unit tests        |
 +-----------------------------+-------------------------------------------------------------------------+
@@ -187,16 +204,12 @@ Options for ``daemon.xml``
 +------------------------+------------+---------------+--------------------------------------------+
 | ``<users>``            | yes        | *none*        | Log-in users for web server and API        |
 +------------------------+------------+---------------+--------------------------------------------+
-| ``<hooks>``            | no         | *none*        | Callback command to run on events          |
-+------------------------+------------+---------------+--------------------------------------------+
 
 The ``<folders>`` option can contain multiple ``<folder>`` definitions, each of which represent a Syncany folder managed by the daemon. To add a new Syncany folder, simply initialize or connect to a repository (using ``sy init`` or ``sy connect``) and add the folder here. Then restart the daemon. Find details to this option below in :ref:`configuration_daemon_folders`.
 
 The ``<webServer>`` option controls the internal Syncany web server (bind port and address, certificates). The web server is used for the web interface as well as for the Syncany API. Find details to this option below in :ref:`configuration_daemon_webserver`.
 
 The ``<users>`` option defines the users that can access the web interface and the API. Each ``<user>`` has full read/write access to the API and all managed folders. Find details to this option below in :ref:`configuration_daemon_users`.
-
-The ``<hooks>`` option allows running local commands whenever an external event occurs. Commands might be run after files have been added or changed.
 
 .. _configuration_daemon_folders:
 
@@ -267,20 +280,6 @@ All users provided in the ``<users>`` option have full read/write access to the 
 	   </users>
 	   
 In the example, users Pim and Philipp have the same access rights. Both can access the web interface and execute any REST/WS request.
-
-.. _configuration_daemon_hooks:
-
-Event Callbacks / Hooks (``<hooks>``)
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-The event callback functionality of Syncany is very new and very much evolving. The purpose of event hooks/callbacks are to react on events that happen in Syncany. Whenever an event occurs, Syncany checks whether a hook is defined and calls the corresponding command if there is. Variables are passed to the commands to describe the event. Currently, only one event is supported:
-
-.. code-block:: xml
-
-	   <hooks>
-	      <runAfterDown>notify-send "%subject"</runAfterDown>
-	   </hooks>
-	   
-In the example, the command ``notify-send`` is called after the down operation is run and returned a non-empty result. THe ``%subject`` variable is replaced by something like "3 files added, 2 changed".
 
 .. _configuration_daemon_example_simple:
 
@@ -367,11 +366,50 @@ Example 2: Complex ``daemon.xml``
 		 <username>admin</username>
 		 <password>IOgotcpZzNPh</password>
 	      </user>
-	   </users>
-	   <hooks>
-	      <runAfterDown>notify-send "%subject"</runAfterDown>
-	   </hooks>	   
+	   </users>	   
 	</daemon>
+
+.. _configuration_gui:
+
+GUI Config (``gui.xml``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The GUI config file ``gui.xml`` is only present if the graphical user interface is installed and has been started at least once. Its purpose is to store GUI-specific options only. All of the options are **meant to be set by the GUI**.
+
+Options for ``gui.xml``
+""""""""""""""""""""""""""
++------------------------+------------+---------------+--------------------------------------------+
+| Option                 | Mand.      | Def.          | Description                                |
++========================+============+===============+============================================+
+| ``<tray>``             | no         | ``DEFAULT``   | Tray icon engine (Linux only)              |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<theme>``            | no         | ``DEFAULT``   | Icon set to use for the tray               |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<startup>``          | no         | ``false``     | Run Syncany GUI at startup / user login    |
++------------------------+------------+---------------+--------------------------------------------+
+| ``<notifications>``    | no         | ``true``      | Show (or don't show) notifications         |
++------------------------+------------+---------------+--------------------------------------------+
+
+The ``<tray>`` option defines the tray backend used to display Syncany's tray icon. Possible values are ``DEFAULT``, ``APPINDICATOR`` and ``OSX_NOTIFICATION_CENTER``. If ``DEFAULT`` or no value is set, Syncany will try to automatically determine the backend to use for displaying the tray icon. On Linux, the Syncany GUI will use the Python-based app indicator script if the Unity desktop is detected. On Mac OSX, it will try to use the OSX notification center. 
+
+The ``<theme>`` option controls the icon theme used by the tray icon. Possible values are ``DEFAULT`` and ``MONOCHROME``. If ``DEFAULT`` is given, the default color theme will be used for all operating systems except for Mac OSX. On Mac OSX, the ``MONOCHROME`` theme is used.
+
+The ``<startup>`` option indicates whether the Syncany GUI is started when the user logs in, i.e. on startup. Note that changing this value in an editor does not change the autostart settings of your system. Only set this value via the graphical user interface.
+
+The ``<notifications>`` option defines if sync notifications are displayed to the user. Notifications are typically displayed if new files have been added or changed.
+
+.. _configuration_gui_example:
+
+Example: GUI config ``gui.xml``
+"""""""""""""""""""""""""""""""
+
+.. code-block:: xml
+
+	<gui>
+	   <tray>DEFAULT</tray>
+	   <theme>DEFAULT</theme>
+	   <startup>true</startup>
+	   <notifications>true</notifications>
+	</gui>
 	
 .. _configuration_keys_certificates:
 	

@@ -19,6 +19,7 @@ The following lists some random videos we made to demonstrate Syncany. We are de
 - `Connect to WebDAV with password via GUI <https://www.youtube.com/watch?v=uURhxVxr08c>`_ (Dec '14, 1 min)
 - `GUI Demo: Adding existing/new folders with the Wizard <https://www.youtube.com/watch?v=j6czSVSoDLU>`_ (Dec '14, 2 min)
 - `Windows/Linux with GUI / tray icons and conflicts <https://www.youtube.com/watch?v=eHoA5_8gRBc>`_ (Oct '14, 3 min)
+- `Progress bar in command line <https://asciinema.org/a/12486>`_ (Sep '14, 1 min)
 - `Syncany Web Interface Preview (now outdated!) <https://www.youtube.com/watch?v=2NPVffywZVs>`_ (Jun '14, 2 min)
 - `Trying out the newest Syncany version with Docker <https://asciinema.org/a/9602>`_ (May '14, 1 min)
 - `Automatically sync folders (using the S3 plugin) <https://asciinema.org/a/9290>`_ (May '14, 3 min)
