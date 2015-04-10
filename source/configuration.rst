@@ -352,9 +352,7 @@ Example 2: Complex ``daemon.xml``
 		          <forceChecksum>false</forceChecksum>
 		       </status>
 		       <force>false</force>
-		       <mergeRemoteFiles>true</mergeRemoteFiles>
 		       <removeOldVersions>true</removeOldVersions>
-		       <keepVersionsCount>5</keepVersionsCount>
 		       <maxDatabaseFiles>15</maxDatabaseFiles>
 		       <minSecondsBetweenCleanups>10800</minSecondsBetweenCleanups>
 		    </clean>
