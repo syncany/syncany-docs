@@ -57,7 +57,7 @@ The salts and IVs as well as the cipher configuration itself (here: AES/GCM+Twof
    
 The resulting **crypto file format** is structured as follows:
 
-* **Magic identifier**: Used to identify Syncany-encrypted files (static ``0x53790205``) 
+* **Magic identifier:** Used to identify Syncany-encrypted files (static ``0x53790205``) 
 * **Crypto format version:** Used to identify the crypto format version (static ``0x01``)
 * **Header HMAC salt:** Used to derive the HMAC header key with HKDF (to verify the header)
 * **Cipher Count:** Defines the number of nested ciphers (default: 2)

@@ -9,11 +9,13 @@ What is Syncany?
 Syncany is open source Dropbox-like file sync tool. It syncs files between computers either manually or automatically. Users can define certain folders of their computers and keep this folder in sync with friends. 
 
 So what make Syncany **awesome**?
+
 - Use-your-own storage (FTP, S3, WebDAV, NFS, Samba/Windows file share, ...)
 - Files are encrypted before upload (don't trust anybody but yourself)
-- Files are [deduplicated](http://en.wikipedia.org/wiki/Data_deduplication) locally (massive space savings on remote storage)
+- Files are `deduplicated <http://en.wikipedia.org/wiki/Data_deduplication>`_ locally (massive space savings on remote storage)
 
 What Syncany is **not**:
+
 - A service. You don't pay for it. You don't get storage from us. 
 - Usable for critical files. It's alpha software. Don't do it!
 - A large network of interconnected machines. You can't share folders with strangers. You must trust the persons you share files with.
@@ -21,17 +23,17 @@ What Syncany is **not**:
 
 Why make something new? Why not use Dropbox/rsync/etc.? How is it different from X?
 -----------------------------------------------------------------------------------
-If there were something like Syncany, I wouldn't be developing it. There are a few alternatives, but they all have a different focus, are not open source, have no versioning, cannot use arbitrary storage or don't encrypt locally. As far as I know, no tool has this exact feature set.
+If there were something like Syncany, we wouldn't be developing it. There are a few alternatives, but they all have a different focus, are not open source, have no versioning, cannot use arbitrary storage or don't encrypt locally. As far as we know, no tool has this exact feature set.
 
-Let's pick the normal contenders: Dropbox, Wuala, SparkleShare, BitTorrent Sync, ownCloud, Ubuntu One, rsync, Unison
+Let's pick the normal contenders: Dropbox, Wuala, SparkleShare, BitTorrent Sync, ownCloud, rsync, SyncThing.
 
-And here's how to filter them out: Dropbox, Wuala, and BitTorrent Sync are not open source, ownCloud, rsync and Ubuntu One don't support encryption and don't even get me started about versioning or the need for a central server ...
+And here's how to filter them out: Dropbox, Wuala, and BitTorrent Sync are not open source, ownCloud, rsync and Ubuntu One don't support encryption. SyncThing is bound to the peer2peer concept.
 
 Is there an App/Web-App/GUI for it?
 -----------------------------------
-While the focus is still on stability, the library, command line interface and the GUI. There are currently no efforts towards mobile apps or web interface.
+Yes! You can install it using ``sy plugin install gui``.
 
-There is an outdated `proof of concept web interface <https://github.com/syncany/syncany-plugin-simpleweb>`_.
+There is an outdated (and currently broken) `proof of concept web interface <https://github.com/syncany/syncany-plugin-simpleweb>`_.
 
 When will it be available? When is the release date?
 ----------------------------------------------------
