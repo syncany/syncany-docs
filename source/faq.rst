@@ -79,3 +79,13 @@ No this is not possible. Syncany stores data in a packed repository form. While 
 - Huge files: Syncany splits files into chunks, so it doesn't matter how large the original file is.
 
 To sync two folders directly, you can use rsync or Unison.
+
+
+What is the purpose of storing the master salt in the repo? Isn't it already included in the Syncany link?
+----------------------------------------------------------------------------------------------------------
+The master salt is stored in the repo in case we do not use (or cannot use) Syncany links. When we simply do 'sy connect', we don't have the salt anywhere, so it must be retrieved from the server.
+
+What exactly is stored in the 'syncany' file in the repo? Is it needed?
+-----------------------------------------------------------------------
+The Syncany file stores information about the chunking mechanisms used. It is currently only used to check if the password is correct (see if it decrypts and deserializes correctly, but it will be used in the future to store repository-specific information.
+
