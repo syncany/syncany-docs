@@ -89,3 +89,17 @@ What exactly is stored in the 'syncany' file in the repo? Is it needed?
 -----------------------------------------------------------------------
 The Syncany file stores information about the chunking mechanisms used. It is currently only used to check if the password is correct (see if it decrypts and deserializes correctly, but it will be used in the future to store repository-specific information.
 
+Where does the name Syncany come from?
+--------------------------------------
+The working title was Clonebox for a while. Then Philipp tried to find a name via Amazon Mechanical Turk. That didn't work. Philipp's girlfriend finally came up with the nice name Syncany. It combines the two works *synchronize* and *anything*.
+
+How do you pronounce Syncany?
+-----------------------------
+
+- In phonetic symbols: siŋkəni
+- Like in `this MP3 file <_static/syncany.mp3>`_.
+
+SyncAny? Sync Any? Syncanny?
+----------------------------
+No. Syncany.
+
