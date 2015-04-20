@@ -70,6 +70,8 @@ Connecting new Clients
 """"""""""""""""""""""
 When a user connects to an existing repository using ``sy connect``, Syncany first downloads the ``master`` file. This master file contains the unencrypted  **master salt** which (in combination with the **repository password**) can be used to derive the **master key**. Using this master key and the salts and IVs contained in the encrypted database and multichunk files, Syncany can create the file keys and thereby decrypt any file.
 
+.. _syncany_links:
+
 ``syncany://`` Links
 """"""""""""""""""""
 After the actual initialization, the ``sy init`` command creates a so-called ``syncany://``-link which can be used by other users to connect to a repository. This link contains the plugin credentials needed to access the repository (e.g. FTP host/user/pass). The link is encrypted using the same crypto format as described above, except that the master salt is included and the link is base58 encoded.
@@ -178,6 +180,7 @@ Syncany usually only communicates with the backend storage it is being used with
 * **Downloading/Installing plugins**: When a plugin is installed via ``sy plugin install <plugin-id>`` (or via the GUI), Syncany retrieves the download location via the Syncany API, and then downloads this plugin from the that location (at get.syncany.org).
 * **Checking for application/updates**: To check for new versions of the application and/or plugins, Syncany will query the Syncany API. This can be initiated via ``sy update check`` or via the GUI once a day.
 * **Pub/sub server**: To quickly notify other clients that new data has been uploaded, Syncany subscribes each user to a small pub/sub server at notify.syncany.org:8080 based on `Fanout <https://github.com/travisghansen/fanout>`_. The data exchanged via this pub/sub server only contains the random repository identifer and is only used to trigger the other clients sync process.
+* **Short links**: To shorten the ``syncany://`` links (using the ``sy (init|genlink) --short`` option), Syncany will send the long link to the Syncany API and request a short link from there. The link will only be transferred with the ``--short`` option enabled. Please note that this will link (while heavily encrypted) contains your **encrypted login credentials** (see :ref:`syncany_links`).
 
 All calls to the Syncany API can be manually overridden by specifying an alternative API endpoint (``--api-endpoint=...``). The pub/sub server can be overridden by the ``--announce`` command line options or the corresponding configuration setting.
 
