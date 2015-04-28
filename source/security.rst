@@ -32,7 +32,7 @@ For users to share a repository with Syncany, they must trust each other complet
 
 Repository Initialization
 """""""""""""""""""""""""
-When a user creates a new repository using ``sy init``, Syncany asks the user for the repository password. This password is used to derive a 64-bit **master key** using PBKDF2 with 1 million rounds and a 64-bit random **master salt** (1-4). The master key is stored locally in the ``config.xml`` file (see :ref:`configuration_config_xml`) -- since the local machine is trusted, it is not encrypted. The master salt is stored in plaintext locally (although it is not needed) and on the offsite storage in the ``master`` file.  Since the master salt must be public for when other clients connect to the repository, the ``master`` file is not encrypted. 
+When a user creates a new repository using ``sy init``, Syncany asks the user for the repository password. This password is used to derive a 512-bit **master key** using PBKDF2 with 1 million rounds and a 512-bit random **master salt** (1-4). The master key is stored locally in the ``config.xml`` file (see :ref:`configuration_config_xml`) -- since the local machine is trusted, it is not encrypted. The master salt is stored in plaintext locally (although it is not needed) and on the offsite storage in the ``master`` file.  Since the master salt must be public for when other clients connect to the repository, the ``master`` file is not encrypted. 
 
 Encrypting new Files
 """"""""""""""""""""
