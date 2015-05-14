@@ -38,6 +38,7 @@ There is quite a bit of reading material on Syncany already. Check out the follo
 
 **Posts and papers**:
 
+- `Syncany: The road to beta – Delft Students On Software Architecture <https://delftswa.github.io/chapters/syncany/index.html>`_ (May 2015)
 - `Blog post: Syncany explained: idea, progress, development and future (part 1) <http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/>`_ (Oct 2013)
 - `Blog post: Deep into the code of Syncany – CLI, application flow and data model (part 2) <http://blog.philippheckel.com/2014/02/14/deep-into-the-code-of-syncany-cli-application-flow-and-data-model/>`_ (Feb 2014)
 - `Master's thesis: Minimizing remote storage usage and synchronization time using deduplication and multichunking: Syncany as an example <http://blog.philippheckel.com/2013/05/20/minimizing-remote-storage-usage-and-synchronization-time-using-deduplication-and-multichunking-syncany-as-an-example/>`_ (2011)
