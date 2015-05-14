@@ -20,7 +20,7 @@ Installation requirements
 -------------------------
 Since Syncany heavily relies on Java, you obviously need an up-to-date version of Java installed. And that is about it. No other requirements. 
 
-* **Java/JRE >= 7**. Follow the directions on the `Oracle Website <java.com/download>`_ to install Java.
+* **Java/JRE >= 7**. Follow the directions on the `Oracle Website <http://java.com/download>`_ to install Java.
 * **bash-completion >= 2** (Linux only). If it's not installed by default, it's definitely in the default packages.
 
 Installing the latest release
