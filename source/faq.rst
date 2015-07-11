@@ -79,7 +79,7 @@ How do you pronounce Syncany?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - In phonetic symbols: siŋkəni
-- Like in `this MP3 file <_static/syncany.mp3>`_.
+- Like in `this audio file <_static/syncany.mp3>`_.
 
 SyncAny? Sync Any? Syncanny?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,7 +111,9 @@ The Syncany file stores information about the chunking mechanisms used. It is cu
 Common errors
 -------------
 
-Error message "Could not generate DH 4096 bits keypair"
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error message "Could not generate DH 4096/2048 bits keypair"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you see the error message "Could not generate DH 4096 bits keypair" (or a similar message) during the ``sy (init|connect)`` operation, the likely cause is a bug in Java 7 as indicated in `this StackOverflow post <http://stackoverflow.com/questions/6851461/java-why-does-ssl-handshake-give-could-not-generate-dh-keypair-exception/6852095#6852095>`_. As noted in `GitHub issue #483 <https://github.com/syncany/syncany/issues/483>`_, upgrading to Java 8 will fix this issue. 
+If you see the error message "Could not generate DH 4096 bits keypair" or "Could not generate DH 2048 bits keypair" (or a similar message) during the ``sy (init|connect)`` operation, the likely cause is that Java 7 only supports DH keys up to 1024 bits (due to a bug in Java 7 as indicated in `this StackOverflow post <http://stackoverflow.com/questions/6851461/java-why-does-ssl-handshake-give-could-not-generate-dh-keypair-exception/6852095#6852095>`_) and Java 8 only supports DH keys with up to 2048 bits. As noted in `GitHub issue #483 <https://github.com/syncany/syncany/issues/483>`_, upgrading to Java 8 will allow DH keys with up to 2048 bits. Keys with 4096 bits are not yet supported in Java 7 or 8. The only "solution" is to downgrade the server's TLS/SSL security parameters (cipher suites) to accept/downgrade to DH 2048 bit keys.
+
+
