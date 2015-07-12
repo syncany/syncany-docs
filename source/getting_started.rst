@@ -1,25 +1,66 @@
 Getting Started
 ===============
-Once you've :doc:`installed Syncany <installation>`, you can go ahead and open a terminal window and try out the ``sy`` command -- everything you can do with Syncany so far is implemented in this command. The typical order of commands is:
+
+Once you've :doc:`installed Syncany <installation>`, you can either use the Syncany graphical user interface (GUI), or the command line client (CLI). While the GUI is probably easier to use, the CLI offers more functionality and flexibility. 
+
+.. contents::
+
+Using the graphical user interface (GUI)
+----------------------------------------
+After installing Syncany, open it from your apps menu and if all goes well, you'll see a tray icon with the Syncany symbol in your notification area. 
+
+.. image:: _static/getting_started_gui_tray_menu.png
+   :align: center
+   
+From this tray menu, you can select a new local folder to sync, change settings or install plugins. Every interaction with Syncany starts from this tray icon and its menu. Typically, if you're new to Syncany, the following steps will have to be taken: 
+
+1. Select and install a :doc:`storage plugin <plugins>` via the 'Preferences/Plugins' dialog
+2. Initialize a new repository or connect to an existing repository via the 'Add folder ...' wizard
+
+Installing a storage plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syncany typically only ships with a single plugin. If you'd like to use other backend storages such as (S)FTP, Amazon S3, WebDAV and such, you'll have to install the corresponding plugin(s). To do that, open the 'Preferences ...' dialog from the tray menu and install the plugin on the plugins panel:
+
+.. image:: _static/getting_started_gui_plugin_install.png
+   :align: center
+   
+To use the plugin, a restart of Syncany is necessary.
+
+Initializing a new repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unlike Dropbox and others, Syncany does not (and can't) set up a default sync folder. To synchronize a set of files, you need to manually add a folder to Syncany and link it to a storage backend. To do that, click on the 'Add a folder' menu item in the tray. This will bring up a wizard dialog to guide you trough the process:
+
+.. image:: _static/getting_started_gui_add_folder.png
+   :align: center
+   
+Among others, you will need to ...
+
+- ... select a local folder that contains your files
+- ... select a storage backend (e.g. WebDAV, Amazon S3, SFTP, ...)
+- ... choose a password
+
+Once you've gone through all of these steps, you can start adding your files to the local sync folder and connect other devices to your repository. Syncany will run as a daemon in the background and watch for changed/added/deleted files. 
+
+To see a **screencast** of the whole process, check out `this YouTube video <https://www.youtube.com/watch?v=x5WmO0s9rv8>`_. Also check out our other :ref:`videos`.
+
+Using the command line interface (CLI)
+--------------------------------------
+The command line interface is much more powerful than the Syncany GUI. To use it, you can go ahead and open a terminal window and try out the ``sy`` command -- everything you can do with Syncany so far is implemented in this command. The typical order of commands is:
 
 1. Install a :doc:`storage plugin <plugins>` using ``sy plugin install <plugin-id>``
 2. Initialize a new repository with ``sy init``
 3. Then sync files manually with ``sy up`` and ``sy down``, or automatically with :ref:`the daemon <overview_daemon>`
 4. Connect and share with other clients with ``sy connect`` 
 
-As of today, Syncany is only available as a command line tool. We're working on a graphical user interface, but until that is ready, you'll have to make due with the CLI.
-
-.. contents::
-
 Installing a storage plugin
----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 First choose the storage backend you'd like to use by doing ``sy plugin list`` and then ``sy plugin install``. As of today, we've implemented a number of plugins. To get a complete list, check out the :doc:`plugins page <plugins>`. For this example, we'll install the Amazon S3 plugin:
 
 .. image:: _static/getting_started_sy_plugin_install.png
    :align: center
 
 Initializing a new repository
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Once the plugin is installed (in this example the Amazon S3 plugin), you can set up a new repository: To do that, simply navigate to the folder you want to synchronize and type ``sy init`` command. 
 
 An **interactive command line interface** will ask you a couple of questions about how to connect to the offsite storage (hostname, credentials, etc.), and it will ask you for a password to encrypt your data with. 
@@ -34,7 +75,7 @@ As soon as you've successfully run the init command, the repository is all set u
 	Syncany will synchronize everything in the initialized folder (including sub-folders). If you are just starting out, choose a *small directory* and and get a feel for the tool before synchronizing large amounts of data. **Do not sync your home directory**!
 
 Syncing files
--------------
+^^^^^^^^^^^^^
 Syncany repositories can be synchronized manually via the command line, or automatically with the help of the background process (or daemon):
 
 * **Syncing files manually** is useful for automated backup jobs, or if you want to use Syncany like a version control system. 
@@ -87,7 +128,7 @@ To register a folder manually or remove a folder from daemon management, the dae
 To let the daemon know about the new folder, run ``sy daemon restart`` (or ``sy daemon reload``, only on Linux).
 
 Connecting other clients 
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 A Syncany repository can be shared among many clients. There are two methods for new clients to connect to an existing repository:
 
 * Use ``sy connect`` to manually enter the backend storage credentials (just like with ``sy init``)

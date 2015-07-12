@@ -1,6 +1,6 @@
 Installation
 ============
-Syncany is written in pure Java, so it available on a number of platforms. To make the installation process as easy as possible, we've pre-bundled distributables for most major operating systems (a Mac OSX bundle is still missing, see `open issues <https://github.com/syncany/syncany/issues/34>`_). Whenever we release a new version of Syncany, we regenerate these bundles and publish them on the `distribution site <https://www.syncany.org/dist>`_.
+Syncany is written in pure Java, so it available on a number of platforms. To make the installation process as easy as possible, we've pre-bundled distributables for most major operating systems (a Mac OSX bundle is still missing, see `open issues <https://github.com/syncany/syncany/issues/34>`_). Whenever we release a new version of Syncany, we regenerate these bundles and publish them on the `distribution site <https://get.syncany.org/dist/>`_.
 
 On that site, you can find **releases** and **snapshots**. Releases are built and published in a certain release cycle (currently: 2 weeks), and snapshots are built with every commit. Feel free to try out both, but be aware that snapshots are very volatile and things might break without warning.
 
@@ -31,7 +31,7 @@ On Windows, you can either manually extract the Syncany files from the ZIP archi
 
 The installation using the Windows installer is easy and very similar to the installation of other applications. 
 
-1. Download the latest release from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*). The installer files have the *.exe* ending. You can't miss it.
+1. Download the latest release from the `distribution site <https://get.syncany.org/dist/>`_ (see folder *releases*). The installer files have the *.exe* ending. You can't miss it.
 2. Then run the executable and follow the instructions. 
 3. After the installation, open the command prompt and type ``sy``.
 
@@ -74,7 +74,7 @@ Again, for the command line lovers:
 
 Installing via a **.deb-package**:
 
-1. Download the latest release Debian package from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*).
+1. Download the latest release Debian package from the `distribution site <https://get.syncany.org/dist/>`_ (see folder *releases*).
 2. Double-click the *.deb*-package and click "Install", or type ``sudo dpkg -i syncany_<version>.deb`` from the command line.
 3. After the installation, open the terminal and type ``sy``.
 
@@ -120,9 +120,9 @@ If you just want to try Syncany for a few minutes, we provide it as a containeri
 
 Manual Installation (for other operating systems)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If your operating system isn't listed above, or if you just want to install Syncany manually for some other reason, simply download either the .zip or the .tar.gz archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*). Then extract the archive and run Syncany and/or the daemon from the ``bin/`` folder. This is the exact same process on every major operating system:
+If your operating system isn't listed above, or if you just want to install Syncany manually for some other reason, simply download either the .zip or the .tar.gz archive from the `distribution site <https://get.syncany.org/dist/>`_ (see folder *releases*). Then extract the archive and run Syncany and/or the daemon from the ``bin/`` folder. This is the exact same process on every major operating system:
 
-1. Download the latest archive from the `distribution site <https://www.syncany.org/dist>`_ (see folder *releases*)
+1. Download the latest archive from the `distribution site <https://get.syncany.org/dist/>`_ (see folder *releases*)
 2. Extract the archive and run ``bin/sy`` to run the Syncany command line tool
 
 If you'd like to use Syncany from there, but without having to always type the entire path to run it, you may want to place the Syncany ``bin/`` folder in the system's ``PATH`` environment variable. This will let your system know where to look for the ``sy`` command. It's easy to find out how to do that, but just in case:

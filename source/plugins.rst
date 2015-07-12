@@ -597,12 +597,7 @@ Example ``config.xml``
 .. _plugin_gui:
 
 Graphical User Interface Plugin
--------------------------------
-
-.. note::
-
-	The GUI plugin is still in the making, meaning that while it is functioning for a limited functionality, we are constantly improving it. Please refer to the `related GitHub issue <https://github.com/syncany/syncany/issues/204>`_.
-	
+-------------------------------	
 The GUI plugin (plugin identifier ``gui``) provides a graphical user interface for Syncany. Since Syncany mainly runs in the background, the user interface is very minimal. It consists of a tray icon and a small wizard to initialize or connect Syncany folders. It connects to the background daemon and displays all daemon-managed Syncany folders. Folders can either be added via the GUI, or by adding it to the ``daemon.xml`` (see :ref:`configuration_daemon`). 
 
 .. image:: _static/plugins_gui_tray.png
@@ -630,7 +625,7 @@ Simple Web Interface Plugin
 
 .. note::
 
-	The Simple Web Interface plugin is a proof-of-concept implementation. It is available as a snapshot, but not fully functional. We are still looking for a web frontend developer to take over / rewrite the web frontend. Please refer to the `corresponding GitHub issue <https://github.com/syncany/syncany/issues/207>`_.
+	The Simple Web Interface plugin is a proof-of-concept implementation. It is available as a snapshot, but it **is currently NOT functional**. We are still looking for a web frontend developer to take over / rewrite the web frontend. Please refer to the `corresponding GitHub issue <https://github.com/syncany/syncany/issues/207>`_.
 	
 The Simple Web Interface plugin (plugin identifier ``simpleweb``) provides access to the daemon-managed Syncany folders, i.e. all folders configured in the ``daemon.xml`` (see :ref:`configuration_daemon`). The web frontend currently implements the following functionalities:
 

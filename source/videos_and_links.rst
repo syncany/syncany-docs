@@ -5,6 +5,8 @@ There is quite a bit of reading material on Syncany already. Check out the follo
 .. contents::
    :depth: 2
 
+.. _videos:
+
 Videos
 ------
 The following lists some random videos we made to demonstrate Syncany. We are developers, not directors or video editors -- so apologies for the quality and the lack of spoken word. The two main **video site profiles** are the `YouTube channel <https://www.youtube.com/channel/UCzegH3dpTK5HHQx6jJ5yhdQ>`_ and the `asciinema profile <https://asciinema.org/~binwiederhier>`_.
