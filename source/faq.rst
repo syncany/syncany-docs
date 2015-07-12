@@ -133,6 +133,10 @@ The following things are *not* stored:
 
 You can see the metadata yourself by running ``sy init --no-encryption --no-compression`` and then looking at the `database-*` files in the repository in a XML or text editor.
 
+How can I edit the connection details, or reconnect to a repository?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If your backend storage credentials change (e.g. FTP user or password), it might be necessary to reconnect a local folder to a remote repository. As of today, you *cannot* edit a connection via the Syncany commands or GUI. As of now, you can manually change the ``.syncany/config.xml`` file to achieve that. There already is a ticket to do a "sy reconnect" command (or something similar `on GitHub <https://github.com/syncany/syncany/issues/479>`_.
+
 Common errors
 -------------
 
