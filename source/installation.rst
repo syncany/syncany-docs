@@ -7,10 +7,9 @@ On that site, you can find **releases** and **snapshots**. Releases are built an
 As of today, we provide the following download possibilities:
 
 * Windows installer (.exe)
-* Debian package (.deb)
-* Ubuntu/Launchpad personal package archive (PPA)
+* Ubuntu/Debian APT archive (or .deb package)
 * Arch Linux AUR 
-* Mac OS X (Homebrew)
+* Mac OS X (.app.zip package, or via Homebrew)
 * Docker Application
 * Manual Installation (via .tar.gz/.zip)
 
@@ -54,7 +53,7 @@ After the installation is complete, open the command prompt by typing ``cmd`` in
 
 Debian / Ubuntu / Linux Mint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For Debian-based systems, we provide an `APT archive <http://archive.syncany.org/>`_ (for installation via ``apt-get``) as well as a way to manually download and install prebuilt *.deb*-packages (see `distribution site <https://www.syncany.org/dist>`_).
+For Debian-based systems, we provide an `APT archive <http://get.syncany.org/apt/>`_ (for installation via ``apt-get``) as well as a way to manually download and install prebuilt *.deb*-packages (see `distribution site <https://get.syncany.org/dist/>`_).
 
 Installing via **APT archive**: 
 
@@ -98,14 +97,13 @@ Arch Linux users can use the ``syncany`` package available on the `AUR <https://
 
 Mac OS X
 ^^^^^^^^
-On Mac OS X, you can either build Syncany from source, extract the ZIP file or use `Homebrew <http://brew.sh>`_, a well-known package manager for Mac OS X. Since Syncany is still alpha software, it cannot be installed from the official Homebrew sources. Therefore we provide the needed formula on our own until we reach beta.
-Assuming you have a running version of Homebrew, the installation of Syncany is a piece of cake.
+For Mac OS X, there are currently two ways of installation:
 
-::
+- Download and install the `the latest .app.zip package <https://syncany.org/r/syncany-latest-x86_64.app.zip>`_ (including GUI)
+- Install the `Homebrew <http://brew.sh>`_ via ``brew install https://get.syncany.org/homebrew/syncany.rb`` (*no* GUI)
 
-	brew install https://get.syncany.org/homebrew/syncany.rb
-	
-This installs the most recent (pre-)release. If you want to install the bleeding edge version simply append ``--HEAD`` to the previous command. 
+Homebrew notes: Since Syncany is still alpha software, it cannot be installed from the official Homebrew sources. Therefore we provide the needed formula on our own until we reach beta.	
+The command above installs the most recent (pre-)release. If you want to install the bleeding edge version simply append ``--HEAD`` to the previous command. 
 
 If you like the Syncany daemon to start at system startup, install the provided LaunchAgent following Homebrew instructions.
 
@@ -140,8 +138,7 @@ In addition to the releases, we also provide **snapshot versions** of Syncany. S
 If you're sure you want to install a snapshot, the process is very similar to the steps above. The only thing that differs is the file or access channel where you get the installer/package.
 
 * For Windows, download the latest snapshot installer `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
-* For Debian, download the latest snapshot package `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
-* For Ubuntu, use the `snapshots PPA on Launchpad <https://launchpad.net/~syncany/+archive/ubuntu/snapshot>`_ (``ppa:syncany/snapshot``).
+* For Debian/Ubuntu, use the `Syncany APT archive <https://get.syncany.org/apt/>`_.
 * For Arch Linux, use the `Git package on AUR <https://aur.archlinux.org/packages/syncany-git/>`_.
 * For Docker, use the `Docker snapshot repository <https://registry.hub.docker.com/u/syncany/snapshot/>`_ (``syncany/snapshot``).
 * And for other operating systems, download the latest snapshot .tar.gz/.zip `from the snapshots folder <https://www.syncany.org/dist/snapshots/>`_.
