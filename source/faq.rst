@@ -108,6 +108,31 @@ What exactly is stored in the 'syncany' file in the repo? Is it needed?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The Syncany file stores information about the chunking mechanisms used. It is currently only used to check if the password is correct (see if it decrypts and deserializes correctly, but it will be used in the future to store repository-specific information.
 
+What file meta data (permissions, access time, etc.) are preserved in the sync?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+As of today, for each file version, we store the following metadata:
+
+- Version (1, 2, ...)
+- Type (FILE, FOLDER, SYMLINK)
+- Status (NEW, CHANGED, ...)
+- Relative path (e.g. 'Documents/Hello.txt')
+- Symlink target (if type is SYMLINK, e.g. 'Documents/Hello-orig.txt')
+- Size (in bytes)
+- Last modified date/time (second-accuracy only due to file system restrictions)
+- Updated date/time
+- DOS permissions (archive, read-only, system, hidden)
+- POSIX permissions (rwxrwxrwx)
+
+The following things are *not* stored:
+
+- Hardlinks are NOT stored/detected (not efficient), but data is not stored twice
+- POSIX uid/gid are NOT stored
+- ACLs are NOT stored 
+- Extended attributes are NOT stored (see #392)
+- Access time and create time are NOT stored
+
+You can see the metadata yourself by running ``sy init --no-encryption --no-compression`` and then looking at the `database-*` files in the repository in a XML or text editor.
+
 Common errors
 -------------
 
