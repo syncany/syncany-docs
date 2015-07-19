@@ -7,7 +7,7 @@ Syncany takes security very seriously. Our goal is to protect the confidentialit
    
 Prologue
 --------
-Although we take special care designing and implementing the security-related parts of Syncany, we are not cryptographers. We have have asked multiple parties to peer review our concept and implementation, and we hereby do that again: **Please review our security concepts and implementation!** If you believe that any of the concepts and/or the implementation is incorrect, insecure or can be attacked, please let us know `by creating a new issue <https://github.com/syncany/syncany/issues>`_ or `by contacting us directly for major issues <mailto:team@syncany.org>`_.
+Although we take special care designing and implementing the security-related parts of Syncany, we are not cryptographers. We have asked multiple parties to peer review our concept and implementation, and we hereby do that again: **Please review our security concepts and implementation!** If you believe that any of the concepts and/or the implementation is incorrect, insecure or can be attacked, please let us know `by creating a new issue <https://github.com/syncany/syncany/issues>`_ or `by contacting us directly for major issues <mailto:team@syncany.org>`_.
 
 Security Assumptions
 --------------------

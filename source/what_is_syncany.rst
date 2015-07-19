@@ -60,7 +60,7 @@ Pim wants to share some ideas with Philipp, and Philipp wants to share some pict
 .. image:: _static/what_is_syncany_use_case_1.png
    :align: center
    
-Pim sets up a Syncany shared folder with Philipp, using the shared Windows folder on his server as a backend storage. He uses the ``sy init`` command to do that, types in ``samba`` to use the Windows share plugin, and chooses a strong password to encrypt the data with. After the one-minute setup, he gets a ``syncany://``-link from Syncany. This link contains all the information required to access the storage. Philipp can now use this and the password to access the Syncany folder (using the ``sy connect`` command). Since the everything that lands in the *cloud* is encrypted with a key derived from the password, Pim and Philipp don't have to worry about a nosy storage provider or other interested parties.
+Pim sets up a Syncany shared folder with Philipp, using the shared Windows folder on his server as a backend storage. He uses the ``sy init`` command to do that, types in ``samba`` to use the Windows share plugin, and chooses a strong password to encrypt the data with. After the one-minute setup, he gets a ``syncany://``-link from Syncany. This link contains all the information required to access the storage. Philipp can now use this and the password to access the Syncany folder (using the ``sy connect`` command). Since everything that lands in the *cloud* is encrypted with a key derived from the password, Pim and Philipp don't have to worry about a nosy storage provider or other interested parties.
 
 The process between Philipp and Steffen is exactly the same, only that now Philipp initializes the repository on his own remote storage, and that the SFTP plugin is used. 
 
