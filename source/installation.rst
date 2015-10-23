@@ -19,7 +19,7 @@ Installation requirements
 -------------------------
 Since Syncany heavily relies on Java, you obviously need an up-to-date version of Java installed. And that is about it. No other requirements. 
 
-* **Java/JRE >= 7**. See `Oracle Website Downloads <http://http://java.com/en/download/manual.jsp>`_ to install Java.  Be sure to load the 64-bit JVM if you intend to load the 64 bit Syncany or the gui plugin will not run.   
+* **Java/JRE >= 7**. See `Oracle Website Downloads <http://java.com/en/download/manual.jsp>`_ to install Java.  Be sure to load the 64-bit JVM if you intend to load the 64 bit Syncany or the gui plugin will not run.   
 * **bash-completion >= 2** (Linux only). If it's not installed by default, it's definitely in the default packages.
 
 Installing the latest release
