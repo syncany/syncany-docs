@@ -363,9 +363,9 @@ The RAID0 plugin options are a bit different from other plugins, because dependi
 +----------------------+------------+---------------+-----------------------------------------------------------+
 | **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of first plugin                   |
 +----------------------+------------+---------------+-----------------------------------------------------------+
-| **storage1:type**    | yes        | *none*        | Plugin identifier of the second storage backend           |
+| **storage2:type**    | yes        | *none*        | Plugin identifier of the second storage backend           |
 +----------------------+------------+---------------+-----------------------------------------------------------+
-| **storage1.<opt>**   | yes        | *none*        | Plugin-specific options of second plugin                  |
+| **storage2.<opt>**   | yes        | *none*        | Plugin-specific options of second plugin                  |
 +----------------------+------------+---------------+-----------------------------------------------------------+
 
 Example ``config.xml``
